@@ -41,7 +41,7 @@
             android:paddingTop="9dp"
             android:background="#283563"/>
         <ImageButton
-            android:id="@+id/Btn"
+            android:id="@+id/plusBtn"
             android:src="@drawable/plus"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -60,15 +60,16 @@
 
         <!--노선도-->
         <com.github.chrisbanes.photoview.PhotoView
-            android:id="@+id/station_map"
+            android:id="@+id/stationMap"
             android:src="@drawable/station_map"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:scaleType="centerCrop"
             android:paddingLeft="17dp"
             android:paddingRight="20dp"
             android:paddingTop="10dp"
-            android:paddingBottom="17dp"/>
+            android:paddingBottom="17dp"
+            android:clickable="true"/>
 
         <!--공지사항, 민원신고-->
         <ImageButton
