@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".search.SearchActivity">
+    tools:context=".bookmark.BookmarkActivity">
 
     <!--상단바-->
     <LinearLayout
@@ -13,42 +13,16 @@
         android:layout_height="75dp"
         android:orientation="horizontal"
         android:gravity="center"
-        android:background="#283563"
-        tools:ignore="MissingConstraints">
+        android:background="#283563">
 
         <!--메뉴들-->
         <ImageButton
-            android:id="@+id/searchBtn"
+            android:id="@+id/bookmarkBtn"
+            android:src="@drawable/bookmark"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/search"
-            android:paddingEnd="35dp"
+            android:layout_marginRight="97dp"
             android:background="#283563"/>
-        <ImageButton
-            android:id="@+id/ch_bookmarkBtn"
-            android:src="@drawable/checked_bookmark"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="20dp"
-            android:paddingEnd="35dp"
-            android:background="#283563"/>
-        <ImageButton
-            android:id="@+id/settingBtn"
-            android:src="@drawable/setting"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="20dp"
-            android:paddingEnd="30dp"
-            android:paddingTop="9dp"
-            android:background="#283563"/>
-        <ImageButton
-            android:id="@+id/Btn"
-            android:src="@drawable/plus"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="20dp"
-            android:background="#283563"
-            android:onClick="onMoreButtonClick"/>
     </LinearLayout>
 
     <!--검색창-->

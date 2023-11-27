@@ -4,23 +4,21 @@ import android.annotation.SuppressLint
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.view.MotionEvent
 import android.view.View
-import android.widget.Button
-import android.widget.ImageButton
 import android.widget.ImageView
+import android.widget.TextView
 import android.widget.Toast
 import androidx.core.view.isVisible
+import com.example.subway.bookmark.BookmarkActivity
 import com.example.subway.databinding.ActivityMainBinding
+import com.example.subway.setting.NoticeActivity
 import com.example.subway.search.SearchActivity
+import com.example.subway.setting.ComplaintActivity
+import com.example.subway.setting.SettingActivity
 import com.github.chrisbanes.photoview.PhotoView
 import com.github.chrisbanes.photoview.PhotoViewAttacher
 
 class MainActivity : AppCompatActivity() {
-
-    // 네비게이션 버튼 관련
-    private lateinit var noticeBtn: ImageButton
-    private lateinit var complaintBtn: ImageButton
 
     //역 터치 관련
     private lateinit var binding: ActivityMainBinding
@@ -32,10 +30,6 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
-        // 네비게이션 버튼 관련
-        noticeBtn = binding.noticeBtn
-        complaintBtn = binding.complaintBtn
 
         // 역 터치 관련
         photoView = binding.stationMap
@@ -69,12 +63,43 @@ class MainActivity : AppCompatActivity() {
             val intent = Intent(this, SearchActivity::class.java)
             startActivity(intent)
         }
+
+        //즐겨찾기 버튼
+        binding.bookmarkBtn.setOnClickListener {
+            val intent = Intent(this, BookmarkActivity::class.java)
+            startActivity(intent)
+        }
+
+        //설정 버튼
+        binding.settingBtn.setOnClickListener {
+            val intent = Intent(this, SettingActivity::class.java)
+            startActivity(intent)
+        }
+
+        //공지사항 버튼
+        binding.noticeBtn.setOnClickListener {
+            val intent = Intent(this, NoticeActivity::class.java)
+            startActivity(intent)
+        }
+
+        //민원신고 버튼
+        binding.complaintBtn.setOnClickListener {
+            val intent = Intent(this, ComplaintActivity::class.java)
+            startActivity(intent)
+        }
+
+        // 메인화면 공지사항 터치시 공지사항 안내 화면으로 전환
+        val noticeBox = findViewById<View>(R.id.notice_box)
+        noticeBox.setOnClickListener {
+            val intent = Intent(this, NoticeActivity::class.java)
+            startActivity(intent)
+        }
     }
 
     fun toggleAdditionalButtonsVisibility() {
         // 공지사항과 민원신고 버튼의 가시성을 토글
-        noticeBtn.isVisible = !noticeBtn.isVisible
-        complaintBtn.isVisible = !complaintBtn.isVisible
+        binding.noticeBtn.isVisible = !binding.noticeBtn.isVisible
+        binding.complaintBtn.isVisible = !binding.complaintBtn.isVisible
     }
 
     fun onMoreButtonClick(view: View) {

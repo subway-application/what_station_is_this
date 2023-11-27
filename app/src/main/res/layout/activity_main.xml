@@ -18,9 +18,9 @@
         <!--메뉴들-->
         <ImageButton
             android:id="@+id/searchBtn"
+            android:src="@drawable/search"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/search"
             android:paddingEnd="35dp"
             android:background="#283563"/>
         <ImageButton
@@ -38,7 +38,6 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="20dp"
             android:paddingEnd="30dp"
-            android:paddingTop="9dp"
             android:background="#283563"/>
         <ImageButton
             android:id="@+id/plusBtn"
@@ -70,6 +69,38 @@
             android:paddingTop="10dp"
             android:paddingBottom="17dp"
             android:clickable="true"/>
+
+        <!--공지사항 박스-->
+        <View
+            android:id="@+id/notice_box"
+            android:layout_width="390dp"
+            android:layout_height="40dp"
+            android:background="@drawable/notice_rectangle"
+            android:layout_marginTop="8dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginBottom="300dp"
+            android:clickable="true"/>
+
+        <!--공지사항 스피커-->
+        <ImageView
+            android:layout_width="25dp"
+            android:layout_height="20dp"
+            android:src="@drawable/notice_mini"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="17dp"/>
+
+        <!--공지사항 상단 안내-->
+        <TextView
+            android:id="@+id/notice_main"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="공지사항입니다."
+            android:fontFamily="@font/pretendard_bold"
+            android:textColor="#000000"
+            android:textSize="18sp"
+            android:layout_marginLeft="60dp"
+            android:layout_marginTop="15dp"/>
+
 
         <!--공지사항, 민원신고-->
         <ImageButton
