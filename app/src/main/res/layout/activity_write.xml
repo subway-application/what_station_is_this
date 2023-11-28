@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".setting.notice.WriteActivity">
+
+    <!--상단바-->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="75dp"
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:background="#283563">
+
+        <!--    뒤로가기 화살표 임시로 지워둠    -->
+        <!--        <ImageView-->
+        <!--            android:layout_width="wrap_content"-->
+        <!--            android:layout_height="wrap_content"-->
+        <!--            android:src="@drawable/back_arrow"-->
+        <!--            android:layout_marginLeft="5dp"/>-->
+
+        <!--메뉴들-->
+        <ImageButton
+            android:id="@+id/noticeBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/notice"
+            android:layout_marginLeft="300dp"
+            android:background="#283563"/>
+
+    </LinearLayout>
+
+    <!--공지사항-->
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="13dp"
+        android:background="#FFFFFF" />
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="3dp"
+        android:background="#000000" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#EBEBEB">
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:layout_weight="1"
+            android:text="공지사항"
+            android:gravity="center_vertical"
+            android:fontFamily="@font/pretendard_bold"
+            android:textSize="23dp"
+            android:paddingLeft="15dp"
+            android:textColor="#000000" />
+    </LinearLayout>
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="3dp"
+        android:background="#000000" />
+    
+    <EditText
+        android:id="@+id/editTextTitle"
+        android:layout_width="390dp"
+        android:layout_height="40dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="20dp"
+        android:hint="   제목"
+        android:fontFamily="@font/pretendard_bold"
+        android:background="@drawable/writebox"/>
+
+    <EditText
+        android:id="@+id/editTextText"
+        android:layout_width="390dp"
+        android:layout_height="450dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="15dp"
+        android:hint="   내용을 작성하시오."
+        android:fontFamily="@font/pretendard_bold"
+        android:background="@drawable/writebox"/>
+
+    <!--글 등록, 삭제 버튼-->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <RelativeLayout
+            android:id="@+id/writeBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent">
+            <ImageButton
+                android:layout_width="80dp"
+                android:layout_height="33dp"
+                android:layout_marginLeft="240dp"
+                android:background="#EBEBEB"
+                android:src="@drawable/write_button_box"
+                android:layout_marginTop="13dp"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="글 등록"
+                android:fontFamily="@font/pretendard_bold"
+                android:textColor="#000000"
+                android:textSize="20dp"
+                android:layout_marginLeft="250dp"
+                android:layout_marginTop="14dp"/>
+        </RelativeLayout>
+        <RelativeLayout
+            android:id="@+id/writeDeleteBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent">
+            <ImageButton
+                android:layout_width="60dp"
+                android:layout_height="33dp"
+                android:layout_marginLeft="15dp"
+                android:background="#EBEBEB"
+                android:src="@drawable/write_button_box"
+                android:layout_marginTop="13dp"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="삭제"
+                android:fontFamily="@font/pretendard_bold"
+                android:textColor="#000000"
+                android:textSize="20dp"
+                android:layout_marginLeft="25dp"
+                android:layout_marginTop="14dp"/>
+        </RelativeLayout>
+    </LinearLayout>
+
+
+
+</LinearLayout>
