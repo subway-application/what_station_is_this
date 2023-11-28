@@ -16,6 +16,9 @@
             android:name=".search.SearchActivity"
             android:exported="false" />
         <activity
+            android:name=".setting.WriteActivity"
+            android:exported="true" />
+        <activity
             android:name=".MainActivity"
             android:exported="true">
             <intent-filter>
