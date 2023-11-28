@@ -1,9 +1,12 @@
 package com.example.subway.setting
 
+import android.annotation.SuppressLint
 import android.app.AlertDialog
+import android.content.Context
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.InputType
+import android.util.Log
 import android.view.View
 import android.widget.EditText
 import android.widget.RelativeLayout
@@ -12,6 +15,8 @@ import android.widget.Toast
 import com.example.subway.R
 
 class SettingActivity : AppCompatActivity() {
+    private var isAdminAuthenticated = false
+    @SuppressLint("MissingInflatedId")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_setting)
@@ -37,8 +42,10 @@ class SettingActivity : AppCompatActivity() {
             if (password == "1111") {
                 // 비밀번호가 일치하는 경우 원하는 작업 수행
                 showToast("관리자 인증 성공!")
-                val writeButton = findViewById<RelativeLayout>(R.id.writeBtn)
-                writeButton.visibility = View.VISIBLE
+                val preferences = getSharedPreferences("my_preferences", Context.MODE_PRIVATE)
+                val editor = preferences.edit()
+                editor.putBoolean("writeBtnVisibility", true)
+                editor.apply()
             } else {
                 // 비밀번호가 일치하지 않는 경우 원하는 작업 수행
                 showToast("비밀번호가 일치하지 않습니다.")

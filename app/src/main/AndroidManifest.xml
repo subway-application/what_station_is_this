@@ -22,11 +22,14 @@
             android:name=".setting.SettingActivity"
             android:exported="false" />
         <activity
-            android:name=".setting.NoticeActivity"
-            android:exported="true" />
+            android:name=".setting.notice.NoticeActivity"
+            android:exported="false" />
         <activity
             android:name=".setting.ComplaintActivity"
-            android:exported="true" />
+            android:exported="false" />
+        <activity
+            android:name=".setting.notice.WriteActivity"
+            android:exported="false" />
         <activity
             android:name=".MainActivity"
             android:exported="true">

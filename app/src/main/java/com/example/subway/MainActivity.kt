@@ -6,12 +6,11 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import android.widget.ImageView
-import android.widget.TextView
 import android.widget.Toast
 import androidx.core.view.isVisible
 import com.example.subway.bookmark.BookmarkActivity
 import com.example.subway.databinding.ActivityMainBinding
-import com.example.subway.setting.NoticeActivity
+import com.example.subway.setting.notice.NoticeActivity
 import com.example.subway.search.SearchActivity
 import com.example.subway.setting.ComplaintActivity
 import com.example.subway.setting.SettingActivity
