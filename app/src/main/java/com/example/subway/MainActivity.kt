@@ -166,7 +166,6 @@ class MainActivity : AppCompatActivity() {
         } else {
             binding.stationInfo.visibility = View.GONE
         }
-
     }
 
     data class Result(
@@ -270,5 +269,4 @@ class MainActivity : AppCompatActivity() {
         }
         println("start:${startSttName},end:${endSttName}")
     }
-
 }

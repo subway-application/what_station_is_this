@@ -36,5 +36,6 @@ class NoticeActivity : AppCompatActivity() {
                 startActivity(intent)
             }
         }
+
     }
 }

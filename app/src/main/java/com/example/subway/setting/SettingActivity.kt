@@ -30,8 +30,6 @@ class SettingActivity : AppCompatActivity() {
         findViewById<TextView>(R.id.adminAuthText).setOnClickListener {
             showPasswordDialog()
         }
-
-
     }
 
     private fun showPasswordDialog() {
