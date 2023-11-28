@@ -93,6 +93,7 @@ class MainActivity : AppCompatActivity() {
             val intent = Intent(this, NoticeActivity::class.java)
             startActivity(intent)
         }
+
     }
 
     fun toggleAdditionalButtonsVisibility() {
