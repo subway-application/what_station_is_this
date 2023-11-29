@@ -49,24 +49,9 @@ class MainActivity : AppCompatActivity() {
             val imageViewWidth = photoView.width
             val imageViewHeight = photoView.height
 
-            val imageView = findViewById<ImageView>(R.id.stationMap)
-
-//// 너비와 높이 가져오기
-//            val width = imageView.width
-//            val height = imageView.height
-
-// 또는 레이아웃 매니저를 통해 가져오기
-            val layoutParams = imageView.layoutParams
-            val width = layoutParams.width
-            val height = layoutParams.height
-
-            showToast("imageWidth:$width imageHeight:$height")
-
             // 현재 이미지뷰 내에서의 상대적인 좌표를 전체 이미지의 좌표로 변환
-            val imageX = (x * fullImageWidth / imageViewWidth).toFloat() * 1000
-            val imageY = (y * fullImageHeight / imageViewHeight).toFloat() * 2000
-
-            showToast("x:$imageX, y:$imageY")
+            val imageX = (x * fullImageWidth / imageViewWidth).toFloat()
+            val imageY = (y * fullImageHeight / imageViewHeight).toFloat()
 
             // 변환된 좌표를 사용하여 원하는 작업 수행
             handleClickEvent(imageX, imageY)

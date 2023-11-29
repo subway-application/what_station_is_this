@@ -22,8 +22,6 @@ class NoticeActivity : AppCompatActivity() {
         val writeBtnVisibility = preferences.getBoolean("writeBtnVisibility", false)
 
         if (writeBtnVisibility) {
-            showToast("true")
-
             findViewById<RelativeLayout>(R.id.writelayoutBtn).visibility = View.VISIBLE
             findViewById<RelativeLayout>(R.id.editPostBtn).visibility = View.VISIBLE
             findViewById<RelativeLayout>(R.id.editPost1Btn).visibility = View.VISIBLE
@@ -38,11 +36,5 @@ class NoticeActivity : AppCompatActivity() {
                 startActivity(intent)
             }
         }
-
-
-
-    }
-    private fun showToast(message: String) {
-        Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
     }
 }
