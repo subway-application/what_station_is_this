@@ -143,7 +143,7 @@ class MainActivity : AppCompatActivity() {
         val toleranceX = 13f
         val toleranceY = 7f
 
-        val lines = File("app/src/main/java/com/example/subway/search/Station_location").readLines()
+        val lines = File("app/src/main/res/values/StationLocation.xml").readLines()
         println("sss")
 
         // 2x3 크기의 2차원 배열 생성
