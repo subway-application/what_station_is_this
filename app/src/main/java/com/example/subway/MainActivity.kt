@@ -18,6 +18,8 @@ import com.example.subway.setting.ComplaintActivity
 import com.example.subway.setting.SettingActivity
 import com.github.chrisbanes.photoview.PhotoView
 import com.github.chrisbanes.photoview.PhotoViewAttacher
+import org.w3c.dom.Node
+import java.io.File
 
 class MainActivity : AppCompatActivity() {
 
@@ -31,6 +33,8 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+
 
         // 역 터치 관련
         photoView = binding.stationMap
@@ -128,17 +132,49 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+
+
     //역 터치 관련
     private fun isClickedOnStation(x: Float, y: Float): Boolean {
         // 특정 좌표 범위 내에 클릭되었는지 여부를 확인하는 로직을 구현
         // 예: 이미지 상의 특정 좌표 범위 계산
 
-        val station205X = 80f
-        val station205Y = 85F
-        val tolerance = 10f
 
-        return (x >= station205X - tolerance && x <= station205X + tolerance
-                && y >= station205Y - tolerance && y <= station205Y + tolerance)
+        val toleranceX = 13f
+        val toleranceY = 7f
+
+        val lines = File("app/src/main/java/com/example/subway/search/Station_location").readLines()
+        println("sss")
+
+        // 2x3 크기의 2차원 배열 생성
+        val rows = 3
+        val cols = 111
+        val twoDimArray = Array(rows) { FloatArray(cols) { 0f } }
+        var count = 0
+
+        for (line in lines) {
+            val parts = line.split(' ')
+            showToast("${line}, $parts")
+            twoDimArray[0][count] = parts[0].toFloat()
+            twoDimArray[1][count] = parts[1].toFloat()
+            twoDimArray[2][count] = parts[2].toFloat()
+            count++
+
+        }
+
+
+        var stationName = ""
+        for (col in 0..(cols-1)) {
+            if(x >= twoDimArray[1][col] - toleranceX && x <= twoDimArray[1][col] + toleranceX
+                && y >= twoDimArray[2][col] - toleranceY && y <= twoDimArray[2][col] + toleranceY) {
+                stationName = twoDimArray[0][col].toString()
+                break
+            }
+        }
+
+
+
+        return stationName != ""
     }
 
 }
