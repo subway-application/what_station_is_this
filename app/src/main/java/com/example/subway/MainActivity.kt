@@ -8,6 +8,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import android.widget.ImageView
+import android.widget.TextView
 import android.widget.Toast
 import androidx.core.view.isVisible
 import com.example.subway.bookmark.BookmarkActivity
@@ -19,7 +20,9 @@ import com.example.subway.setting.SettingActivity
 import com.github.chrisbanes.photoview.PhotoView
 import com.github.chrisbanes.photoview.PhotoViewAttacher
 import org.w3c.dom.Node
+import java.io.BufferedReader
 import java.io.File
+import java.io.InputStreamReader
 
 class MainActivity : AppCompatActivity() {
 
@@ -126,55 +129,77 @@ class MainActivity : AppCompatActivity() {
         // 여기에서 클릭한 좌표를 이용하여 역을 클릭하는 로직을 구현
         // 예: 특정 좌표 범위 내에 클릭이 감지되면 해당 역에 대한 처리 수행
 
+        val result = isClickedOnStation(x, y)
+        val isClicked = result.stationClicked
+        val stationName = result.stationName
+        val stationX = result.stationX
+        val stationY = result.stationY
+
         // 예시: 특정 좌표 범위 내에 클릭되면 토스트 메시지를 표시
-        if (isClickedOnStation(x, y)) {
+        if (isClicked) {
             showToast("역을 클릭했습니다!\n좌표: x=$x, y=$y")
+
+            //하단 역 정보 표시
+            if (binding.stationInfo.visibility == View.GONE) {
+                binding.stationInfo.isVisible = !binding.stationInfo.isVisible
+                binding.info.isVisible = !binding.info.isVisible
+            } else {
+
+            }
+            val textView = findViewById<TextView>(R.id.stationInfoText)
+            textView.text = stationName
+        } else {
+            binding.stationInfo.visibility = View.GONE
+            binding.info.visibility = View.GONE
         }
     }
 
-
+    data class Result(val stationClicked: Boolean, val stationName: String, val stationX: Float, val stationY: Float)
 
     //역 터치 관련
-    private fun isClickedOnStation(x: Float, y: Float): Boolean {
+    private fun isClickedOnStation(x: Float, y: Float): Result {
         // 특정 좌표 범위 내에 클릭되었는지 여부를 확인하는 로직을 구현
         // 예: 이미지 상의 특정 좌표 범위 계산
 
+        val toleranceX = 15f
+        val toleranceY = 10f
 
-        val toleranceX = 13f
-        val toleranceY = 7f
-
-        val lines = File("app/src/main/java/com/example/subway/search/Station_location").readLines()
-        println("sss")
+        val inputStream = resources.openRawResource(R.raw.stationlocation)
+        val reader = BufferedReader(InputStreamReader(inputStream))
+        val lines: List<String> = reader.readLines()
 
         // 2x3 크기의 2차원 배열 생성
         val rows = 3
         val cols = 111
-        val twoDimArray = Array(rows) { FloatArray(cols) { 0f } }
+        val stationArray = Array(rows) { FloatArray(cols) { 0f } }
         var count = 0
 
         for (line in lines) {
             val parts = line.split(' ')
-            showToast("${line}, $parts")
-            twoDimArray[0][count] = parts[0].toFloat()
-            twoDimArray[1][count] = parts[1].toFloat()
-            twoDimArray[2][count] = parts[2].toFloat()
+            stationArray[0][count] = parts[0].toFloat()
+            stationArray[1][count] = parts[3].toFloat()
+            stationArray[2][count] = parts[6].toFloat()
             count++
 
         }
 
 
-        var stationName = ""
-        for (col in 0..(cols-1)) {
-            if(x >= twoDimArray[1][col] - toleranceX && x <= twoDimArray[1][col] + toleranceX
-                && y >= twoDimArray[2][col] - toleranceY && y <= twoDimArray[2][col] + toleranceY) {
-                stationName = twoDimArray[0][col].toString()
+        var stationName = 0
+        var stationX = 0f
+        var stationY = 0f
+        for (col in 0..(cols - 1)) {
+            if (x >= stationArray[1][col] - toleranceX && x <= stationArray[1][col] + toleranceX
+                && y >= stationArray[2][col] - toleranceY && y <= stationArray[2][col] + toleranceY) {
+                stationName = stationArray[0][col].toInt()
+                stationX = stationArray[1][col].toFloat()
+                stationY = stationArray[2][col].toFloat()
                 break
             }
         }
 
+        println("${stationName}")
 
-
-        return stationName != ""
+        return Result(stationName != 0, stationName.toString(), stationX, stationY)
     }
 
 }
