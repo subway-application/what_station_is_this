@@ -1,7 +1,9 @@
 package com.example.subway
 
 import android.annotation.SuppressLint
+import android.content.Context
 import android.content.Intent
+import android.graphics.Matrix
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
@@ -45,17 +47,21 @@ class MainActivity : AppCompatActivity() {
             val fullImageWidth = 1468// 전체 이미지의 폭
             val fullImageHeight = 1051// 전체 이미지의 높이
 
-            // 이미지뷰의 크기
+             //이미지뷰의 크기
             val imageViewWidth = photoView.width
             val imageViewHeight = photoView.height
 
             // 현재 이미지뷰 내에서의 상대적인 좌표를 전체 이미지의 좌표로 변환
-            val imageX = (x * fullImageWidth / imageViewWidth).toFloat()
-            val imageY = (y * fullImageHeight / imageViewHeight).toFloat()
+            val imageX = (x * fullImageWidth / imageViewWidth).toFloat() * 1000
+            val imageY = (y * fullImageHeight / imageViewHeight).toFloat() * 2000
+
+            showToast("imageX:$imageX, imageY:$imageY")
 
             // 변환된 좌표를 사용하여 원하는 작업 수행
             handleClickEvent(imageX, imageY)
         }
+
+
 
         //검색 버튼
         binding.searchBtn.setOnClickListener {
@@ -127,12 +133,12 @@ class MainActivity : AppCompatActivity() {
         // 특정 좌표 범위 내에 클릭되었는지 여부를 확인하는 로직을 구현
         // 예: 이미지 상의 특정 좌표 범위 계산
 
-        // 여기에서는 예시로 특정 좌표 범위로 설정
-        val station205X = 60f
-        val station205Y = 65f
-        val tolerance = 50f
+        val station205X = 80f
+        val station205Y = 85F
+        val tolerance = 10f
 
         return (x >= station205X - tolerance && x <= station205X + tolerance
                 && y >= station205Y - tolerance && y <= station205Y + tolerance)
     }
+
 }
