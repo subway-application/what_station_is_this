@@ -52,6 +52,10 @@ class SettingActivity : AppCompatActivity() {
 //                val editor = preferences.edit()
                 editor.putBoolean("writeBtnVisibility", true)
                 editor.commit()
+<<<<<<< HEAD
+=======
+
+>>>>>>> origin/한슬이
             } else {
                 // 비밀번호가 일치하지 않는 경우 원하는 작업 수행
                 showToast("비밀번호가 일치하지 않습니다.")

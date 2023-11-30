@@ -22,10 +22,19 @@ class NoticeActivity : AppCompatActivity() {
         val writeBtnVisibility = preferences.getBoolean("writeBtnVisibility", false)
 
         if (writeBtnVisibility) {
+<<<<<<< HEAD
             findViewById<RelativeLayout>(R.id.writelayoutBtn).visibility = View.VISIBLE
             findViewById<RelativeLayout>(R.id.editPostBtn).visibility = View.VISIBLE
             findViewById<RelativeLayout>(R.id.editPost1Btn).visibility = View.VISIBLE
 
+=======
+            showToast("true")
+
+            findViewById<RelativeLayout>(R.id.writelayoutBtn).visibility = View.VISIBLE
+            findViewById<RelativeLayout>(R.id.editPostBtn).visibility = View.VISIBLE
+            findViewById<RelativeLayout>(R.id.editPost1Btn).visibility = View.VISIBLE
+
+>>>>>>> origin/한슬이
             // RelativeLayout에 대한 클릭 리스너 설정
             val writeBtn = findViewById<ImageButton>(R.id.writeBtn)
             writeBtn.setOnClickListener {
@@ -36,5 +45,14 @@ class NoticeActivity : AppCompatActivity() {
                 startActivity(intent)
             }
         }
+<<<<<<< HEAD
+=======
+
+
+
+    }
+    private fun showToast(message: String) {
+        Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
+>>>>>>> origin/한슬이
     }
 }
