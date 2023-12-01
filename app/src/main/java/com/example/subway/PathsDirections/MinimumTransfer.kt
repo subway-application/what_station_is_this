@@ -2,53 +2,94 @@ package com.example.subway.PathsDirections
 
 import java.io.File
 import java.util.LinkedList
+import java.util.PriorityQueue
 import java.util.Queue
+
 
 fun minTransfers(nodes: Map<Int, Node>, startStation: Node, endStation: Node): Int {
     val visited = mutableMapOf<Node, Int>().withDefault { Int.MAX_VALUE }
     val prevNode = mutableMapOf<Node, Node?>()
     val queue: Queue<Pair<Node, Int>> = LinkedList()
 
-    // 환승 횟수와, 큐 초기화
     visited[startStation] = 0
     queue.add(Pair(startStation, 0))
 
-    while (queue.isNotEmpty()) { // 큐가 비어 있지 않는 동안 반복
-        val (currentNode, transfers) = queue.remove() // 노드와 그 노드에 도달하기까지의 환승 횟수 꺼냄
-        for (edge in currentNode.edges) { // 현재 노드에 연결된 모든 엣지 순회
-            if (edge.destination == endStation) {
-                // 엣지의 목적지가 종착 역이라면, 현재까지의 환승 횟수 반환
-                prevNode[edge.destination] = currentNode // prevNode 맵에 해당 역의 이전 노드 저장
-                printPath(prevNode, startStation, endStation) // printPath 함수를 호출하여 최소 환승 경로를 출력하고, 현재까지의 환승 횟수를 반환
-                return transfers
-            } else if (!visited.containsKey(edge.destination) || transfers < visited.getValue(edge.destination)) {
-                // 엣지의 목적지를 아직 방문하지 않았거나, 환승 횟수가 visited 맵에 저장된 환승 횟수보다 작다면
-                visited[edge.destination] = transfers // visited 맵 해당 역의 환승 횟수를 현재의 환승 횟수로 갱신
-                prevNode[edge.destination] = currentNode // prevNode 맵에 해당 역의 이전 노드 저장
-                queue.add(Pair(edge.destination, transfers + 1)) // 해당 역과 그 역에 도달하기까지의 환승 횟수 추가
+    var minTransfers = Int.MAX_VALUE
+    var minPath: Map<Node, Node?>? = null
+
+    while (queue.isNotEmpty()) {
+        val (currentNode, transfers) = queue.remove()
+        for (edge in currentNode.edges) {
+            var newTransfers = transfers
+            if (currentNode.lines.intersect(edge.destination.lines).isEmpty()) {
+                newTransfers++
+            }
+            if (edge.destination == endStation && newTransfers < minTransfers) {
+                if (newTransfers < minTransfers) {
+                    minTransfers = newTransfers
+                    minPath = prevNode.toMap()
+                }
+                prevNode[edge.destination] = currentNode
+                println("curt: ${prevNode[currentNode]}")
+            } else {
+                if (!visited.containsKey(edge.destination) || newTransfers < visited.getValue(edge.destination)) {
+                    println("new: ${newTransfers}, visit: ${visited.getValue(edge.destination)}")
+                    visited[edge.destination] = newTransfers
+                    prevNode[edge.destination] = currentNode
+                    queue.add(Pair(edge.destination, newTransfers))
+                }
+                println("else new: ${newTransfers}, visit: ${visited.getValue(edge.destination)}")
             }
         }
     }
-    return -1 // 시작 역에서 종착 역까지 도달할 수 없다는 동작
+
+    if (minPath != null) {
+        printPath(minPath, startStation, endStation)
+    }
+
+    return if (minTransfers == Int.MAX_VALUE) -1 else minTransfers
 }
+
 
 fun printPath(prevNode: Map<Node, Node?>, startStation: Node, endStation: Node) {
     val path = LinkedList<Node>()
-    var currentNode = endStation // 종착 역부터 시작하여 이전 노드 추적
+    var currentNode = endStation
 
-    while (currentNode != startStation) { // 시작 역에 도달할 때까지 반복
-        path.addFirst(currentNode) // 현재 노드를 경로의 앞에 추가
-        currentNode = prevNode[currentNode]!! // 현재 노드를 이전 노드로 변경
+//    for ((node, prev) in prevNode) {
+//        val prevNodeId = prev?.id ?: "없음"
+//        println("노드 ${node.id}의 이전 노드: $prevNodeId")
+//    }
+
+    while (currentNode != startStation) {
+        path.addFirst(currentNode)
+        val prev = prevNode[currentNode]
+        if (prev == null) {
+            println("Error: ${currentNode.id}의 이전 노드를 찾을 수 없습니다.")
+            return
+        }
+        currentNode = prev
     }
-    path.addFirst(startStation) // 시작 역을 경로의 앞에 추가
 
-    println("최소 환승 경로: ${path.joinToString(" -> ")}")
+    path.addFirst(startStation)
+    var transfers = 0
+    var prevLine = '0'
+    for (i in 1 until path.size) {
+        prevLine = path[i - 1].id.toString()[0]
+        var currentLine = path[i].id.toString()[0]
+        if (prevLine != currentLine) {
+            print("start: ${prevLine}\t end: ${currentLine}\t")
+            transfers++
+        }
+    }
+
+    println("최소 환승: ${path.joinToString(" -> ")}")
+    println("총 환승 횟수: ${transfers}회")
+
 }
 
 fun main() {
     val nodes = mutableMapOf<Int, Node>()
-    val lines = File("C:\\Users\\YunDoHyeong\\what_station_is_this\\app\\src\\main\\java\\com\\example\\subway\\PathsDirections\\Data").readLines()
-    // 내 PC 경로에 맞춤.
+    val lines = File("app/src/main/java/com/example/subway/PathsDirections/Data").readLines()
 
     for (line in lines) {
         val parts = line.split(',')
@@ -60,11 +101,32 @@ fun main() {
 
         val startNode = nodes.getOrPut(start) { Node(start) }
         val endNode = nodes.getOrPut(end) { Node(end) }
+        
+        startNode.lines.add(start / 100) // 각 앞자리에 해당하는 숫자로 노선 배당
+        endNode.lines.add(end / 100)
 
         startNode.edges.add(Edge(endNode, time, distance, cost))
-        // endNode.edges.add(Edge(startNode, time, distance, cost))
+        endNode.edges.add(Edge(startNode, time, distance, cost))
     }
 
-    // 여기에 테스트 코드 작성
+    // 추가 노선 배당
+    val lineInfo = File("app/src/main/java/com/example/subway/PathsDirections/DataTransfer").readLines()
 
+    for (info in lineInfo) {
+        val parts = info.split(',')
+        val id = parts[0].toInt()
+        val line = parts[1].toInt()
+
+        if (nodes[id]?.lines?.contains(line) != true) {
+            nodes[id]?.lines?.add(line)
+        }
+    }
+
+
+    // 여기에 테스트 코드 작성
+    val startNode = nodes[702] // 시작 노드 ID
+    val endNode = nodes[116]  // 종착 노드 ID
+    if (startNode != null && endNode != null) {
+        minTransfers (nodes, startNode, endNode)
+    }
 }
