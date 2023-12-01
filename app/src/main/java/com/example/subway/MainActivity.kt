@@ -10,14 +10,14 @@ import android.widget.Toast
 import androidx.core.view.isVisible
 import com.example.subway.bookmark.BookmarkActivity
 import com.example.subway.databinding.ActivityMainBinding
-import com.example.subway.setting.notice.NoticeActivity
 import com.example.subway.search.SearchActivity
+import com.example.subway.setting.notice.NoticeActivity
 import com.example.subway.setting.ComplaintActivity
 import com.example.subway.setting.SettingActivity
 import com.github.chrisbanes.photoview.PhotoView
 import com.github.chrisbanes.photoview.PhotoViewAttacher
 
-class MainActivity : AppCompatActivity() {
+class MainActivity: AppCompatActivity() {
 
     //역 터치 관련
     private lateinit var binding: ActivityMainBinding
@@ -29,6 +29,9 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        //setContentView(R.layout.activity_main)
+
 
         // 역 터치 관련
         photoView = binding.stationMap
@@ -55,6 +58,10 @@ class MainActivity : AppCompatActivity() {
 
             // 변환된 좌표를 사용하여 원하는 작업 수행
             handleClickEvent(imageX, imageY)
+
+            // 받은 좌표를 이용하여 지도 이동 등의 작업 수행
+            val latitude = intent.getDoubleExtra("latitude", 0.0)
+            val longitude = intent.getDoubleExtra("longitude", 0.0)
         }
 
         //검색 버튼
