@@ -15,7 +15,12 @@ import android.widget.Toast
 import com.example.subway.R
 
 class SettingActivity : AppCompatActivity() {
+<<<<<<< HEAD
     private var writeBtnVisibility = false
+=======
+    //setting에서 하는 일을 지정하는 클래스
+    private var isAdminAuthenticated = false
+>>>>>>> origin
     @SuppressLint("MissingInflatedId")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -30,6 +35,7 @@ class SettingActivity : AppCompatActivity() {
     }
 
     private fun showPasswordDialog() {
+        //관리자 비밀번호를 인증하는 함수
         val builder = AlertDialog.Builder(this)
         builder.setTitle("관리자 인증")
 
@@ -66,6 +72,7 @@ class SettingActivity : AppCompatActivity() {
     }
 
     private fun showToast(message: String) {
+        //알림을 보여주는 함수
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
     }
 }
