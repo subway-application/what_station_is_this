@@ -68,8 +68,8 @@ class SearchActivity : AppCompatActivity() {
             for (line in lines) {
                 val parts = line.split(' ')
                 val name = parts[0]
-                val x = parts[3].toDouble() // Float로 수정
-                val y = parts[6].toDouble() // Float로 수정
+                val x = parts[3].toFloat() // Float로 수정
+                val y = parts[6].toFloat() // Float로 수정
                 stationList.add(StationData(name, x, y))
             }
 
@@ -106,7 +106,7 @@ class SearchActivity : AppCompatActivity() {
         Log.d("StationClick", "Name: ${station.name}, X: ${station.x}, Y: ${station.y}")
 
         intent.putExtra("stationName", station.name)
-        intent.putExtra("stationX", station.x.toDouble())
+        intent.putExtra("stationX", station.x)
         intent.putExtra("stationY", station.y)
 
         // MainActivity로 이동

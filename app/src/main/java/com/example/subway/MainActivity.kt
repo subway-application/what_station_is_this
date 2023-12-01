@@ -31,6 +31,10 @@ class MainActivity: AppCompatActivity() {
     private lateinit var photoView: PhotoView
     private lateinit var attacher: PhotoViewAttacher
 
+    fun showToast(message: String, duration: Int = Toast.LENGTH_SHORT) {
+        Toast.makeText(this, message, duration).show()
+    }
+
     @SuppressLint("ClickableViewAccessibility")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -67,8 +71,8 @@ class MainActivity: AppCompatActivity() {
             handleClickEvent(imageX, imageY)
 
             // 받은 좌표를 이용하여 지도 이동 등의 작업 수행
-            val latitude = intent.getDoubleExtra("latitude", 0.0)
-            val longitude = intent.getDoubleExtra("longitude", 0.0)
+            val stationX = intent.getFloatExtra("stationX", 0.0f)
+            val stationY = intent.getFloatExtra("stationY", 0.0f)
         }
 
 
@@ -110,6 +114,9 @@ class MainActivity: AppCompatActivity() {
             startActivity(intent)
         }
 
+        //searchView 좌표이동
+        executeCodeFromSearchActivity()
+
     }
 
     fun toggleAdditionalButtonsVisibility() {
@@ -123,9 +130,9 @@ class MainActivity: AppCompatActivity() {
         toggleAdditionalButtonsVisibility()
     }
 
-    fun showToast(message: String) {
-        Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
-    }
+//    fun showToast(message: String) {
+//        Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
+//    }
 
     //역 터치 관련
     private fun handleClickEvent(x: Float, y: Float) {
@@ -204,5 +211,36 @@ class MainActivity: AppCompatActivity() {
 
         return Result(stationName != 0, stationName.toString(), stationX, stationY)
     }
+
+     //onCreate 내부에 위치하거나 해당 코드 실행 지점에서 호출
+    private fun executeCodeFromSearchActivity() {
+        // 역 정보를 Intent에서 받아옴
+        val stationName = intent.getStringExtra("stationName")
+        val stationX = intent.getFloatExtra("stationX", 0.0f)
+        val stationY = intent.getFloatExtra("stationY", 0.0f)
+
+        // 받아온 좌표를 사용하여 원하는 작업 수행
+        // 여기서는 토스트 메시지를 표시하고 handleClickEvent 메소드 호출
+        showToast("역 클릭 정보 - Name: $stationName, X: $stationX, Y: $stationY")
+
+         //이미지 상의 좌표로 변환
+        val fullImageWidth = 1468
+        val fullImageHeight = 1051
+        val imageViewWidth = photoView.width
+        val imageViewHeight = photoView.height
+
+        val imageX = (stationX * imageViewWidth / fullImageWidth).toFloat() * 1000
+        val imageY = (stationY * imageViewHeight / fullImageHeight).toFloat() * 2000
+
+        // 변환된 좌표를 사용하여 handleClickEvent 메소드 호출
+        handleClickEvent(stationX, stationY)
+
+        // 다른 작업 수행 가능
+    }
+
+    // 토스트 메시지를 표시하는 함수
+//    private fun showToast(message: String) {
+//        Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
+//    }
 
 }

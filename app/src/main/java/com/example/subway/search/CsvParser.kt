@@ -23,8 +23,8 @@ class CsvParser {
                     val values = line?.split("\\s+".toRegex())
                     if (values?.size == 3) {
                         val name = values[0]
-                        val latitude = values[1].toDouble()
-                        val longitude = values[2].toDouble()
+                        val latitude = values[1].toFloat()
+                        val longitude = values[2].toFloat()
                         stationList.add(StationData(name, latitude, longitude))
                     }
                 }
