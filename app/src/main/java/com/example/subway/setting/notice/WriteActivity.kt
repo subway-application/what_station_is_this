@@ -1,27 +1,28 @@
 package com.example.subway.setting.notice
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageButton
 import com.example.subway.R
 import com.example.subway.databinding.ActivityWriteBinding
 import java.sql.Timestamp
-val dataStructure = Data_structure()
+val dataStructure = LinkedList<Base>()
 
 
 
 class WriteActivity : AppCompatActivity() {
     private lateinit var titleEditText: EditText
     private lateinit var contentEditText: EditText
+    var position_count = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_write)
 
-        // titleEditText와 contentEditText 초기화
+        // titleEditText, contentEditText, timeEditText 초기화
         titleEditText = findViewById(R.id.editTextTitle)
         contentEditText = findViewById(R.id.editTextContent)
 
@@ -33,8 +34,10 @@ class WriteActivity : AppCompatActivity() {
             val timestamp = Timestamp(System.currentTimeMillis())
 
             // Base 객체 생성
-            val baseObject = Data_structure.Base(title, content, timestamp)
-            dataStructure.list.push(baseObject)
+            val baseObject = Base(title,content,timestamp)
+            dataStructure.push(baseObject)
+            position_count++
+
             //이전 화면 호출
             val intent = Intent(this, NoticeActivity::class.java)
             startActivity(intent)
@@ -42,8 +45,12 @@ class WriteActivity : AppCompatActivity() {
             // 생성된 Base 객체를 사용하거나 저장 등의 작업 수행
             // 여기서는 예시로 로그에 출력
            //println(baseObject.toString())
-            println(dataStructure.list.printLinkedList())
+            println(dataStructure.printLinkedList())
+
         }
+    }
+    fun return_count(): Int{
+        return position_count
     }
 
 }

@@ -1,15 +1,22 @@
 package com.example.subway.setting.notice
 
-class LinkedList<T> {
-    data class Node<T>(
-        var data: T?,
-        var next: Node<T>?
-    )
-    private var head: Node<T>? = null
+import java.sql.Timestamp
+
+data class Base(
+    val title: String,
+    val content: String,
+    val timestamp: Timestamp
+)
+data class Node<Base>(
+    var data: Base?,
+    var next: Node<Base>?
+)
+class LinkedList<Base> {
+    private var head: Node<Base>? = null
     // 노드 개수를 세는 변수
     private var size: Int = 0
-    private var last: Node<T>? = null
-    fun push(data: T){
+    private var last: Node<Base>? = null
+    fun push(data: Base){
         //처음에 삽입하는 함수
         val newNode = Node(data, head)
         head = newNode
@@ -18,7 +25,7 @@ class LinkedList<T> {
         }
         size++
     }
-    fun append(data: T){
+    fun append(data: Base){
         //맨뒤에 삽입하는 함수
         val newNode = Node(data, null)
         //headNode 가 비어있는 경우 즉, 요소가 없는 경우
@@ -32,7 +39,7 @@ class LinkedList<T> {
         last = newNode
         size++
     }
-    private fun findData(index: Int): Node<T>? {
+    private fun findData(index: Int): Node<Base>? {
         //인덱스 값을 통해 원하는 값을 찾는 함수
         var currentNode = head
 
@@ -69,7 +76,7 @@ class LinkedList<T> {
         }
         //임시 포인터
         var current = head
-        var prev: Node<T>? = null
+        var prev: Node<Base>? = null
         //lastNode 이전 노드 즉 마지막에서 두번째 node
         while (current != last){
             prev = current
@@ -84,8 +91,8 @@ class LinkedList<T> {
         //인덱스를 통해서 원하는 값을 삭제하는 함수
         if (index > size) throw IndexOutOfBoundsException("out of index")
         // 이전/다음 노드 초기화
-        var prev: Node<T>? = null
-        val delete: Node<T>? = findData(index)
+        var prev: Node<Base>? = null
+        val delete: Node<Base>? = findData(index)
         // 이전 노드 찾기
         if(index != 0){
             prev = findData(index - 1)
@@ -123,4 +130,14 @@ class LinkedList<T> {
             removeFirst()
         }
     }
+    fun getDataNode(position: Int): Base? {
+        var current = head
+        var index = 0
+        while (current!=null && index<position){
+            current = current.next
+            index++
+        }
+        return current?.data
+    }
+
 }

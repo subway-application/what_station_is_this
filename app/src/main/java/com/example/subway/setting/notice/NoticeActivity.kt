@@ -18,6 +18,7 @@ class NoticeActivity : AppCompatActivity() {
         val preferences = getSharedPreferences("my_preferences", MODE_PRIVATE)
         val writeBtnVisibility = preferences.getBoolean("writeBtnVisibility", false)
 
+
 //        if (writeBtnVisibility) {
 //            findViewById<RelativeLayout>(R.id.writeBtn).visibility = View.VISIBLE
 //            findViewById<RelativeLayout>(R.id.editPostBtn).visibility = View.VISIBLE

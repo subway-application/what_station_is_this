@@ -15,12 +15,12 @@
         android:gravity="center"
         android:background="#283563">
 
-<!--    뒤로가기 화살표 임시로 지워둠    -->
-<!--        <ImageView-->
-<!--            android:layout_width="wrap_content"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:src="@drawable/back_arrow"-->
-<!--            android:layout_marginLeft="5dp"/>-->
+        <!--    뒤로가기 화살표 임시로 지워둠    -->
+        <!--        <ImageView-->
+        <!--            android:layout_width="wrap_content"-->
+        <!--            android:layout_height="wrap_content"-->
+        <!--            android:src="@drawable/back_arrow"-->
+        <!--            android:layout_marginLeft="5dp"/>-->
 
         <!--메뉴들-->
         <ImageButton
@@ -50,12 +50,12 @@
         android:background="#EBEBEB">
         <TextView
             android:layout_width="0dp"
-            android:layout_height="50dp"
+            android:layout_height="60dp"
             android:layout_weight="1"
             android:text="공지사항"
             android:gravity="center_vertical"
             android:fontFamily="@font/pretendard_bold"
-            android:textSize="23dp"
+            android:textSize="42dp"
             android:paddingLeft="15dp"
             android:textColor="#000000" />
 
@@ -79,8 +79,8 @@
                 android:text="글쓰기"
                 android:fontFamily="@font/pretendard_bold"
                 android:textColor="#000000"
-                android:textSize="20dp"
-                android:layout_marginLeft="6dp"
+                android:textSize="23dp"
+                android:layout_marginLeft="4dp"
                 android:layout_marginTop="9dp"/>
         </RelativeLayout>
 
@@ -104,7 +104,8 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:fontFamily="@font/pretendard_bold"
-            android:textSize="23dp"
+            android:textSize="30dp"
+            android:text="hello"
             android:textColor="#000000"
             android:paddingLeft="15dp"
             android:layout_marginTop="10dp"/>
@@ -114,6 +115,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="@font/pretendard_bold"
+            android:text="11/15"
+            android:textSize="20dp"
             android:textColor="#000000"
             android:layout_marginRight="10dp"/>
     </LinearLayout>
@@ -126,6 +129,8 @@
             android:id="@+id/editTextContent"
             android:layout_width="300dp"
             android:layout_height="wrap_content"
+            android:text="hello world"
+            android:textSize="25dp"
             android:layout_marginLeft="25dp"
             android:fontFamily="@font/pretendard_light"
             android:textColor="#464646"
