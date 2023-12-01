@@ -15,7 +15,7 @@ import android.widget.Toast
 import com.example.subway.R
 
 class SettingActivity : AppCompatActivity() {
-    private var isAdminAuthenticated = false
+    private var writeBtnVisibility = false
     @SuppressLint("MissingInflatedId")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -25,6 +25,8 @@ class SettingActivity : AppCompatActivity() {
         findViewById<TextView>(R.id.adminAuthText).setOnClickListener {
             showPasswordDialog()
         }
+
+
     }
 
     private fun showPasswordDialog() {
@@ -35,6 +37,10 @@ class SettingActivity : AppCompatActivity() {
         input.inputType = InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_PASSWORD
         builder.setView(input)
 
+        val preferences = getSharedPreferences("my_preferences", Context.MODE_PRIVATE)
+        val editor = preferences.edit()
+        editor.putBoolean("writeBtnVisibility", false)
+
         builder.setPositiveButton("확인") { _, _ ->
             val password = input.text.toString()
             // 여기에 비밀번호 확인 로직 추가
@@ -42,13 +48,15 @@ class SettingActivity : AppCompatActivity() {
             if (password == "1111") {
                 // 비밀번호가 일치하는 경우 원하는 작업 수행
                 showToast("관리자 인증 성공!")
-                val preferences = getSharedPreferences("my_preferences", Context.MODE_PRIVATE)
-                val editor = preferences.edit()
+//                val preferences = getSharedPreferences("my_preferences", Context.MODE_PRIVATE)
+//                val editor = preferences.edit()
                 editor.putBoolean("writeBtnVisibility", true)
-                editor.apply()
+                editor.commit()
             } else {
                 // 비밀번호가 일치하지 않는 경우 원하는 작업 수행
                 showToast("비밀번호가 일치하지 않습니다.")
+                editor.putBoolean("writeBtnVisibility", false)
+                editor.commit()
             }
         }
 

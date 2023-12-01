@@ -129,6 +129,95 @@
             android:visibility="gone"
             />
 
+<!--하단 역 정보 및 출발, 도착 선택 기능-->
+        <FrameLayout
+            android:id="@+id/stationInfo"
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="match_parent"
+            android:layout_height="255dp"
+            android:layout_gravity="bottom"
+            android:visibility="gone"
+            >
+            <!--하단 역 안내-->
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="210dp"
+                android:src="@drawable/station_info"
+                android:layout_gravity="bottom"
+                android:scaleType="centerCrop" />
+            <TextView
+                android:id="@+id/stationInfoText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="101"
+                android:fontFamily="@font/pretendard_bold"
+                android:textColor="#000000"
+                android:textSize="25sp"
+                android:layout_gravity="center"
+                android:layout_marginBottom="58dp"/>
+
+            <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:id="@+id/info"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:orientation="horizontal"
+                android:layout_marginTop="0dp"
+                >
+
+                <ImageButton
+                    android:id="@+id/startBtn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@android:color/transparent"
+                    android:paddingRight="-14dp"
+                    android:src="@drawable/startbtn" />
+
+                <ImageButton
+                    android:id="@+id/endBtn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@android:color/transparent"
+                    android:paddingLeft="-4dp"
+                    android:paddingRight="-20dp"
+                    android:src="@drawable/endbtn" />
+
+                <ImageButton
+                    android:id="@+id/timeTableBtn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@android:color/transparent"
+                    android:paddingLeft="-2dp"
+                    android:paddingRight="-22dp"
+                    android:src="@drawable/timetablebtn" />
+
+                <ImageButton
+                    android:id="@+id/stationDetailbtn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@android:color/transparent"
+                    android:paddingLeft="-2dp"
+                    android:src="@drawable/stationdetailbtn" />
+            </LinearLayout>
+        </FrameLayout>
+
+        <ImageView
+            android:id="@+id/startPingImg"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/startping"
+            android:visibility="gone" />
+
+        <ImageView
+            android:id="@+id/endPingImg"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/endping"
+            android:visibility="gone" />
+
+
+
+
     </FrameLayout>
 
 
