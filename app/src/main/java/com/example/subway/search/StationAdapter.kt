@@ -7,69 +7,68 @@ import android.view.ViewGroup
 import android.widget.Filter
 import android.widget.Filterable
 import android.widget.TextView
+import androidx.appcompat.view.menu.MenuView.ItemView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.subway.R
 
 class StationAdapter (
     private val originalStationList: List<StationData>,
     private val itemClickListener: (StationData) -> Unit
-    ) : RecyclerView.Adapter<StationAdapter.StationViewHolder>(), Filterable {
+    ) : RecyclerView.Adapter<StationAdapter.ViewHolder>(), Filterable {
 
-        private var filteredStationList: List<StationData> = originalStationList
+    private var filteredStationList: List<StationData> = originalStationList
 
-        override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): StationViewHolder {
-            val view = LayoutInflater.from(parent.context).inflate(R.layout.item_subway_station_search, parent, false)
-            return StationViewHolder(view)
-        }
 
-        override fun onBindViewHolder(holder: StationViewHolder, position: Int) {
-            val station = filteredStationList[position]
-            holder.bind(station)
-            holder.itemView.setOnClickListener { itemClickListener(station) }
-        }
+        inner class ViewHolder(itemView: View) :RecyclerView.ViewHolder(itemView){
 
-        override fun getItemCount(): Int = filteredStationList.size
+            private val stationNameTextView: TextView = itemView.findViewById(R.id.stationName)
 
-        inner class StationViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-            private val nameTextView: TextView = itemView.findViewById(R.id.stationDetailTextView)
-            private val latitudeTextView: TextView = itemView.findViewById(R.id.stationMap)
-            private val longitudeTextView: TextView = itemView.findViewById(R.id.stationMap)
+            fun blid(stationData: StationData){
+                // 아이템에 대한 화면 표시 로직 추가 (예: 역 이름 표시)
+                stationNameTextView.text = stationData.name
 
-            init {
-                // 각 TextView가 null인지 확인 후 처리
-                if (nameTextView == null || latitudeTextView == null || longitudeTextView == null) {
-                    // 처리: 예를 들어 Log 출력 또는 예외 처리
-                    Log.e("StationViewHolder", "TextView initialization failed.")
-                }
-            }
-
-            fun bind(station: StationData) {
-                nameTextView.text = station.name
-                latitudeTextView.text = "Latitude: ${station.latitude}"
-                longitudeTextView.text = "Longitude: ${station.longitude}"
+                itemView.setOnClickListener { itemClickListener(stationData) }
             }
         }
 
-        override fun getFilter(): Filter {
-            return object : Filter() {
-                override fun performFiltering(constraint: CharSequence?): FilterResults {
-                    val filterResults = FilterResults()
-                    val query = constraint?.toString()?.toLowerCase()
 
-                    filteredStationList = if (query.isNullOrBlank()) {
-                        originalStationList
-                    } else {
-                        originalStationList.filter { it.name.toLowerCase().contains(query) }
-                    }
-
-                    filterResults.values = filteredStationList
-                    return filterResults
-                }
-
-                override fun publishResults(constraint: CharSequence?, results: FilterResults?) {
-                    notifyDataSetChanged()
-                }
-            }
-        }
-
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
+        val view = LayoutInflater.from(parent.context).inflate(R.layout.item_subway_station_search, parent, false)
+        return ViewHolder(view)
     }
+
+    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+        holder.blid(filteredStationList[position])
+    }
+
+
+    override fun getItemCount(): Int {
+        return filteredStationList.size
+    }
+
+
+    override fun getFilter(): Filter {
+        return object : Filter() {
+            override fun performFiltering(constraint: CharSequence?): FilterResults {
+                val filterResults = FilterResults()
+                if (constraint.isNullOrBlank()) {
+                    // 검색어가 없을 경우 전체 역 리스트를 보여줍니다.
+                    filterResults.values = originalStationList
+                } else {
+                    // 검색어가 포함된 역만 필터링하여 보여줍니다.
+                    val filteredList = originalStationList.filter {
+                        it.name.contains(constraint.toString(), ignoreCase = true)
+                    }
+                    filterResults.values = filteredList
+                }
+                return filterResults
+            }
+
+            @Suppress("UNCHECKED_CAST")
+            override fun publishResults(constraint: CharSequence?, results: FilterResults?) {
+                filteredStationList = results?.values as List<StationData>
+                notifyDataSetChanged()
+            }
+        }
+    }
+}

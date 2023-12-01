@@ -5,6 +5,6 @@ package com.example.subway.search
 data class StationData(
     val name: String, // 역 이름
     // 역 좌표
-    val latitude: Double,
-    val longitude: Double
+    val x: Double,
+    val y: Double
 )
