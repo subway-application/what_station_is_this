@@ -1,3 +1,5 @@
+package com.example.subway
+
 import android.app.Notification
 import android.app.NotificationChannel
 import android.app.NotificationManager
@@ -13,8 +15,8 @@ import com.example.subway.R
 class NotificationHelper(base: Context?) : ContextWrapper(base) {
 
     //채널 변수 만들기
-    private val channelID: String = "channelID"
-    private val channelNm: String = "channelName"
+    val channelID: String = "channelID"
+    val channelNm: String = "channelName"
 
     init {
         //안드로이드 버전이 오레오보다 크면
@@ -27,7 +29,7 @@ class NotificationHelper(base: Context?) : ContextWrapper(base) {
 
     //채널 생성 함수
     @RequiresApi(Build.VERSION_CODES.O)
-    private fun createChannel(){
+    fun createChannel(){
 
         //객체 생성
         val channel: NotificationChannel = NotificationChannel(channelID, channelNm, NotificationManager.IMPORTANCE_DEFAULT)
@@ -51,9 +53,13 @@ class NotificationHelper(base: Context?) : ContextWrapper(base) {
     //Notification 설정
     fun getChannelNotification(): NotificationCompat.Builder{
 
+        val pre_station = "000"
+        val now_station = "999"
+        val next_station = "111"
+
         return NotificationCompat.Builder(applicationContext, channelID)
             .setContentTitle("현재 역") //제목
-            .setContentText("903")//내용
+            .setContentText("${pre_station}     <     ${now_station}     >     ${next_station}")//내용
             .setSmallIcon(R.drawable.alarm_icon) //아이콘
     }
 }

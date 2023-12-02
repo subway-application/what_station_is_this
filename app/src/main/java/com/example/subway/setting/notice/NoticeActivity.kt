@@ -28,6 +28,7 @@ class NoticeActivity : AppCompatActivity() {
         setContentView(R.layout.activity_notice)
 
 
+
         // RecyclerView 초기화 및 NoticeActivity
         val recyclerView: RecyclerView = findViewById(R.id.recyclerView)
         val layoutManager = LinearLayoutManager(this)
@@ -51,6 +52,13 @@ class NoticeActivity : AppCompatActivity() {
 //            findViewById<RelativeLayout>(R.id.editPostBtn).visibility = View.VISIBLE
 //            findViewById<RelativeLayout>(R.id.editPost1Btn).visibility = View.VISIBLE
 //            }
+
+
+        //findViewById<RelativeLayout>(R.id.writelayoutBtn).visibility = View.GONE
+
+        // 한슬이 이걸 왜 넣었을까?
+//        if (writeBtnVisibility) {
+//            findViewById<RelativeLayout>(R.id.writelayoutBtn).visibility = View.VISIBLE
 
             // RelativeLayout에 대한 클릭 리스너 설정
             val writeBtn = findViewById<ImageButton>(R.id.writeBtn)
@@ -94,6 +102,8 @@ class NoticeActivity : AppCompatActivity() {
                 // RecyclerView 어댑터 갱신
                 adapter.notifyDataSetChanged()
             }
+//        } else {
+//            findViewById<RelativeLayout>(R.id.writelayoutBtn).visibility = View.GONE
         }
     }
 }

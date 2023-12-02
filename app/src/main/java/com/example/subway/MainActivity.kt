@@ -7,12 +7,17 @@ import android.graphics.Matrix
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
+import android.widget.FrameLayout
+import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.core.view.isVisible
 import com.example.subway.bookmark.BookmarkActivity
 import com.example.subway.databinding.ActivityMainBinding
+import com.example.subway.routeguide.RouteGuideActivity
+//import com.example.subway.routeguide.RouteGuideActivity
+import com.example.subway.setting.notice.NoticeActivity
 import com.example.subway.search.SearchActivity
 import com.example.subway.setting.notice.NoticeActivity
 import com.example.subway.setting.ComplaintActivity
@@ -84,6 +89,7 @@ class MainActivity: AppCompatActivity() {
 
         //검색 버튼
         binding.searchBtn.setOnClickListener {
+            print("별 클릭됨")
             val intent = Intent(this, SearchActivity::class.java)
             startActivity(intent)
         }
@@ -92,6 +98,7 @@ class MainActivity: AppCompatActivity() {
         binding.bookmarkBtn.setOnClickListener {
             val intent = Intent(this, BookmarkActivity::class.java)
             startActivity(intent)
+            println("바인딩")
         }
 
         //설정 버튼
@@ -119,6 +126,31 @@ class MainActivity: AppCompatActivity() {
             startActivity(intent)
         }
 
+        //출발, 도착 버튼 설정되었는지
+        var startBtnClicked: Boolean = false
+        var endBtnClicked: Boolean = false
+
+        // startBtn 클릭 시
+        val startBtn: ImageButton = findViewById(R.id.startBtn)
+        startBtn.setOnClickListener {
+            startBtnClicked = !startBtnClicked
+            if (startBtnClicked && endBtnClicked) {
+                val intent = Intent(this, RouteGuideActivity::class.java)
+                startActivity(intent)
+                println("여기냐?start")
+            }
+        }
+
+        // endBtn 클릭 시
+        val endBtn: ImageButton = findViewById(R.id.endBtn)
+        endBtn.setOnClickListener {
+            endBtnClicked = !endBtnClicked
+            if (startBtnClicked && endBtnClicked) {
+                val intent = Intent(this, RouteGuideActivity::class.java)
+                startActivity(intent)
+
+            }
+        }
         //searchView 좌표이동
         executeCodeFromSearchActivity()
 
@@ -195,7 +227,6 @@ class MainActivity: AppCompatActivity() {
             count++
 
         }
-
 
         var stationName = 0
         var stationX = 0f
