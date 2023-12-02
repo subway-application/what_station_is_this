@@ -140,4 +140,8 @@ class LinkedList<Base> {
         return current?.data
     }
 
+    fun return_size(): Int{
+        return size
+    }
+
 }
