@@ -7,6 +7,7 @@ import java.util.Queue
 
 
 fun minTransfers(nodes: Map<Int, Node>, startStation: Node, endStation: Node): Int {
+
     val visited = mutableMapOf<Node, Int>().withDefault { Int.MAX_VALUE }
     val prevNode = mutableMapOf<Node, Node?>()
     val queue: Queue<Pair<Node, Int>> = LinkedList()
@@ -17,28 +18,33 @@ fun minTransfers(nodes: Map<Int, Node>, startStation: Node, endStation: Node): I
     var minTransfers = Int.MAX_VALUE
     var minPath: Map<Node, Node?>? = null
 
-    while (queue.isNotEmpty()) {
-        val (currentNode, transfers) = queue.remove()
+    while (queue.isNotEmpty()) { // transfers: 현재 노드까지의 환승 횟수
+        val (currentNode, transfers) = queue.remove() // queue에 있는 노드와 transfers 꺼냄
+
         for (edge in currentNode.edges) {
-            var newTransfers = transfers
-            if (currentNode.lines.intersect(edge.destination.lines).isEmpty()) {
-                newTransfers++
+
+            var currentTransfers = transfers
+            var prevLines = prevNode[currentNode]?.lines ?: emptySet()
+            if(prevLines.isNotEmpty()){
+                if (prevLines.intersect(edge.destination.lines).isEmpty()) {  // 최소 환승 경로를 출력해 주는 내 구세주...
+                    // currentNode의 이전 노드의 lines와 edge.destination.lines의 교집합이 없으면 환승 횟수 추가
+                    currentTransfers++
+                }
             }
-            if (edge.destination == endStation && newTransfers < minTransfers) {
-                if (newTransfers < minTransfers) {
-                    minTransfers = newTransfers
-                    minPath = prevNode.toMap()
-                }
-                prevNode[edge.destination] = currentNode
-                println("curt: ${prevNode[currentNode]}")
+            if (edge.destination == endStation && currentTransfers < minTransfers) {
+                prevNode[edge.destination] = currentNode // endStation의 이전 노드 연결하니까 경로는 출력할 수 있음.
+                minTransfers = currentTransfers
+                minPath = prevNode.toMap()
             } else {
-                if (!visited.containsKey(edge.destination) || newTransfers < visited.getValue(edge.destination)) {
-                    println("new: ${newTransfers}, visit: ${visited.getValue(edge.destination)}")
-                    visited[edge.destination] = newTransfers
+                if (!visited.containsKey(edge.destination) || currentTransfers < visited.getValue(edge.destination)) {
+                    // edge의 목적지를 방문하지 않았을 때 visited가 ture임. false일 때 조건문 적용
+                    // current < 현재까지 기록된 edge의 목적지 방문 횟수보다 작을 때
+                    // 방문한 적이 없는 경우: 해당 노드를 처음 방문하는 경우, visited 맵에 추가하고 현재까지의 환승 횟수를 기록
+                    // 방문한 적이 있지만 새로운 경로가 더 짧은 경우: 이전에 기록된 방문 횟수 갱신하고 queue에 새로운 경로 추가
+                    visited[edge.destination] = currentTransfers
                     prevNode[edge.destination] = currentNode
-                    queue.add(Pair(edge.destination, newTransfers))
+                    queue.add(Pair(edge.destination, currentTransfers))
                 }
-                println("else new: ${newTransfers}, visit: ${visited.getValue(edge.destination)}")
             }
         }
     }
@@ -55,11 +61,7 @@ fun printPath(prevNode: Map<Node, Node?>, startStation: Node, endStation: Node) 
     val path = LinkedList<Node>()
     var currentNode = endStation
 
-//    for ((node, prev) in prevNode) {
-//        val prevNodeId = prev?.id ?: "없음"
-//        println("노드 ${node.id}의 이전 노드: $prevNodeId")
-//    }
-
+    // 도착역에서 출발역 역추적
     while (currentNode != startStation) {
         path.addFirst(currentNode)
         val prev = prevNode[currentNode]
@@ -70,20 +72,68 @@ fun printPath(prevNode: Map<Node, Node?>, startStation: Node, endStation: Node) 
         currentNode = prev
     }
 
+    // 환승 횟수와 환승역 찾기
     path.addFirst(startStation)
-    var transfers = 0
-    var prevLine = '0'
+    var transfers = 0 // 환승 횟수
+    var transferStation = mutableListOf<String>() // 환승역
+
+    var numsmove = LinkedList<Int>() // 이동하는 역 개수를 저장하는 리스트
+    var count = 1 // 이동하는 역 수를 세는 변수
+
+    var totalTime = path[0].edges.find { it.destination == path[1] }?.time ?: 0
+    var totalCost = path[0].edges.find { it.destination == path[1] }?.cost ?: 0
+    
     for (i in 1 until path.size) {
-        prevLine = path[i - 1].id.toString()[0]
-        var currentLine = path[i].id.toString()[0]
-        if (prevLine != currentLine) {
-            print("start: ${prevLine}\t end: ${currentLine}\t")
-            transfers++
+        var nextStation : Node // 현재 역의 다음 역
+        var prevStation = path[i - 1] // 현재 역의 이전 역
+
+        if (i < path.size-1) {
+            nextStation  = path[i + 1]
+            if (nextStation .lines.intersect(prevStation.lines).isEmpty()) {
+                // 현재 역의 이전 역과 다음 역 노선의 교집합이 없으면 환승 횟수 증가
+                transferStation.add(path[i].toString())
+                transfers++
+                numsmove.add(count)
+                count = 0
+            }
+            // 각 엣지의 시간과 비용을 더함
+            totalTime += path[i].edges.find { it.destination == path[i + 1] }?.time ?: 0
+            totalCost += path[i].edges.find { it.destination == path[i + 1] }?.cost ?: 0
+        }
+        count++
+    }
+    numsmove.add(count-1)
+
+    // 경로 출력
+    println("최소 환승: ${path.joinToString(" -> ")}")
+    println("출발역: ${startStation}")
+    if(numsmove.isNotEmpty()) { // 이동은 하니까 무조건 출력
+        println("${numsmove.removeFirst()}개역 이동") // 첫 번째 요소 출력 후 제거
+    }
+    if (transferStation != null) {
+        for (ts in transferStation) {
+            println("환승역: ${ts}")
+            if(numsmove.isNotEmpty()) {
+                println("${numsmove.removeFirst()}개역 이동")
+            }
         }
     }
+    println("도착역: ${endStation}")
+    println("총 환승 횟수: ${transfers}회") // 환승 횟수 출력
+    println("총 금액: ${totalCost} 원") // 금액 출력
 
-    println("최소 환승: ${path.joinToString(" -> ")}")
-    println("총 환승 횟수: ${transfers}회")
+    // 시간 출력
+    val hours = totalTime / 3600
+    val minutes = (totalTime % 3600) / 60
+    val seconds = totalTime % 60
+
+    if (hours > 0) {
+        println("총 시간: ${hours}시간 ${minutes}분 ${seconds}초")
+    } else if (minutes > 0){
+        println("총 시간: ${minutes}분 ${seconds}초")
+    } else {
+        println("총 시간: ${seconds}초")
+    }
 
 }
 
@@ -119,13 +169,13 @@ fun main() {
 
         if (nodes[id]?.lines?.contains(line) != true) {
             nodes[id]?.lines?.add(line)
+
         }
     }
 
-
     // 여기에 테스트 코드 작성
-    val startNode = nodes[702] // 시작 노드 ID
-    val endNode = nodes[116]  // 종착 노드 ID
+    val startNode = nodes[101] // 시작 노드 ID
+    val endNode = nodes[102]  // 종착 노드 ID
     if (startNode != null && endNode != null) {
         minTransfers (nodes, startNode, endNode)
     }

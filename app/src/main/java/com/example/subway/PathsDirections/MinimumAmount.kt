@@ -1,6 +1,7 @@
 package com.example.subway.PathsDirections
 
 import java.io.File
+import java.util.LinkedList
 import java.util.PriorityQueue
 
 fun dijkstraCost(nodes: Map<Int, Node>, startStation: Node, endStation: Node) {
@@ -12,6 +13,7 @@ fun dijkstraCost(nodes: Map<Int, Node>, startStation: Node, endStation: Node) {
     // 최단 경로를 저장할 맵 생성
     val shortestPath = mutableMapOf<Node, Node?>()
     shortestPath[startStation] = null
+
 
     // 노드를 거리에 따라 정렬하는 우선순위 큐 생성
     val queue = PriorityQueue<Node>(compareBy { distances.getValue(it) })
@@ -26,6 +28,7 @@ fun dijkstraCost(nodes: Map<Int, Node>, startStation: Node, endStation: Node) {
                 distances[edge.destination] = newDistance // 거리 갱신
                 shortestPath[edge.destination] = current // 최단 경로 갱신
                 queue.add(edge.destination) // 노드를 큐에 추가
+
             }
         }
     }
@@ -38,9 +41,66 @@ fun dijkstraCost(nodes: Map<Int, Node>, startStation: Node, endStation: Node) {
         currentStation = shortestPath[currentStation]
     }
 
+    // 환승 횟수와 환승역 찾기
+    var transfers = 0 // 환승 횟수
+    var transferStation = mutableListOf<String>() // 환승역
 
+    var numsmove = LinkedList<Int>() // 이동하는 역 개수를 저장하는 리스트
+    var count = 1 // 이동하는 역 수를 세는 변수
+
+    var totalTime = path[0].edges.find { it.destination == path[1] }?.time ?: 0
+
+    for (i in 1 until path.size) {
+        var nextStation : Node // 현재 역의 다음 역
+        var prevStation = path[i - 1] // 현재 역의 이전 역
+
+        if (i < path.size-1) {
+            nextStation  = path[i + 1]
+            if (nextStation .lines.intersect(prevStation.lines).isEmpty()) {
+                // 현재 역의 이전 역과 다음 역 노선의 교집합이 없으면 환승 횟수 증가
+                transferStation.add(path[i].toString())
+                transfers++
+                numsmove.add(count)
+                count = 0
+            }
+            // 각 엣지의 시간을 더함
+            totalTime += path[i].edges.find { it.destination == nextStation }?.time ?: 0
+        }
+        count++
+    }
+    numsmove.add(count-1)
+
+    // 경로 출력
     println("최소 금액: ${path.joinToString(" -> ")}")
-    println("총 금액: ${distances[endStation]}원")
+
+    println("출발역: ${startStation}")
+    if(numsmove.isNotEmpty()) { // 이동은 하니까 무조건 출력
+        println("${numsmove.removeFirst()}개역 이동") // 첫 번째 요소 출력 후 제거
+    }
+    if (transferStation != null) {
+        for (ts in transferStation) {
+            println("환승역: ${ts}")
+            if(numsmove.isNotEmpty()) {
+                println("${numsmove.removeFirst()}개역 이동")
+            }
+        }
+    }
+    println("도착역: ${endStation}")
+    println("총 환승 횟수: ${transfers}회") // 환승 횟수 출력
+    println("총 금액: ${distances[endStation]}원") // 금액 출력
+
+    // 시간 출력
+    val hours = totalTime / 3600
+    val minutes = (totalTime % 3600) / 60
+    val seconds = totalTime % 60
+
+    if (hours > 0) {
+        println("총 시간: ${hours}시간 ${minutes}분 ${seconds}초")
+    } else if (minutes > 0){
+        println("총 시간: ${minutes}분 ${seconds}초")
+    } else {
+        println("총 시간: ${seconds}초")
+    }
 
 }
 
