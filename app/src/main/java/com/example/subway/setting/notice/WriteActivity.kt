@@ -39,7 +39,7 @@ class WriteActivity : AppCompatActivity() {
             position_count++
 
             //이전 화면 호출
-            val intent = Intent(this, NoticeActivity::class.java)
+            val intent = Intent(this, NoticeDetailActiviy::class.java)
             startActivity(intent)
 
             // 생성된 Base 객체를 사용하거나 저장 등의 작업 수행
