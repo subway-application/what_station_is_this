@@ -21,11 +21,10 @@ class NoticeActivity : AppCompatActivity() {
         val preferences = getSharedPreferences("my_preferences", Context.MODE_PRIVATE)
         val writeBtnVisibility = preferences.getBoolean("writeBtnVisibility", false)
 
+        //findViewById<RelativeLayout>(R.id.writelayoutBtn).visibility = View.GONE
+
         if (writeBtnVisibility) {
             findViewById<RelativeLayout>(R.id.writelayoutBtn).visibility = View.VISIBLE
-            findViewById<RelativeLayout>(R.id.editPostBtn).visibility = View.VISIBLE
-            findViewById<RelativeLayout>(R.id.editPost1Btn).visibility = View.VISIBLE
-
             // RelativeLayout에 대한 클릭 리스너 설정
             val writeBtn = findViewById<ImageButton>(R.id.writeBtn)
             writeBtn.setOnClickListener {
@@ -35,6 +34,8 @@ class NoticeActivity : AppCompatActivity() {
                 val intent = Intent(this, WriteActivity::class.java)
                 startActivity(intent)
             }
+        } else {
+            findViewById<RelativeLayout>(R.id.writelayoutBtn).visibility = View.GONE
         }
     }
 }

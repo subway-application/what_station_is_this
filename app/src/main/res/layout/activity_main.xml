@@ -136,8 +136,7 @@
             android:layout_width="match_parent"
             android:layout_height="255dp"
             android:layout_gravity="bottom"
-            android:visibility="gone"
-            >
+            android:visibility="gone">
             <!--하단 역 안내-->
             <ImageView
                 android:layout_width="match_parent"
@@ -162,8 +161,7 @@
                 android:layout_height="wrap_content"
                 android:gravity="center_horizontal"
                 android:orientation="horizontal"
-                android:layout_marginTop="0dp"
-                >
+                android:layout_marginTop="0dp">
 
                 <ImageButton
                     android:id="@+id/startBtn"
@@ -206,7 +204,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/startping"
-            android:visibility="gone" />
+            android:visibility="gone"/>
 
         <ImageView
             android:id="@+id/endPingImg"

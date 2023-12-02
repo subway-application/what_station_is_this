@@ -2,6 +2,20 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
+<!--    &lt;!&ndash;앱 알림 관련 허가권&ndash;&gt;-->
+<!--    &lt;!&ndash;네트워크 연결을 사용하여 알림을 받아올 때&ndash;&gt;-->
+<!--    <uses-permission android:name="android.permission.INTERNET" />-->
+<!--    &lt;!&ndash;알림 도착 시 진동을 울릴 때&ndash;&gt;-->
+<!--    <uses-permission android:name="android.permission.VIBRATE" />-->
+<!--    &lt;!&ndash;화면이 꺼져 있을 때도 알림을 표시할 때&ndash;&gt;-->
+<!--    <uses-permission android:name="android.permission.WAKE_LOCK" />-->
+<!--    &lt;!&ndash;재부팅 후에도 앱이 알림을 받을 수 있게 할때&ndash;&gt;-->
+<!--    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />-->
+<!--    <uses-permission-->
+<!--        android:name="android.permission.POST_NOTIFICATIONS"-->
+<!--        android:minSdkVersion="33" />-->
+<!--    -->
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
     <application
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
@@ -14,6 +28,24 @@
         tools:targetApi="31">
         <activity
             android:name=".search.SearchActivity"
+            android:exported="false" />
+        <activity
+            android:name=".bookmark.BookmarkActivity"
+            android:exported="false" />
+        <activity
+            android:name=".setting.SettingActivity"
+            android:exported="false" />
+        <activity
+            android:name=".setting.ComplaintActivity"
+            android:exported="false" />
+        <activity
+            android:name=".setting.notice.NoticeActivity"
+            android:exported="false" />
+        <activity
+            android:name=".setting.notice.WriteActivity"
+            android:exported="false" />
+        <activity
+            android:name=".routeguide.RouteGuideActivity"
             android:exported="false" />
         <activity
             android:name=".MainActivity"
