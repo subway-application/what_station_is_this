@@ -31,6 +31,7 @@ class MainActivity: AppCompatActivity() {
     private lateinit var photoView: PhotoView
     private lateinit var attacher: PhotoViewAttacher
 
+
     fun showToast(message: String, duration: Int = Toast.LENGTH_SHORT) {
         Toast.makeText(this, message, duration).show()
     }
@@ -40,6 +41,10 @@ class MainActivity: AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        // 이미지 좌표 이동 관룐
+        photoView = findViewById(R.id.stationMap)
+        attacher = PhotoViewAttacher(photoView)
 
 
         // 역 터치 관련
@@ -152,7 +157,6 @@ class MainActivity: AppCompatActivity() {
             //하단 역 정보 표시
             if (binding.stationInfo.visibility == View.GONE) {
                 binding.stationInfo.isVisible = !binding.stationInfo.isVisible
-                binding.info.isVisible = !binding.info.isVisible
             } else {
 
             }
@@ -160,7 +164,6 @@ class MainActivity: AppCompatActivity() {
             textView.text = stationName
         } else {
             binding.stationInfo.visibility = View.GONE
-            binding.info.visibility = View.GONE
         }
     }
 
@@ -223,17 +226,22 @@ class MainActivity: AppCompatActivity() {
         // 여기서는 토스트 메시지를 표시하고 handleClickEvent 메소드 호출
         showToast("역 클릭 정보 - Name: $stationName, X: $stationX, Y: $stationY")
 
-         //이미지 상의 좌표로 변환
-        val fullImageWidth = 1468
-        val fullImageHeight = 1051
-        val imageViewWidth = photoView.width
-        val imageViewHeight = photoView.height
+//         //이미지 상의 좌표로 변환
+//        val fullImageWidth = 1468
+//        val fullImageHeight = 1051
+//        val imageViewWidth = photoView.width
+//        val imageViewHeight = photoView.height
 
-        val imageX = (stationX * imageViewWidth / fullImageWidth).toFloat() * 1000
-        val imageY = (stationY * imageViewHeight / fullImageHeight).toFloat() * 2000
+//        val imageX = (stationX * imageViewWidth / fullImageWidth).toFloat() * 1000
+//        val imageY = (stationY * imageViewHeight / fullImageHeight).toFloat() * 2000
 
         // 변환된 좌표를 사용하여 handleClickEvent 메소드 호출
         handleClickEvent(stationX, stationY)
+
+         // 받은 좌표를 이용하여 지도 이동 등의 작업 수행
+
+         //// 이미지에서 좌표 이동
+         moveToCoordinate(stationX, stationX)
 
         // 다른 작업 수행 가능
     }
@@ -242,5 +250,40 @@ class MainActivity: AppCompatActivity() {
 //    private fun showToast(message: String) {
 //        Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
 //    }
+
+
+
+    // 이미지 상에서 좌표이동
+    private fun moveToCoordinate(x: Float, y: Float) {
+        // 전체 이미지 크기
+        val fullImageWidth = 1468
+        val fullImageHeight = 1051
+
+        // PhotoView 크기
+        val imageViewWidth = photoView.width
+        val imageViewHeight = photoView.height
+
+        // 현재 이미지뷰 내에서의 상대적인 좌표를 전체 이미지의 좌표로 변환
+        val imageX = (x * fullImageWidth / imageViewWidth).toFloat()
+        val imageY = (y * fullImageHeight / imageViewHeight).toFloat()
+
+        // PhotoViewAttacher를 사용하여 이동
+//        attacher.setScale(1.0f)  // 확대/축소를 원하는 비율로 조절
+//        attacher.update()  // PhotoViewAttacher 갱신
+//
+//        // 이동
+//        attacher.onDrag(imageX, imageY, 0f, 0f)
+
+        // 현재 이미지뷰의 Matrix를 가져옴
+        val matrix: Matrix = photoView.imageMatrix
+
+        // Matrix를 초기화하고 이동시킬 좌표를 설정
+        matrix.reset()
+        matrix.postTranslate(-imageX, -imageY)
+
+        // 이동한 Matrix를 이미지뷰에 설정
+        photoView.imageMatrix = matrix
+        photoView.invalidate()
+    }
 
 }
