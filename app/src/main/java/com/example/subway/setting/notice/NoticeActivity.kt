@@ -39,4 +39,3 @@ class NoticeActivity : AppCompatActivity() {
             }
         }
     }
-}

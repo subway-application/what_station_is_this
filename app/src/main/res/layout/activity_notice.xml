@@ -15,12 +15,12 @@
         android:gravity="center"
         android:background="#283563">
 
-<!--    뒤로가기 화살표 임시로 지워둠    -->
-<!--        <ImageView-->
-<!--            android:layout_width="wrap_content"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:src="@drawable/back_arrow"-->
-<!--            android:layout_marginLeft="5dp"/>-->
+        <!--    뒤로가기 화살표 임시로 지워둠    -->
+        <!--        <ImageView-->
+        <!--            android:layout_width="wrap_content"-->
+        <!--            android:layout_height="wrap_content"-->
+        <!--            android:src="@drawable/back_arrow"-->
+        <!--            android:layout_marginLeft="5dp"/>-->
 
         <!--메뉴들-->
         <ImageButton
@@ -61,11 +61,9 @@
 
         <!--글쓰기 버튼-->
         <RelativeLayout
-            android:id="@+id/writelayoutBtn"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:clickable="false"
-            android:visibility="gone">
+            android:clickable="false">
             <ImageButton
                 android:id="@+id/writeBtn"
                 android:layout_width="65dp"

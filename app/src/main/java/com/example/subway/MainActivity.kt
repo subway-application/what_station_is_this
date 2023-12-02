@@ -215,7 +215,44 @@ class MainActivity: AppCompatActivity() {
         return Result(stationName != 0, stationName.toString(), stationX, stationY)
     }
 
-     //onCreate 내부에 위치하거나 해당 코드 실행 지점에서 호출
+
+    // 이미지 상에서 좌표이동
+    private fun moveToCoordinate(x: Float, y: Float) {
+        // 전체 이미지 크기
+        val fullImageWidth = 1468
+        val fullImageHeight = 1051
+
+        // PhotoView 크기
+        val imageViewWidth = photoView.width
+        val imageViewHeight = photoView.height
+
+        // 현재 이미지뷰 내에서의 상대적인 좌표를 전체 이미지의 좌표로 변환
+        val imageX = (x * fullImageWidth / imageViewWidth).toFloat()
+        val imageY = (y * fullImageHeight / imageViewHeight).toFloat()
+
+        // PhotoViewAttacher를 사용하여 이동
+        attacher.setScale(3.0f)  // 확대/축소를 원하는 비율로 조절
+//        attacher.update()  // PhotoViewAttacher 갱신
+//
+//        // 이동
+//        attacher.onDrag(imageX, imageY, 0f, 0f)
+
+        // 현재 이미지뷰의 Matrix를 가져옴
+        val matrix: Matrix = photoView.imageMatrix
+
+        // Matrix를 초기화하고 이동시킬 좌표를 설정
+        matrix.reset()
+        matrix.postTranslate(-imageX, -imageY)
+
+        // 이동한 Matrix를 이미지뷰에 설정
+        photoView.imageMatrix = matrix
+        photoView.invalidate()
+    }
+
+
+
+
+    //onCreate 내부에 위치하거나 해당 코드 실행 지점에서 호출
     private fun executeCodeFromSearchActivity() {
         // 역 정보를 Intent에서 받아옴
         val stationName = intent.getStringExtra("stationName")
@@ -253,37 +290,4 @@ class MainActivity: AppCompatActivity() {
 
 
 
-    // 이미지 상에서 좌표이동
-    private fun moveToCoordinate(x: Float, y: Float) {
-        // 전체 이미지 크기
-        val fullImageWidth = 1468
-        val fullImageHeight = 1051
-
-        // PhotoView 크기
-        val imageViewWidth = photoView.width
-        val imageViewHeight = photoView.height
-
-        // 현재 이미지뷰 내에서의 상대적인 좌표를 전체 이미지의 좌표로 변환
-        val imageX = (x * fullImageWidth / imageViewWidth).toFloat()
-        val imageY = (y * fullImageHeight / imageViewHeight).toFloat()
-
-        // PhotoViewAttacher를 사용하여 이동
-//        attacher.setScale(1.0f)  // 확대/축소를 원하는 비율로 조절
-//        attacher.update()  // PhotoViewAttacher 갱신
-//
-//        // 이동
-//        attacher.onDrag(imageX, imageY, 0f, 0f)
-
-        // 현재 이미지뷰의 Matrix를 가져옴
-        val matrix: Matrix = photoView.imageMatrix
-
-        // Matrix를 초기화하고 이동시킬 좌표를 설정
-        matrix.reset()
-        matrix.postTranslate(-imageX, -imageY)
-
-        // 이동한 Matrix를 이미지뷰에 설정
-        photoView.imageMatrix = matrix
-        photoView.invalidate()
     }
-
-}

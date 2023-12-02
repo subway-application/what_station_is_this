@@ -25,12 +25,30 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Subway"
         tools:targetApi="31">
+            <!-- 다른 요소들 -->
+
+            <activity android:name=".setting.SettingActivity">
+                <!-- Intent filters, metadata, 등 -->
+            </activity>
+
+
+        <activity android:name="com.example.subway.setting.notice.NoticeActivity">
+            <!-- Intent filters, metadata, 등 -->
+        </activity>
+
+        <activity android:name="com.example.subway.setting.notice.WriteActivity">
+            <!-- Intent filters, metadata, 등 -->
+        </activity>
+
+            <!-- 다른 액티비티들 -->
+
         <activity
             android:name=".search.SearchActivity"
             android:exported="false" />
         <activity
             android:name=".MainActivity"
             android:exported="true">
+
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
