@@ -101,10 +101,10 @@
         android:orientation="horizontal">
 
         <TextView
+            android:id="@+id/editTextTitle"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="콘서트 지연 공지"
             android:fontFamily="@font/pretendard_bold"
             android:textSize="23dp"
             android:textColor="#000000"
@@ -112,9 +112,9 @@
             android:layout_marginTop="10dp"/>
 
         <TextView
+            android:id="@+id/timeStamp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="11/13"
             android:fontFamily="@font/pretendard_bold"
             android:textColor="#000000"
             android:layout_marginRight="10dp"/>
@@ -125,37 +125,13 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal">
         <TextView
+            android:id="@+id/editTextContent"
             android:layout_width="300dp"
             android:layout_height="wrap_content"
-            android:text="11월 13일 22:30시 부터 23:00시까지 콘서트 종료로 인하여 621역이 혼잡해질 예정이니 유의하시고 가까운 904역 이용을 추천드립니다."
             android:layout_marginLeft="25dp"
             android:fontFamily="@font/pretendard_light"
             android:textColor="#464646"
             android:layout_marginBottom="15dp"/>
-        <!--수정 버튼-->
-        <RelativeLayout
-            android:id="@+id/editPostBtn"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:visibility="gone"
-            >
-            <ImageButton
-                android:layout_width="55dp"
-                android:layout_height="33dp"
-                android:background="#EBEBEB"
-                android:src="@drawable/write_button_box"
-                android:layout_marginTop="25dp"
-                android:layout_marginLeft="5dp"/>
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="수정"
-                android:fontFamily="@font/pretendard_bold"
-                android:textColor="#000000"
-                android:textSize="20dp"
-                android:layout_marginLeft="15dp"
-                android:layout_marginTop="26dp"/>
-        </RelativeLayout>
 
     </LinearLayout>
 
@@ -163,74 +139,5 @@
         android:layout_width="match_parent"
         android:layout_height="2dp"
         android:background="#000000" />
-
-    <!--게시글-->
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="47dp"
-        android:orientation="horizontal">
-
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="야구 경기 종료 공지"
-            android:fontFamily="@font/pretendard_bold"
-            android:textSize="23dp"
-            android:textColor="#000000"
-            android:paddingLeft="15dp"
-            android:layout_marginTop="10dp"/>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="11/12"
-            android:fontFamily="@font/pretendard_bold"
-            android:textColor="#000000"
-            android:layout_marginRight="10dp"/>
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-        <TextView
-            android:layout_width="300dp"
-            android:layout_height="wrap_content"
-            android:text="11월 12일 xx:xx시부터 xx:xx시까지 야구 경지 종료로 인하여 ---역이 혼잡해질 예정이니 유의하시기 바랍니다."
-            android:layout_marginLeft="25dp"
-            android:fontFamily="@font/pretendard_light"
-            android:textColor="#464646"
-            android:layout_marginBottom="15dp"/>
-        <!--수정 버튼-->
-        <RelativeLayout
-            android:id="@+id/editPost1Btn"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:visibility="gone"
-            >
-            <ImageButton
-                android:layout_width="55dp"
-                android:layout_height="33dp"
-                android:background="#EBEBEB"
-                android:src="@drawable/write_button_box"
-                android:layout_marginTop="25dp"
-                android:layout_marginLeft="5dp"/>
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="수정"
-                android:fontFamily="@font/pretendard_bold"
-                android:textColor="#000000"
-                android:textSize="20dp"
-                android:layout_marginLeft="15dp"
-                android:layout_marginTop="26dp"/>
-        </RelativeLayout>
-    </LinearLayout>
-
-        <ImageView
-            android:layout_width="match_parent"
-            android:layout_height="2dp"
-            android:background="#000000" />
 
 </LinearLayout>

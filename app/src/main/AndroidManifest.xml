@@ -2,6 +2,19 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <!--앱 알림 관련 허가권-->
+    <!--네트워크 연결을 사용하여 알림을 받아올 때-->
+    <uses-permission android:name="android.permission.INTERNET" />
+    <!--알림 도착 시 진동을 울릴 때-->
+    <uses-permission android:name="android.permission.VIBRATE" />
+    <!--화면이 꺼져 있을 때도 알림을 표시할 때-->
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <!--재부팅 후에도 앱이 알림을 받을 수 있게 할때-->
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+    <uses-permission
+        android:name="android.permission.POST_NOTIFICATIONS"
+        android:minSdkVersion="33" />
+
     <application
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"

@@ -21,10 +21,12 @@ class NoticeActivity : AppCompatActivity() {
         val preferences = getSharedPreferences("my_preferences", Context.MODE_PRIVATE)
         val writeBtnVisibility = preferences.getBoolean("writeBtnVisibility", false)
 
-        if (writeBtnVisibility) {
-            findViewById<RelativeLayout>(R.id.writelayoutBtn).visibility = View.VISIBLE
-            findViewById<RelativeLayout>(R.id.editPostBtn).visibility = View.VISIBLE
-            findViewById<RelativeLayout>(R.id.editPost1Btn).visibility = View.VISIBLE
+
+//        if (writeBtnVisibility) {
+//            findViewById<RelativeLayout>(R.id.writeBtn).visibility = View.VISIBLE
+//            findViewById<RelativeLayout>(R.id.editPostBtn).visibility = View.VISIBLE
+//            findViewById<RelativeLayout>(R.id.editPost1Btn).visibility = View.VISIBLE
+//            }
 
             // RelativeLayout에 대한 클릭 리스너 설정
             val writeBtn = findViewById<ImageButton>(R.id.writeBtn)
