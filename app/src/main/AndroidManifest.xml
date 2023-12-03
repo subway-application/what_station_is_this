@@ -32,8 +32,8 @@
             android:name=".setting.notice.WriteActivity"
             android:exported="false" />
         <activity
-            android:name=".routeguide.RouteGuideActivity"
-            android:exported="false" />
+            android:name=".PathsDirections.RouteGuideActivity"
+            android:exported="true" />
         <activity
             android:name=".MainActivity"
             android:exported="true">

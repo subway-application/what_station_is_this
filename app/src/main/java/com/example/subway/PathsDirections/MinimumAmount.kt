@@ -104,7 +104,7 @@ fun dijkstraCost(nodes: Map<Int, Node>, startStation: Node, endStation: Node) {
 
 fun main() {
     val nodes = mutableMapOf<Int, Node>()
-    val lines = File("app/src/main/java/com/example/subway/PathsDirections/Data").readLines()
+    val lines = File("app/src/main/java/com/example/subway/PathsDirections/data").readLines()
 
     for (line in lines) {
         val parts = line.split(',')
@@ -125,7 +125,7 @@ fun main() {
     }
 
     // 추가 노선 배당
-    val lineInfo = File("app/src/main/java/com/example/subway/PathsDirections/DataTransfer").readLines()
+    val lineInfo = File("app/src/main/java/com/example/subway/PathsDirections/datatransfer").readLines()
 
     for (info in lineInfo) {
         val parts = info.split(',')

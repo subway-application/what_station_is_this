@@ -11,6 +11,7 @@ import androidx.annotation.RequiresApi
 import androidx.core.app.NotificationCompat
 import com.example.subway.R
 
+
 //상단바 알림에 필요한 클래스
 class NotificationHelper(base: Context?) : ContextWrapper(base) {
 
@@ -21,7 +22,6 @@ class NotificationHelper(base: Context?) : ContextWrapper(base) {
     init {
         //안드로이드 버전이 오레오보다 크면
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){
-
             //채널 생성
             createChannel()
         }
@@ -32,16 +32,34 @@ class NotificationHelper(base: Context?) : ContextWrapper(base) {
     fun createChannel(){
 
         //객체 생성
-        val channel: NotificationChannel = NotificationChannel(channelID, channelNm, NotificationManager.IMPORTANCE_DEFAULT)
+//        val channel: NotificationChannel = NotificationChannel(channelID, channelNm, NotificationManager.IMPORTANCE_DEFAULT)
+//
+//        //설정
+//        channel.enableLights(true) //빛
+//        channel.enableVibration(true) //진동
+//        channel.lightColor = Color.RED
+//        channel.lockscreenVisibility = Notification.VISIBILITY_PRIVATE
+//
+//        //생성
+//        getManager().createNotificationChannel(channel)
 
-        //설정
-        channel.enableLights(true) //빛
-        channel.enableVibration(true) //진동
+        // 이미 생성된 채널이 없는 경우에만 채널 생성
+        val channel = NotificationChannel(
+            channelID,
+            channelNm,
+            NotificationManager.IMPORTANCE_NONE
+        )
+
+        val notificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+        notificationManager.createNotificationChannel(channel)
+        // 채널 설정
+        channel.enableLights(true) // 빛
+        channel.enableVibration(true) // 진동
         channel.lightColor = Color.RED
         channel.lockscreenVisibility = Notification.VISIBILITY_PRIVATE
 
-        //생성
-        getManager().createNotificationChannel(channel)
+        // 채널 생성
+
     }
 
     //NotificationManager 생성
@@ -62,5 +80,6 @@ class NotificationHelper(base: Context?) : ContextWrapper(base) {
             .setContentTitle("현재 역") //제목
             .setContentText("${pre_station}     <     ${now_station}     >     ${next_station}")//내용
             .setSmallIcon(R.drawable.alarm_icon) //아이콘
+            .setOngoing(true)
     }
 }

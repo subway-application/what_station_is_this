@@ -1,13 +1,10 @@
 package com.example.subway
 
 import android.annotation.SuppressLint
-import android.content.Context
 import android.content.Intent
-import android.graphics.Matrix
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
-import android.widget.FrameLayout
 import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
@@ -15,17 +12,14 @@ import android.widget.Toast
 import androidx.core.view.isVisible
 import com.example.subway.bookmark.BookmarkActivity
 import com.example.subway.databinding.ActivityMainBinding
-import com.example.subway.routeguide.RouteGuideActivity
-//import com.example.subway.routeguide.RouteGuideActivity
+import com.example.subway.PathsDirections.RouteGuideActivity
 import com.example.subway.setting.notice.NoticeActivity
 import com.example.subway.search.SearchActivity
 import com.example.subway.setting.ComplaintActivity
 import com.example.subway.setting.SettingActivity
 import com.github.chrisbanes.photoview.PhotoView
 import com.github.chrisbanes.photoview.PhotoViewAttacher
-import org.w3c.dom.Node
 import java.io.BufferedReader
-import java.io.File
 import java.io.InputStreamReader
 
 class MainActivity : AppCompatActivity() {
