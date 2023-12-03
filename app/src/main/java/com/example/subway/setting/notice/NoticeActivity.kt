@@ -8,11 +8,9 @@ import android.util.Log
 import android.view.View
 import android.widget.ImageButton
 import android.widget.RelativeLayout
-import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.DividerItemDecoration
 import com.example.subway.R
-import com.example.subway.databinding.ActivityNoticeBinding
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.subway.MainActivity
@@ -28,7 +26,6 @@ class NoticeActivity : AppCompatActivity() {
         setContentView(R.layout.activity_notice)
 
 
-
         // RecyclerView 초기화 및 NoticeActivity
         val recyclerView: RecyclerView = findViewById(R.id.recyclerView)
         val layoutManager = LinearLayoutManager(this)
@@ -36,39 +33,30 @@ class NoticeActivity : AppCompatActivity() {
         recyclerView.adapter = adapter
         recyclerView.layoutManager = layoutManager
 
+        // NoticeActivity
+        val preferences = getSharedPreferences("my_preferences", Context.MODE_PRIVATE)
+        val writeBtnVisibility = preferences.getBoolean("writeBtnVisibility", false)
 
-        linkedList.push(Base("Title 1", "Content 1", Timestamp.valueOf("2023-12-01 12:00:00")))
-        linkedList.push(Base("Title 2", "Content 2", Timestamp.valueOf("2023-12-02 15:30:00")))
-        linkedList.push(Base("Title 3", "Content 3", Timestamp.valueOf("2023-12-03 10:45:00")))
+        if (writeBtnVisibility) {
+            findViewById<ImageButton>(R.id.writeBtn).visibility = View.VISIBLE
+        }
 
+        findViewById<RelativeLayout>(R.id.writelayoutBtn).visibility = View.GONE
 
-        // RecyclerView 어댑터 설정
-//        val adapter = BaseAdapter(linkedList)
-//        recyclerView.adapter = adapter
+        //한슬이 이걸 왜 넣었을까?
+        if (writeBtnVisibility) {
+            findViewById<RelativeLayout>(R.id.writelayoutBtn).visibility = View.VISIBLE
+        }
 
-
-//        if (writeBtnVisibility) {
-//            findViewById<RelativeLayout>(R.id.writeBtn).visibility = View.VISIBLE
-//            findViewById<RelativeLayout>(R.id.editPostBtn).visibility = View.VISIBLE
-//            findViewById<RelativeLayout>(R.id.editPost1Btn).visibility = View.VISIBLE
-//            }
-
-
-        //findViewById<RelativeLayout>(R.id.writelayoutBtn).visibility = View.GONE
-
-        // 한슬이 이걸 왜 넣었을까?
-//        if (writeBtnVisibility) {
-//            findViewById<RelativeLayout>(R.id.writelayoutBtn).visibility = View.VISIBLE
-
-            // RelativeLayout에 대한 클릭 리스너 설정
-            val writeBtn = findViewById<ImageButton>(R.id.writeBtn)
-            writeBtn.setOnClickListener {
-                // RelativeLayout이 클릭되었을 때 수행할 동작
-                // 예: 다른 화면으로 이동하는 코드
-                Log.d("ActivityName", "onCreate called")
-                val intent = Intent(this, WriteActivity::class.java)
-                startActivity(intent)
-            }
+        // RelativeLayout에 대한 클릭 리스너 설정
+        val writeBtn = findViewById<ImageButton>(R.id.writeBtn)
+        writeBtn.setOnClickListener {
+            // RelativeLayout이 클릭되었을 때 수행할 동작
+            // 예: 다른 화면으로 이동하는 코드
+            Log.d("ActivityName", "onCreate called")
+            val intent = Intent(this, WriteActivity::class.java)
+            startActivity(intent)
+        }
 
         // Divider 추가
         val itemDecoration = DividerItemDecoration(this, layoutManager.orientation)
@@ -76,7 +64,7 @@ class NoticeActivity : AppCompatActivity() {
             itemDecoration.setDrawable(it)
         }
         recyclerView.addItemDecoration(itemDecoration)
-        }
+    }
 
     // 뒤로가기 버튼을 눌렀을 때 호출되는 메서드
     override fun onBackPressed() {
@@ -94,17 +82,22 @@ class NoticeActivity : AppCompatActivity() {
             val receivedTitle = data?.getStringExtra("EXTRA_TITLE")
             val receivedContent = data?.getStringExtra("EXTRA_CONTENT")
             // 여기에서 dataStructure에 데이터를 추가하고 어댑터를 갱신
-            // ...
+            // …
 
             // 데이터를 linkedList에 추가
             if (receivedTitle != null && receivedContent != null) {
-                linkedList.push(Base(receivedTitle, receivedContent, Timestamp(System.currentTimeMillis())))
+                linkedList.push(
+                    Base(
+                        receivedTitle,
+                        receivedContent,
+                        Timestamp(System.currentTimeMillis())
+                    )
+                )
                 // RecyclerView 어댑터 갱신
                 adapter.notifyDataSetChanged()
             }
-//        } else {
-//            findViewById<RelativeLayout>(R.id.writelayoutBtn).visibility = View.GONE
+        } else {
+            findViewById<RelativeLayout>(R.id.writelayoutBtn).visibility = View.GONE
         }
-
     }
 }

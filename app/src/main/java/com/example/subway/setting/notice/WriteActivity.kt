@@ -1,16 +1,12 @@
 package com.example.subway.setting.notice
 
-import android.annotation.SuppressLint
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.EditText
 import android.widget.ImageButton
 import com.example.subway.R
-import com.example.subway.databinding.ActivityWriteBinding
 import java.sql.Timestamp
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 val dataStructure = LinkedList<Base>()
 
 

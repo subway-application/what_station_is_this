@@ -19,10 +19,16 @@ class RouteGuideActivity: AppCompatActivity() {
             //알림 호출
             showNotification()
         }
+
+        //북마크 버튼 리스너
+        findViewById<ImageButton>(R.id.bookmarkstarBtn).setOnClickListener {
+            //여기에 코드 작성
+        }
     }
     //알림 호출
     private fun showNotification() {
         val nb: NotificationCompat.Builder = notificationHelper.getChannelNotification()
+        nb.setOngoing(true)
         notificationHelper.getManager().notify(1, nb.build())
     }
 }

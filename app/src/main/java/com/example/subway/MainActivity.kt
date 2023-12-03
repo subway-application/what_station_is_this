@@ -35,6 +35,10 @@ class MainActivity : AppCompatActivity() {
     private lateinit var photoView: PhotoView
     private lateinit var attacher: PhotoViewAttacher
 
+    fun showToast(message: String, duration: Int = Toast.LENGTH_SHORT) {
+        Toast.makeText(this, message, duration).show()
+    }
+
     @SuppressLint("ClickableViewAccessibility")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -191,7 +195,6 @@ class MainActivity : AppCompatActivity() {
             stationArray[1][count] = parts[3].toFloat()
             stationArray[2][count] = parts[6].toFloat()
             count++
-
         }
 
         var stationName = 0
@@ -207,13 +210,13 @@ class MainActivity : AppCompatActivity() {
                 break
             }
         }
-
         return Result(stationName != 0, stationName.toString(), stationX, stationY)
     }
 
     var sttName: String? = ""
     var startSttName: String? = ""
     var endSttName: String? = ""
+    // 출발 버튼 눌렀을 때 처리
     private fun handleStartClickEvent() {
         val startBlankText: TextView = findViewById(R.id.startStationName)
         startSttName = sttName
@@ -228,16 +231,19 @@ class MainActivity : AppCompatActivity() {
                     startSttName = ""
                 } else {
                     binding.startBlankBackImg.visibility = View.GONE
-                    binding.startSttInfo.visibility = View.VISIBLE
+                    binding.startSttInfo.visibility = View.GONE
+                    binding.endSttInfo.visibility = View.GONE
                     startSttName = ""
                     endSttName = ""
-                    // 화면 바꾸기
+                    val intent = Intent(this, RouteGuideActivity::class.java)
+                    startActivity(intent)
                 }
             }
         }
         println("start:${startSttName},end:${endSttName}")
     }
 
+    // 도착 버튼 눌렀을 떄 처리
     private fun handleEndClickEvent() {
         val endBlankText: TextView = findViewById(R.id.endStationName)
         endSttName = sttName
@@ -251,20 +257,18 @@ class MainActivity : AppCompatActivity() {
                     showToast("출발역과 도착역이 같습니다.")
                     endSttName = ""
                 } else {
+                    binding.startSttInfo.visibility = View.GONE
+                    binding.endSttInfo.visibility = View.GONE
                     binding.endBlankBackImg.visibility = View.GONE
-                    binding.endSttInfo.visibility = View.VISIBLE
                     startSttName = ""
                     endSttName = ""
-                    // 화면 바꾸기
+                    val intent = Intent(this, RouteGuideActivity::class.java)
+                    startActivity(intent)
                 }
             }
         }
         println("start:${startSttName},end:${endSttName}")
     }
-
-
-
-
 
     //onCreate 내부에 위치하거나 해당 코드 실행 지점에서 호출
     private fun executeCodeFromSearchActivity() {
@@ -281,5 +285,4 @@ class MainActivity : AppCompatActivity() {
         handleClickEvent(stationX, stationY)
 
     }
-
 }

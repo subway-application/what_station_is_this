@@ -57,6 +57,7 @@ class NotificationHelper(base: Context?) : ContextWrapper(base) {
         val now_station = "999"
         val next_station = "111"
 
+
         return NotificationCompat.Builder(applicationContext, channelID)
             .setContentTitle("현재 역") //제목
             .setContentText("${pre_station}     <     ${now_station}     >     ${next_station}")//내용

@@ -31,14 +31,6 @@
         android:layout_height="13dp"
         android:background="#FFFFFF" />
 
-    <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="3dp"
-        android:background="#000000" />
-
-    <androidx.appcompat.widget.SearchView
-        android:layout_width="match_parent"
-        android:layout_height="50dp"/>
 
     <ImageView
         android:layout_width="match_parent"
