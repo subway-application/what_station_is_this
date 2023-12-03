@@ -15,12 +15,12 @@
         android:gravity="center"
         android:background="#283563">
 
-<!--    뒤로가기 화살표 임시로 지워둠    -->
-<!--        <ImageView-->
-<!--            android:layout_width="wrap_content"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:src="@drawable/back_arrow"-->
-<!--            android:layout_marginLeft="5dp"/>-->
+        <!--    뒤로가기 화살표 임시로 지워둠    -->
+        <!--        <ImageView-->
+        <!--            android:layout_width="wrap_content"-->
+        <!--            android:layout_height="wrap_content"-->
+        <!--            android:src="@drawable/back_arrow"-->
+        <!--            android:layout_marginLeft="5dp"/>-->
 
         <!--메뉴들-->
         <ImageButton
@@ -94,75 +94,24 @@
         android:layout_height="3dp"
         android:background="#000000" />
 
-    <!--게시글-->
-    <LinearLayout
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerView"
         android:layout_width="match_parent"
-        android:layout_height="47dp"
-        android:orientation="horizontal">
+        android:layout_height="match_parent"
+        android:layout_marginTop="16dp"
+         />
 
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="콘서트 지연 공지"
-            android:fontFamily="@font/pretendard_bold"
-            android:textSize="23dp"
-            android:textColor="#000000"
-            android:paddingLeft="15dp"
-            android:layout_marginTop="10dp"/>
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="11/13"
-            android:fontFamily="@font/pretendard_bold"
-            android:textColor="#000000"
-            android:layout_marginRight="10dp"/>
-    </LinearLayout>
 
-    <LinearLayout
+    <TextView xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/stationDetailTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
-        <TextView
-            android:layout_width="300dp"
-            android:layout_height="wrap_content"
-            android:text="11월 13일 22:30시 부터 23:00시까지 콘서트 종료로 인하여 621역이 혼잡해질 예정이니 유의하시고 가까운 904역 이용을 추천드립니다."
-            android:layout_marginLeft="25dp"
-            android:fontFamily="@font/pretendard_light"
-            android:textColor="#464646"
-            android:layout_marginBottom="15dp"/>
-        <!--수정 버튼-->
-        <RelativeLayout
-            android:id="@+id/editPostBtn"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:visibility="gone"
-            >
-            <ImageButton
-                android:layout_width="55dp"
-                android:layout_height="33dp"
-                android:background="#EBEBEB"
-                android:src="@drawable/write_button_box"
-                android:layout_marginTop="25dp"
-                android:layout_marginLeft="5dp"/>
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="수정"
-                android:fontFamily="@font/pretendard_bold"
-                android:textColor="#000000"
-                android:textSize="20dp"
-                android:layout_marginLeft="15dp"
-                android:layout_marginTop="26dp"/>
-        </RelativeLayout>
+        android:layout_gravity="center"
+        android:textColor="@android:color/black"
+        android:textSize="20sp" />
 
-    </LinearLayout>
 
-    <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="2dp"
-        android:background="#000000" />
 
 
 

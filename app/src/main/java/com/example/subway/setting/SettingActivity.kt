@@ -17,9 +17,14 @@ import android.widget.Toast
 import com.example.subway.R
 
 class SettingActivity : AppCompatActivity() {
+
+//    //setting에서 하는 일을 지정하는 클래스
+//    private var isAdminAuthenticated = false
+
     private var writeBtnVisibility = false
     private lateinit var switch: Switch
     private lateinit var sharedPreferences: SharedPreferences
+
     @SuppressLint("MissingInflatedId")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
