@@ -75,7 +75,7 @@ fun findPath(prevNode: Map<Node, Node?>, startStation: Node, endStation: Node): 
     return path.reversed()
 }
 
-fun printPath(prevNode: Map<Node, Node?>, startStation: Node, endStation: Node) {
+fun printPath(prevNode: Map<Node, Node?>, startStation: Node, endStation: Node): PathInfo {
     val path = findPath(prevNode, startStation, endStation) // 최소 경로 역추적해서 저장
 
     // 환승 횟수와 환승역 찾기
@@ -140,8 +140,19 @@ fun printPath(prevNode: Map<Node, Node?>, startStation: Node, endStation: Node) 
         println("총 시간: ${seconds}초")
     }
 
-}
+    // Data claa PathInfo에 저장해서 반환
+    return PathInfo(
+        minTransfersPath = path, // 최소 환승 경로
+        startStation = startStation, // 출발역
+        numStationsMoved = numsmove, // 역 이동 개수
+        transferStations = transferStation, // 환승역
+        endStation = endStation, // 도착역
+        numTransfers = transfers, // 환승 횟수
+        totalCost = totalCost, // 총 금액
+        totalTime = totalTime // 총 시간
+    )
 
+}
 
 fun findPrevAndNext(path: List<Node>, startStation: Node, endStation: Node, currentStation: Node): Pair<Node?, Node?> {
     // -------------------------------- 현재 역을 매개 변수로 받으면 이전 역과 다음 역을 리턴해 주는 함수 --------------------------------
