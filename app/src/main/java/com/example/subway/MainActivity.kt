@@ -7,12 +7,15 @@ import android.graphics.Matrix
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
+import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.core.view.isVisible
 import com.example.subway.bookmark.BookmarkActivity
 import com.example.subway.databinding.ActivityMainBinding
+import com.example.subway.routeguide.RouteGuideActivity
+//import com.example.subway.routeguide.RouteGuideActivity
 import com.example.subway.setting.notice.NoticeActivity
 import com.example.subway.search.SearchActivity
 import com.example.subway.setting.ComplaintActivity
@@ -24,12 +27,17 @@ import java.io.BufferedReader
 import java.io.File
 import java.io.InputStreamReader
 
-class MainActivity : AppCompatActivity() {
+class MainActivity: AppCompatActivity() {
 
     //역 터치 관련
     private lateinit var binding: ActivityMainBinding
     private lateinit var photoView: PhotoView
     private lateinit var attacher: PhotoViewAttacher
+
+
+    fun showToast(message: String, duration: Int = Toast.LENGTH_SHORT) {
+        Toast.makeText(this, message, duration).show()
+    }
 
     @SuppressLint("ClickableViewAccessibility")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -37,6 +45,9 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        // 이미지 좌표 이동 관룐
+        photoView = findViewById(R.id.stationMap)
+        attacher = PhotoViewAttacher(photoView)
 
 
         // 역 터치 관련
@@ -107,6 +118,34 @@ class MainActivity : AppCompatActivity() {
             startActivity(intent)
         }
 
+        //출발, 도착 버튼 설정되었는지
+        var startBtnClicked: Boolean = false
+        var endBtnClicked: Boolean = false
+
+        // startBtn 클릭 시
+        val startBtn: ImageButton = findViewById(R.id.startBtn)
+        startBtn.setOnClickListener {
+            startBtnClicked = !startBtnClicked
+            if (startBtnClicked && endBtnClicked) {
+                val intent = Intent(this, RouteGuideActivity::class.java)
+                startActivity(intent)
+                println("여기냐?start")
+            }
+        }
+
+        // endBtn 클릭 시
+        val endBtn: ImageButton = findViewById(R.id.endBtn)
+        endBtn.setOnClickListener {
+            endBtnClicked = !endBtnClicked
+            if (startBtnClicked && endBtnClicked) {
+                val intent = Intent(this, RouteGuideActivity::class.java)
+                startActivity(intent)
+
+            }
+        }
+        //searchView 좌표이동
+        executeCodeFromSearchActivity()
+
     }
 
     fun toggleAdditionalButtonsVisibility() {
@@ -120,9 +159,9 @@ class MainActivity : AppCompatActivity() {
         toggleAdditionalButtonsVisibility()
     }
 
-    fun showToast(message: String) {
-        Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
-    }
+//    fun showToast(message: String) {
+//        Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
+//    }
 
     //역 터치 관련
     private fun handleClickEvent(x: Float, y: Float) {
@@ -142,7 +181,6 @@ class MainActivity : AppCompatActivity() {
             //하단 역 정보 표시
             if (binding.stationInfo.visibility == View.GONE) {
                 binding.stationInfo.isVisible = !binding.stationInfo.isVisible
-                binding.info.isVisible = !binding.info.isVisible
             } else {
 
             }
@@ -150,7 +188,6 @@ class MainActivity : AppCompatActivity() {
             textView.text = stationName
         } else {
             binding.stationInfo.visibility = View.GONE
-            binding.info.visibility = View.GONE
         }
     }
 
@@ -183,7 +220,6 @@ class MainActivity : AppCompatActivity() {
 
         }
 
-
         var stationName = 0
         var stationX = 0f
         var stationY = 0f
@@ -200,6 +236,26 @@ class MainActivity : AppCompatActivity() {
         println("${stationName}")
 
         return Result(stationName != 0, stationName.toString(), stationX, stationY)
+    }
+
+
+
+
+
+    //onCreate 내부에 위치하거나 해당 코드 실행 지점에서 호출
+    private fun executeCodeFromSearchActivity() {
+        // 역 정보를 Intent에서 받아옴
+        val stationName = intent.getStringExtra("stationName")
+        val stationX = intent.getFloatExtra("stationX", 0.0f)
+        val stationY = intent.getFloatExtra("stationY", 0.0f)
+
+        // 받아온 좌표를 사용하여 원하는 작업 수행
+        // 여기서는 토스트 메시지를 표시하고 handleClickEvent 메소드 호출
+        showToast("역 클릭 정보 - Name: $stationName, X: $stationX, Y: $stationY")
+
+        // 변환된 좌표를 사용하여 handleClickEvent 메소드 호출
+        handleClickEvent(stationX, stationY)
+
     }
 
 }

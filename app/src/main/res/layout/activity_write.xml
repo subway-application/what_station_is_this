@@ -76,7 +76,7 @@
         android:background="@drawable/writebox"/>
 
     <EditText
-        android:id="@+id/editTextText"
+        android:id="@+id/editTextContent"
         android:layout_width="390dp"
         android:layout_height="450dp"
         android:layout_gravity="center_horizontal"
@@ -95,6 +95,7 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent">
             <ImageButton
+                android:id="@+id/apply_write"
                 android:layout_width="80dp"
                 android:layout_height="33dp"
                 android:layout_marginLeft="240dp"
