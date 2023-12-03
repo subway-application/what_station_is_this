@@ -34,13 +34,13 @@
             </activity>
 
 
-        <activity android:name="com.example.subway.setting.notice.NoticeActivity">
-            <!-- Intent filters, metadata, 등 -->
-        </activity>
+<!--        <activity android:name="com.example.subway.setting.notice.NoticeActivity">-->
+<!--            &lt;!&ndash; Intent filters, metadata, 등 &ndash;&gt;-->
+<!--        </activity>-->
 
-        <activity android:name="com.example.subway.setting.notice.WriteActivity">
-            <!-- Intent filters, metadata, 등 -->
-        </activity>
+<!--        <activity android:name="com.example.subway.setting.notice.WriteActivity">-->
+<!--            &lt;!&ndash; Intent filters, metadata, 등 &ndash;&gt;-->
+<!--        </activity>-->
 
             <!-- 다른 액티비티들 -->
 
@@ -49,9 +49,6 @@
             android:exported="false" />
         <activity
             android:name=".bookmark.BookmarkActivity"
-            android:exported="false" />
-        <activity
-            android:name=".setting.SettingActivity"
             android:exported="false" />
         <activity
             android:name=".setting.ComplaintActivity"
