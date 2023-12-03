@@ -56,24 +56,29 @@ fun minTransfers(nodes: Map<Int, Node>, startStation: Node, endStation: Node): I
     return if (minTransfers == Int.MAX_VALUE) -1 else minTransfers
 }
 
-
-fun printPath(prevNode: Map<Node, Node?>, startStation: Node, endStation: Node) {
-    val path = LinkedList<Node>()
+fun findPath(prevNode: Map<Node, Node?>, startStation: Node, endStation: Node): List<Node> {
+    val path = mutableListOf<Node>()
     var currentNode = endStation
 
     // 도착역에서 출발역 역추적
     while (currentNode != startStation) {
-        path.addFirst(currentNode)
+        path.add(currentNode)
         val prev = prevNode[currentNode]
         if (prev == null) {
             println("Error: ${currentNode.id}의 이전 노드를 찾을 수 없습니다.")
-            return
+            return emptyList()
         }
         currentNode = prev
     }
 
+    path.add(startStation)
+    return path.reversed()
+}
+
+fun printPath(prevNode: Map<Node, Node?>, startStation: Node, endStation: Node) {
+    val path = findPath(prevNode, startStation, endStation) // 최소 경로 역추적해서 저장
+
     // 환승 횟수와 환승역 찾기
-    path.addFirst(startStation)
     var transfers = 0 // 환승 횟수
     var transferStation = mutableListOf<String>() // 환승역
 
@@ -137,6 +142,28 @@ fun printPath(prevNode: Map<Node, Node?>, startStation: Node, endStation: Node) 
 
 }
 
+
+fun findPrevAndNext(path: List<Node>, startStation: Node, endStation: Node, currentStation: Node): Pair<Node?, Node?> {
+    // -------------------------------- 현재 역을 매개 변수로 받으면 이전 역과 다음 역을 리턴해 주는 함수 --------------------------------
+
+    val prev = if (path.contains(currentStation)) {
+        val currentIndex = path.indexOf(currentStation)
+        if (currentIndex > 0) path[currentIndex - 1] else null
+    } else {
+        null
+    }
+
+    val next = if (path.contains(currentStation)) {
+        val currentIndex = path.indexOf(currentStation)
+        if (currentIndex < path.size - 1) path[currentIndex + 1] else null
+    } else {
+        null
+    }
+
+    return Pair(prev, next)
+}
+
+
 fun main() {
     val nodes = mutableMapOf<Int, Node>()
     val lines = File("app/src/main/java/com/example/subway/PathsDirections/Data").readLines()
@@ -174,8 +201,8 @@ fun main() {
     }
 
     // 여기에 테스트 코드 작성
-    val startNode = nodes[101] // 시작 노드 ID
-    val endNode = nodes[102]  // 종착 노드 ID
+    val startNode = nodes[406] // 시작 노드 ID
+    val endNode = nodes[608]  // 종착 노드 ID
     if (startNode != null && endNode != null) {
         minTransfers (nodes, startNode, endNode)
     }
