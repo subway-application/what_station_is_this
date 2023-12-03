@@ -105,5 +105,6 @@ class NoticeActivity : AppCompatActivity() {
 //        } else {
 //            findViewById<RelativeLayout>(R.id.writelayoutBtn).visibility = View.GONE
         }
+
     }
 }

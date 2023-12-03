@@ -7,6 +7,7 @@ import android.graphics.Matrix
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
+import android.widget.FrameLayout
 import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
@@ -27,17 +28,12 @@ import java.io.BufferedReader
 import java.io.File
 import java.io.InputStreamReader
 
-class MainActivity: AppCompatActivity() {
+class MainActivity : AppCompatActivity() {
 
     //역 터치 관련
     private lateinit var binding: ActivityMainBinding
     private lateinit var photoView: PhotoView
     private lateinit var attacher: PhotoViewAttacher
-
-
-    fun showToast(message: String, duration: Int = Toast.LENGTH_SHORT) {
-        Toast.makeText(this, message, duration).show()
-    }
 
     @SuppressLint("ClickableViewAccessibility")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -73,13 +69,9 @@ class MainActivity: AppCompatActivity() {
             val imageX = (x * fullImageWidth / imageViewWidth).toFloat() * 1000
             val imageY = (y * fullImageHeight / imageViewHeight).toFloat() * 2000
 
-            showToast("imageX:$imageX, imageY:$imageY")
-
             // 변환된 좌표를 사용하여 원하는 작업 수행
             handleClickEvent(imageX, imageY)
         }
-
-
 
         //검색 버튼
         binding.searchBtn.setOnClickListener {
@@ -118,33 +110,17 @@ class MainActivity: AppCompatActivity() {
             startActivity(intent)
         }
 
-        //출발, 도착 버튼 설정되었는지
-        var startBtnClicked: Boolean = false
-        var endBtnClicked: Boolean = false
-
         // startBtn 클릭 시
         val startBtn: ImageButton = findViewById(R.id.startBtn)
         startBtn.setOnClickListener {
-            startBtnClicked = !startBtnClicked
-            if (startBtnClicked && endBtnClicked) {
-                val intent = Intent(this, RouteGuideActivity::class.java)
-                startActivity(intent)
-                println("여기냐?start")
-            }
+            handleStartClickEvent()
         }
 
         // endBtn 클릭 시
         val endBtn: ImageButton = findViewById(R.id.endBtn)
         endBtn.setOnClickListener {
-            endBtnClicked = !endBtnClicked
-            if (startBtnClicked && endBtnClicked) {
-                val intent = Intent(this, RouteGuideActivity::class.java)
-                startActivity(intent)
-
-            }
+            handleEndClickEvent()
         }
-        //searchView 좌표이동
-        executeCodeFromSearchActivity()
 
     }
 
@@ -159,9 +135,6 @@ class MainActivity: AppCompatActivity() {
         toggleAdditionalButtonsVisibility()
     }
 
-//    fun showToast(message: String) {
-//        Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
-//    }
 
     //역 터치 관련
     private fun handleClickEvent(x: Float, y: Float) {
@@ -186,6 +159,7 @@ class MainActivity: AppCompatActivity() {
             }
             val textView = findViewById<TextView>(R.id.stationInfoText)
             textView.text = stationName
+            sttName = stationName
         } else {
             binding.stationInfo.visibility = View.GONE
         }
@@ -225,7 +199,8 @@ class MainActivity: AppCompatActivity() {
         var stationY = 0f
         for (col in 0..(cols - 1)) {
             if (x >= stationArray[1][col] - toleranceX && x <= stationArray[1][col] + toleranceX
-                && y >= stationArray[2][col] - toleranceY && y <= stationArray[2][col] + toleranceY) {
+                && y >= stationArray[2][col] - toleranceY && y <= stationArray[2][col] + toleranceY
+            ) {
                 stationName = stationArray[0][col].toInt()
                 stationX = stationArray[1][col].toFloat()
                 stationY = stationArray[2][col].toFloat()
@@ -233,9 +208,58 @@ class MainActivity: AppCompatActivity() {
             }
         }
 
-        println("${stationName}")
-
         return Result(stationName != 0, stationName.toString(), stationX, stationY)
+    }
+
+    var sttName: String? = ""
+    var startSttName: String? = ""
+    var endSttName: String? = ""
+    private fun handleStartClickEvent() {
+        val startBlankText: TextView = findViewById(R.id.startStationName)
+        startSttName = sttName
+        startBlankText.text = startSttName
+        if (binding.startSttInfo.visibility == View.GONE && binding.endBlankBackImg.visibility == View.GONE) {
+            if (binding.endSttInfo.visibility == View.GONE && binding.startBlankBackImg.visibility == View.GONE) {
+                binding.startSttInfo.visibility = View.VISIBLE
+                binding.endBlankBackImg.visibility = View.VISIBLE
+            } else {
+                if (startSttName == endSttName) {
+                    showToast("출발역과 도착역이 같습니다.")
+                    startSttName = ""
+                } else {
+                    binding.startBlankBackImg.visibility = View.GONE
+                    binding.startSttInfo.visibility = View.VISIBLE
+                    startSttName = ""
+                    endSttName = ""
+                    // 화면 바꾸기
+                }
+            }
+        }
+        println("start:${startSttName},end:${endSttName}")
+    }
+
+    private fun handleEndClickEvent() {
+        val endBlankText: TextView = findViewById(R.id.endStationName)
+        endSttName = sttName
+        endBlankText.text = endSttName
+        if (binding.endSttInfo.visibility == View.GONE && binding.startBlankBackImg.visibility == View.GONE) {
+            if (binding.startSttInfo.visibility == View.GONE && binding.endBlankBackImg.visibility == View.GONE) {
+                binding.endSttInfo.visibility = View.VISIBLE
+                binding.startBlankBackImg.visibility = View.VISIBLE
+            } else {
+                if (startSttName == endSttName) {
+                    showToast("출발역과 도착역이 같습니다.")
+                    endSttName = ""
+                } else {
+                    binding.endBlankBackImg.visibility = View.GONE
+                    binding.endSttInfo.visibility = View.VISIBLE
+                    startSttName = ""
+                    endSttName = ""
+                    // 화면 바꾸기
+                }
+            }
+        }
+        println("start:${startSttName},end:${endSttName}")
     }
 
 

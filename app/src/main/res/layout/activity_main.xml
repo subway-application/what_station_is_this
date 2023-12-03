@@ -4,8 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    tools:context=".MainActivity">
 
     <!--상단바-->
     <LinearLayout
@@ -136,7 +136,8 @@
             android:layout_width="match_parent"
             android:layout_height="255dp"
             android:layout_gravity="bottom"
-            android:visibility="gone">
+            android:visibility="gone"
+            >
             <!--하단 역 안내-->
             <ImageView
                 android:layout_width="match_parent"
@@ -161,7 +162,8 @@
                 android:layout_height="wrap_content"
                 android:gravity="center_horizontal"
                 android:orientation="horizontal"
-                android:layout_marginTop="0dp">
+                android:layout_marginTop="0dp"
+                >
 
                 <ImageButton
                     android:id="@+id/startBtn"
@@ -199,18 +201,65 @@
             </LinearLayout>
         </FrameLayout>
 
-        <ImageView
-            android:id="@+id/startPingImg"
+        <!--        도착역 안내-->
+        <FrameLayout
+            android:id="@+id/endSttInfo"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/startping"
-            android:visibility="gone"/>
+            android:visibility="gone">
 
+            <!--            도착역 안내 배경-->
+            <ImageView
+                android:id="@+id/endBackImg"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="8dp"
+                android:layout_marginTop="100dp"
+                android:src="@drawable/endbackground" />
+
+            <!--            도착역 안내문-->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="33dp"
+                android:layout_marginTop="107dp"
+                android:fontFamily="@font/pretendard_bold"
+                android:text="도착 역"
+                android:textColor="#000000"
+                android:textSize="18sp" />
+
+            <!--            도착역 이름-->
+            <TextView
+                android:id="@+id/endStationName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="103dp"
+                android:layout_marginTop="108dp"
+                android:fontFamily="@font/pretendard_bold"
+                android:text="000"
+                android:textColor="#000000"
+                android:textSize="16sp" />
+        </FrameLayout>
+
+        <!--            비어있는 출발역 배경-->
         <ImageView
-            android:id="@+id/endPingImg"
+            android:id="@+id/startBlankBackImg"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/endping"
+            android:layout_marginLeft="8dp"
+            android:layout_marginTop="55dp"
+            android:src="@drawable/blankbackground"
+            android:visibility="gone" />
+            />
+
+        <!--            비어있는 도착역 배경-->
+        <ImageView
+            android:id="@+id/endBlankBackImg"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="8dp"
+            android:layout_marginTop="100dp"
+            android:src="@drawable/blankbackground"
             android:visibility="gone" />
 
 

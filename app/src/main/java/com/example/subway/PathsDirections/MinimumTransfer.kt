@@ -5,13 +5,12 @@ import java.util.LinkedList
 import java.util.PriorityQueue
 import java.util.Queue
 
-
 fun minTransfers(nodes: Map<Int, Node>, startStation: Node, endStation: Node): Int {
-
     val visited = mutableMapOf<Node, Int>().withDefault { Int.MAX_VALUE }
     val prevNode = mutableMapOf<Node, Node?>()
     val queue: Queue<Pair<Node, Int>> = LinkedList()
 
+    // 환승 횟수와, 큐 초기화
     visited[startStation] = 0
     queue.add(Pair(startStation, 0))
 
@@ -166,7 +165,8 @@ fun findPrevAndNext(path: List<Node>, startStation: Node, endStation: Node, curr
 
 fun main() {
     val nodes = mutableMapOf<Int, Node>()
-    val lines = File("app/src/main/java/com/example/subway/PathsDirections/Data").readLines()
+    val lines = File("C:\\Users\\YunDoHyeong\\what_station_is_this\\app\\src\\main\\java\\com\\example\\subway\\PathsDirections\\Data").readLines()
+    // 내 PC 경로에 맞춤.
 
     for (line in lines) {
         val parts = line.split(',')
@@ -178,9 +178,6 @@ fun main() {
 
         val startNode = nodes.getOrPut(start) { Node(start) }
         val endNode = nodes.getOrPut(end) { Node(end) }
-
-        startNode.lines.add(start / 100) // 각 앞자리에 해당하는 숫자로 노선 배당
-        endNode.lines.add(end / 100)
 
         startNode.edges.add(Edge(endNode, time, distance, cost))
         // endNode.edges.add(Edge(startNode, time, distance, cost))

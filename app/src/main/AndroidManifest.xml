@@ -2,21 +2,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
-<!--    &lt;!&ndash;앱 알림 관련 허가권&ndash;&gt;-->
-<!--    &lt;!&ndash;네트워크 연결을 사용하여 알림을 받아올 때&ndash;&gt;-->
-<!--    <uses-permission android:name="android.permission.INTERNET" />-->
-<!--    &lt;!&ndash;알림 도착 시 진동을 울릴 때&ndash;&gt;-->
-<!--    <uses-permission android:name="android.permission.VIBRATE" />-->
-<!--    &lt;!&ndash;화면이 꺼져 있을 때도 알림을 표시할 때&ndash;&gt;-->
-<!--    <uses-permission android:name="android.permission.WAKE_LOCK" />-->
-<!--    &lt;!&ndash;재부팅 후에도 앱이 알림을 받을 수 있게 할때&ndash;&gt;-->
-<!--    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />-->
-<!--    <uses-permission-->
-<!--        android:name="android.permission.POST_NOTIFICATIONS"-->
-<!--        android:minSdkVersion="33" />-->
-<!--    -->
-    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
-
     <application
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
@@ -27,28 +12,14 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Subway"
         tools:targetApi="31">
-            <!-- 다른 요소들 -->
-
-            <activity android:name=".setting.SettingActivity">
-                <!-- Intent filters, metadata, 등 -->
-            </activity>
-
-
-<!--        <activity android:name="com.example.subway.setting.notice.NoticeActivity">-->
-<!--            &lt;!&ndash; Intent filters, metadata, 등 &ndash;&gt;-->
-<!--        </activity>-->
-
-<!--        <activity android:name="com.example.subway.setting.notice.WriteActivity">-->
-<!--            &lt;!&ndash; Intent filters, metadata, 등 &ndash;&gt;-->
-<!--        </activity>-->
-
-            <!-- 다른 액티비티들 -->
-
         <activity
             android:name=".search.SearchActivity"
             android:exported="false" />
         <activity
             android:name=".bookmark.BookmarkActivity"
+            android:exported="false" />
+        <activity
+            android:name=".setting.SettingActivity"
             android:exported="false" />
         <activity
             android:name=".setting.ComplaintActivity"
@@ -65,7 +36,6 @@
         <activity
             android:name=".MainActivity"
             android:exported="true">
-
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

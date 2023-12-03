@@ -14,7 +14,6 @@ fun dijkstraCost(nodes: Map<Int, Node>, startStation: Node, endStation: Node) {
     val shortestPath = mutableMapOf<Node, Node?>()
     shortestPath[startStation] = null
 
-
     // 노드를 거리에 따라 정렬하는 우선순위 큐 생성
     val queue = PriorityQueue<Node>(compareBy { distances.getValue(it) })
     queue.add(startStation)
@@ -28,17 +27,16 @@ fun dijkstraCost(nodes: Map<Int, Node>, startStation: Node, endStation: Node) {
                 distances[edge.destination] = newDistance // 거리 갱신
                 shortestPath[edge.destination] = current // 최단 경로 갱신
                 queue.add(edge.destination) // 노드를 큐에 추가
-
             }
         }
     }
 
     // 출발역부터 도착역까지의 경로 출력
-    var currentStation: Node? = endStation
+    var currentStation = startStation
     val path = mutableListOf<Node>()
-    while (currentStation != null) {
+    while (currentStation != null) { // current를 path에 연결하면 끝까지 연결된 채로 저장됨.
         path.add(0, currentStation)
-        currentStation = shortestPath[currentStation]
+        currentStation = shortestPath[currentStation]!!
     }
 
     // 환승 횟수와 환승역 찾기
@@ -105,7 +103,6 @@ fun dijkstraCost(nodes: Map<Int, Node>, startStation: Node, endStation: Node) {
 }
 
 fun main() {
-
     val nodes = mutableMapOf<Int, Node>()
     val lines = File("app/src/main/java/com/example/subway/PathsDirections/Data").readLines()
 
