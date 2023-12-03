@@ -16,6 +16,21 @@
             android:name=".search.SearchActivity"
             android:exported="false" />
         <activity
+            android:name=".bookmark.BookmarkActivity"
+            android:exported="false" />
+        <activity
+            android:name=".setting.SettingActivity"
+            android:exported="false" />
+        <activity
+            android:name=".setting.notice.NoticeActivity"
+            android:exported="false" />
+        <activity
+            android:name=".setting.ComplaintActivity"
+            android:exported="false" />
+        <activity
+            android:name=".setting.notice.WriteActivity"
+            android:exported="false" />
+        <activity
             android:name=".MainActivity"
             android:exported="true">
             <intent-filter>

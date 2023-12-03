@@ -3,10 +3,19 @@ package com.example.subway
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
+import android.graphics.Bitmap
+import android.graphics.Canvas
+import android.graphics.Color
 import android.graphics.Matrix
+import android.graphics.Paint
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
+import android.view.MotionEvent
 import android.view.View
+import android.view.ViewTreeObserver
+import android.widget.FrameLayout
+import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
@@ -28,8 +37,8 @@ class MainActivity : AppCompatActivity() {
 
     //역 터치 관련
     private lateinit var binding: ActivityMainBinding
-    private lateinit var photoView: PhotoView
-    private lateinit var attacher: PhotoViewAttacher
+    private lateinit var stationPhotoView: PhotoView
+    private lateinit var stationAttacher: PhotoViewAttacher
 
     @SuppressLint("ClickableViewAccessibility")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -37,38 +46,33 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-
-
         // 역 터치 관련
-        photoView = binding.stationMap
+        stationPhotoView = binding.stationMap
 
-        // attacher를 초기화하고 설정
-        attacher = PhotoViewAttacher(photoView)
-        attacher.isZoomable = true
-        attacher.setScaleType(ImageView.ScaleType.CENTER_CROP)
+        // stationphotoView에 대한 attacher 초기화
+        stationAttacher = PhotoViewAttacher(stationPhotoView)
+        stationAttacher.isZoomable = true
+        stationAttacher.setScaleType(ImageView.ScaleType.CENTER_CROP)
 
-        //역 터치시
-        attacher.setOnPhotoTapListener { _, x, y ->
+
+        //노선도 터치 시
+        stationAttacher.setOnPhotoTapListener { _, x, y ->
             // 이미지 상의 특정 좌표 얻기
             // 전체 이미지의 크기
             val fullImageWidth = 1468// 전체 이미지의 폭
             val fullImageHeight = 1051// 전체 이미지의 높이
 
-             //이미지뷰의 크기
-            val imageViewWidth = photoView.width
-            val imageViewHeight = photoView.height
+            //이미지뷰의 크기
+            val imageViewWidth = stationPhotoView.width
+            val imageViewHeight = stationPhotoView.height
 
             // 현재 이미지뷰 내에서의 상대적인 좌표를 전체 이미지의 좌표로 변환
             val imageX = (x * fullImageWidth / imageViewWidth).toFloat() * 1000
             val imageY = (y * fullImageHeight / imageViewHeight).toFloat() * 2000
 
-            showToast("imageX:$imageX, imageY:$imageY")
-
             // 변환된 좌표를 사용하여 원하는 작업 수행
             handleClickEvent(imageX, imageY)
         }
-
-
 
         //검색 버튼
         binding.searchBtn.setOnClickListener {
@@ -107,6 +111,17 @@ class MainActivity : AppCompatActivity() {
             startActivity(intent)
         }
 
+        // startBtn 클릭 시
+        val startBtn: ImageButton = findViewById(R.id.startBtn)
+        startBtn.setOnClickListener {
+            handleStartClickEvent()
+        }
+
+        // endBtn 클릭 시
+        val endBtn: ImageButton = findViewById(R.id.endBtn)
+        endBtn.setOnClickListener {
+            handleEndClickEvent()
+        }
     }
 
     fun toggleAdditionalButtonsVisibility() {
@@ -142,19 +157,24 @@ class MainActivity : AppCompatActivity() {
             //하단 역 정보 표시
             if (binding.stationInfo.visibility == View.GONE) {
                 binding.stationInfo.isVisible = !binding.stationInfo.isVisible
-                binding.info.isVisible = !binding.info.isVisible
             } else {
 
             }
             val textView = findViewById<TextView>(R.id.stationInfoText)
             textView.text = stationName
+            sttName = stationName
         } else {
             binding.stationInfo.visibility = View.GONE
-            binding.info.visibility = View.GONE
         }
+
     }
 
-    data class Result(val stationClicked: Boolean, val stationName: String, val stationX: Float, val stationY: Float)
+    data class Result(
+        val stationClicked: Boolean,
+        val stationName: String,
+        val stationX: Float,
+        val stationY: Float
+    )
 
     //역 터치 관련
     private fun isClickedOnStation(x: Float, y: Float): Result {
@@ -180,7 +200,6 @@ class MainActivity : AppCompatActivity() {
             stationArray[1][count] = parts[3].toFloat()
             stationArray[2][count] = parts[6].toFloat()
             count++
-
         }
 
 
@@ -189,7 +208,8 @@ class MainActivity : AppCompatActivity() {
         var stationY = 0f
         for (col in 0..(cols - 1)) {
             if (x >= stationArray[1][col] - toleranceX && x <= stationArray[1][col] + toleranceX
-                && y >= stationArray[2][col] - toleranceY && y <= stationArray[2][col] + toleranceY) {
+                && y >= stationArray[2][col] - toleranceY && y <= stationArray[2][col] + toleranceY
+            ) {
                 stationName = stationArray[0][col].toInt()
                 stationX = stationArray[1][col].toFloat()
                 stationY = stationArray[2][col].toFloat()
@@ -197,9 +217,58 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-        println("${stationName}")
-
         return Result(stationName != 0, stationName.toString(), stationX, stationY)
+    }
+
+    var sttName: String? = ""
+    var startSttName: String? = ""
+    var endSttName: String? = ""
+    private fun handleStartClickEvent() {
+        val startBlankText: TextView = findViewById(R.id.startStationName)
+        startSttName = sttName
+        startBlankText.text = startSttName
+        if (binding.startSttInfo.visibility == View.GONE && binding.endBlankBackImg.visibility == View.GONE) {
+            if (binding.endSttInfo.visibility == View.GONE && binding.startBlankBackImg.visibility == View.GONE) {
+                binding.startSttInfo.visibility = View.VISIBLE
+                binding.endBlankBackImg.visibility = View.VISIBLE
+            } else {
+                if (startSttName == endSttName) {
+                    showToast("출발역과 도착역이 같습니다.")
+                    startSttName = ""
+                } else {
+                    binding.startBlankBackImg.visibility = View.GONE
+                    binding.startSttInfo.visibility = View.VISIBLE
+                    startSttName = ""
+                    endSttName = ""
+                    // 화면 바꾸기
+                }
+            }
+        }
+        println("start:${startSttName},end:${endSttName}")
+    }
+
+    private fun handleEndClickEvent() {
+        val endBlankText: TextView = findViewById(R.id.endStationName)
+        endSttName = sttName
+        endBlankText.text = endSttName
+        if (binding.endSttInfo.visibility == View.GONE && binding.startBlankBackImg.visibility == View.GONE) {
+            if (binding.startSttInfo.visibility == View.GONE && binding.endBlankBackImg.visibility == View.GONE) {
+                binding.endSttInfo.visibility = View.VISIBLE
+                binding.startBlankBackImg.visibility = View.VISIBLE
+            } else {
+                if (startSttName == endSttName) {
+                    showToast("출발역과 도착역이 같습니다.")
+                    endSttName = ""
+                } else {
+                    binding.endBlankBackImg.visibility = View.GONE
+                    binding.endSttInfo.visibility = View.VISIBLE
+                    startSttName = ""
+                    endSttName = ""
+                    // 화면 바꾸기
+                }
+            }
+        }
+        println("start:${startSttName},end:${endSttName}")
     }
 
 }

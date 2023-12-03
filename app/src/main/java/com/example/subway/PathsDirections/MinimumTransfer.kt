@@ -30,15 +30,19 @@ fun minTransfers(nodes: Map<Int, Node>, startStation: Node, endStation: Node): I
                     minPath = prevNode.toMap()
                 }
                 prevNode[edge.destination] = currentNode
-                println("curt: ${prevNode[currentNode]}")
             } else {
+                println("stationName: ${currentNode}")
+                println("edge: ${edge.destination}")
+                // println("newTransfers: ${newTransfers}, visited getValue: ${visited.getValue(edge.destination)}, visited containskey: ${!visited.containsKey(edge.destination)}")
+
                 if (!visited.containsKey(edge.destination) || newTransfers < visited.getValue(edge.destination)) {
-                    println("new: ${newTransfers}, visit: ${visited.getValue(edge.destination)}")
+//                    println("${!visited.containsKey(edge.destination)}")
+//                    println("new: ${newTransfers}, visit: ${visited.getValue(edge.destination)}")
                     visited[edge.destination] = newTransfers
                     prevNode[edge.destination] = currentNode
                     queue.add(Pair(edge.destination, newTransfers))
                 }
-                println("else new: ${newTransfers}, visit: ${visited.getValue(edge.destination)}")
+                // println("else new: ${newTransfers}, visit: ${visited.getValue(edge.destination)}")
             }
         }
     }
