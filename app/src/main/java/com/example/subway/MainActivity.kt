@@ -3,6 +3,7 @@ package com.example.subway
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import android.graphics.Matrix
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -35,8 +36,15 @@ class MainActivity : AppCompatActivity() {
     private lateinit var photoView: PhotoView
     private lateinit var attacher: PhotoViewAttacher
 
+    //Shared~~ 파일 이름
+    private  val PREFS_NAME = "deperture"
+
     fun showToast(message: String, duration: Int = Toast.LENGTH_SHORT) {
         Toast.makeText(this, message, duration).show()
+    }
+
+    private val sharedPreferences: SharedPreferences by lazy {
+        getSharedPreferences("deperture", Context.MODE_PRIVATE)
     }
 
     @SuppressLint("ClickableViewAccessibility")
@@ -49,6 +57,13 @@ class MainActivity : AppCompatActivity() {
         photoView = findViewById(R.id.stationMap)
         attacher = PhotoViewAttacher(photoView)
 
+        //SharedPreference 객체 가져오기
+        val sharedPreferences: SharedPreferences = getSharedPreferences("deperture", Context.MODE_PRIVATE)
+        val (start, end) = return_Start_and_End_sttNames()
+        val editor: SharedPreferences.Editor = sharedPreferences.edit()
+        editor.putString("Start", start)
+        editor.putString("End", end)
+        editor.apply()
 
         // 역 터치 관련
         photoView = binding.stationMap
@@ -126,7 +141,10 @@ class MainActivity : AppCompatActivity() {
             handleEndClickEvent()
         }
 
+        executeCodeFromSearchActivity()
+
     }
+
 
     fun toggleAdditionalButtonsVisibility() {
         // 공지사항과 민원신고 버튼의 가시성을 토글
@@ -216,6 +234,7 @@ class MainActivity : AppCompatActivity() {
     var sttName: String? = ""
     var startSttName: String? = ""
     var endSttName: String? = ""
+
     // 출발 버튼 눌렀을 때 처리
     private fun handleStartClickEvent() {
         val startBlankText: TextView = findViewById(R.id.startStationName)
@@ -269,6 +288,9 @@ class MainActivity : AppCompatActivity() {
         }
         println("start:${startSttName},end:${endSttName}")
     }
+    fun return_Start_and_End_sttNames(): Pair<String?, String?> {
+        return Pair(startSttName, endSttName)
+    }
 
     //onCreate 내부에 위치하거나 해당 코드 실행 지점에서 호출
     private fun executeCodeFromSearchActivity() {
@@ -281,8 +303,29 @@ class MainActivity : AppCompatActivity() {
         // 여기서는 토스트 메시지를 표시하고 handleClickEvent 메소드 호출
         showToast("역 클릭 정보 - Name: $stationName, X: $stationX, Y: $stationY")
 
-        // 변환된 좌표를 사용하여 handleClickEvent 메소드 호출
-        handleClickEvent(stationX, stationY)
+
+        // "Start" 값이 공백인 경우에만 새로운 값으로 대체
+        val Start: String? = sharedPreferences.getString("Start", "")
+        val End: String? = sharedPreferences.getString("End", "")
+
+        if (Start.isNullOrBlank()) {
+            val editor: SharedPreferences.Editor = sharedPreferences.edit()
+            editor.putString("Start", stationName)
+            editor.apply()
+        }
+
+        // 값이 공백인지 아닌지 판별
+        if (Start.isNullOrBlank()||End.isNullOrBlank() == true) {
+            // 값이 공백이거나 null인 경우
+            println("값이 공백이거나 null입니다.")
+            // 변환된 좌표를 사용하여 handleClickEvent 메소드 호출
+            handleClickEvent(stationX, stationY)
+        } else {
+            println("값이 공백이 아니며 null도 아닙니다.")
+            // 변환된 좌표를 사용하여 handleClickEvent 메소드 호출
+            val intent = Intent(this, RouteGuideActivity::class.java)
+            startActivity(intent)
+        }
 
     }
 }
