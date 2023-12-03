@@ -34,13 +34,12 @@ fun minTransfers(context: Context?, startStationId: Int, endStationId: Int): Pat
         return null
     }
 
+    // 기본 데이터 저장
     val inputStream = context.resources.openRawResource(R.raw.data)
     val reader = BufferedReader(InputStreamReader(inputStream))
     val lines: List<String> = reader.readLines()
 
-
     val nodes = mutableMapOf<Int, Node>()
-    //val lines = File("app/src/main/java/com/example/subway/PathsDirections/data").readLines()
 
     for (line in lines) {
         val parts = line.split(',')
@@ -60,12 +59,10 @@ fun minTransfers(context: Context?, startStationId: Int, endStationId: Int): Pat
         endNode.edges.add(Edge(startNode, time, distance, cost))
     }
 
-    // 추가 노선 배당
-    //val lineInfo = File("app/src/main/java/com/example/subway/PathsDirections/datatransfer").readLines()
+    // 추가 노선 저장
     val inputStream_new = context.resources.openRawResource(R.raw.datatransfer)
     val reader_new = BufferedReader(InputStreamReader(inputStream_new))
     val lineInfo: List<String> = reader_new.readLines()
-
 
     for (info in lineInfo) {
         val parts = info.split(',')
@@ -82,8 +79,6 @@ fun minTransfers(context: Context?, startStationId: Int, endStationId: Int): Pat
     val startStation = nodes[startStationId] // 시작 노드 ID
     val endStation = nodes[endStationId]  // 종착 노드 ID
     if (startStation != null && endStation != null) {
-        //minTransfers (nodes, startStation, endStation)
-
 
         val visited = mutableMapOf<Node, Int>().withDefault { Int.MAX_VALUE }
         val prevNode = mutableMapOf<Node, Node?>()
@@ -145,7 +140,6 @@ fun minTransfers(context: Context?, startStationId: Int, endStationId: Int): Pat
         var transferStation = mutableListOf<String>() // 환승역
 
         var numsMove = LinkedList<Int>() // 이동하는 역 개수를 저장하는 리스트
-        //numsMove.add(1)
         var count = 1 // 이동하는 역 수를 세는 변수
 
         var totalTime = path[0].edges.find { it.destination == path[1] }?.time ?: 0
@@ -188,6 +182,7 @@ fun minTransfers(context: Context?, startStationId: Int, endStationId: Int): Pat
         var numsMovePrint = ArrayList(numsMove) // numsMove를 출력하기 위한 리스트 복사
 
         println("최소 환승: ${path.joinToString(" -> ")}")
+
         println("출발역: ${startStation}")
         if(numsMovePrint.isNotEmpty()) { // 이동은 하니까 무조건 출력
             println("${numsMovePrint.removeFirst()}개역 이동") // 첫 번째 요소 출력 후 제거
@@ -320,7 +315,7 @@ fun printPath(prevNode: Map<Node, Node?>, startStation: Node, endStation: Node) 
 
 }
 
-fun findPrevAndNext(path: List<Node>, startStation: Node, endStation: Node, currentStation: Node): Pair<Node?, Node?> {
+fun findPrevAndNextTsf(path: List<Node>, startStation: Node, endStation: Node, currentStation: Node): Pair<Node?, Node?> {
     // -------------------------------- 현재 역을 매개 변수로 받으면 이전 역과 다음 역을 리턴해 주는 함수 --------------------------------
 
     val prev = if (path.contains(currentStation)) {
