@@ -7,6 +7,7 @@ import java.util.Queue
 
 
 fun minTransfers(nodes: Map<Int, Node>, startStation: Node, endStation: Node): Int {
+
     val visited = mutableMapOf<Node, Int>().withDefault { Int.MAX_VALUE }
     val prevNode = mutableMapOf<Node, Node?>()
     val queue: Queue<Pair<Node, Int>> = LinkedList()
@@ -74,7 +75,7 @@ fun findPath(prevNode: Map<Node, Node?>, startStation: Node, endStation: Node): 
     return path.reversed()
 }
 
-fun printPath(prevNode: Map<Node, Node?>, startStation: Node, endStation: Node) {
+fun printPath(prevNode: Map<Node, Node?>, startStation: Node, endStation: Node): PathInfo {
     val path = findPath(prevNode, startStation, endStation) // 최소 경로 역추적해서 저장
 
     // 환승 횟수와 환승역 찾기
@@ -87,19 +88,26 @@ fun printPath(prevNode: Map<Node, Node?>, startStation: Node, endStation: Node) 
     var totalTime = path[0].edges.find { it.destination == path[1] }?.time ?: 0
     var totalCost = path[0].edges.find { it.destination == path[1] }?.cost ?: 0
 
+    var linesList = mutableListOf<Set<Int>>() // 노선 정보 저장하는 리스트
+    linesList.add(path[0].lines.intersect(path[1].lines)) // 처음 역 노선
+
     for (i in 1 until path.size) {
         var nextStation : Node // 현재 역의 다음 역
         var prevStation = path[i - 1] // 현재 역의 이전 역
 
         if (i < path.size-1) {
             nextStation  = path[i + 1]
-            if (nextStation .lines.intersect(prevStation.lines).isEmpty()) {
+
+            if (nextStation.lines.intersect(prevStation.lines).isEmpty()) {
                 // 현재 역의 이전 역과 다음 역 노선의 교집합이 없으면 환승 횟수 증가
                 transferStation.add(path[i].toString())
                 transfers++
                 numsmove.add(count)
                 count = 0
             }
+            // 현재 역과 이전 역 노선의 교집합 저장
+            linesList.add(path[i].lines.intersect(prevStation.lines))
+
             // 각 엣지의 시간과 비용을 더함
             totalTime += path[i].edges.find { it.destination == path[i + 1] }?.time ?: 0
             totalCost += path[i].edges.find { it.destination == path[i + 1] }?.cost ?: 0
@@ -107,6 +115,11 @@ fun printPath(prevNode: Map<Node, Node?>, startStation: Node, endStation: Node) 
         count++
     }
     numsmove.add(count-1)
+    linesList.add(path[path.size-1].lines.intersect(path[path.size-2].lines)) // 마지막 역 노선
+
+
+    // linesList 출력
+    println("linesList: $linesList")
 
     // 경로 출력
     println("최소 환승: ${path.joinToString(" -> ")}")
@@ -138,6 +151,20 @@ fun printPath(prevNode: Map<Node, Node?>, startStation: Node, endStation: Node) 
     } else {
         println("총 시간: ${seconds}초")
     }
+
+
+    // Data claa PathInfo에 저장해서 반환
+    return PathInfo(
+        minTransfersPath = path, // 최소 환승 경로
+        startStation = startStation, // 출발역
+        numStationsMoved = numsmove, // 역 이동 개수
+        transferStations = transferStation, // 환승역
+        endStation = endStation, // 도착역
+        linesList = linesList, // 노선
+        numTransfers = transfers, // 환승 횟수
+        totalCost = totalCost, // 총 금액
+        totalTime = totalTime // 총 시간
+    )
 
 }
 
