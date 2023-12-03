@@ -1,14 +1,10 @@
 package com.example.subway
 
 import android.annotation.SuppressLint
-import android.content.Context
 import android.content.Intent
-import android.content.SharedPreferences
-import android.graphics.Matrix
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
-import android.widget.FrameLayout
 import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
@@ -16,17 +12,14 @@ import android.widget.Toast
 import androidx.core.view.isVisible
 import com.example.subway.bookmark.BookmarkActivity
 import com.example.subway.databinding.ActivityMainBinding
-import com.example.subway.routeguide.RouteGuideActivity
-//import com.example.subway.routeguide.RouteGuideActivity
+import com.example.subway.PathsDirections.RouteGuideActivity
 import com.example.subway.setting.notice.NoticeActivity
 import com.example.subway.search.SearchActivity
 import com.example.subway.setting.ComplaintActivity
 import com.example.subway.setting.SettingActivity
 import com.github.chrisbanes.photoview.PhotoView
 import com.github.chrisbanes.photoview.PhotoViewAttacher
-import org.w3c.dom.Node
 import java.io.BufferedReader
-import java.io.File
 import java.io.InputStreamReader
 
 class MainActivity : AppCompatActivity() {
@@ -43,10 +36,6 @@ class MainActivity : AppCompatActivity() {
         Toast.makeText(this, message, duration).show()
     }
 
-    private val sharedPreferences: SharedPreferences by lazy {
-        getSharedPreferences("deperture", Context.MODE_PRIVATE)
-    }
-
     @SuppressLint("ClickableViewAccessibility")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -56,14 +45,6 @@ class MainActivity : AppCompatActivity() {
         // 이미지 좌표 이동 관룐
         photoView = findViewById(R.id.stationMap)
         attacher = PhotoViewAttacher(photoView)
-
-        //SharedPreference 객체 가져오기
-        val sharedPreferences: SharedPreferences = getSharedPreferences("deperture", Context.MODE_PRIVATE)
-        val (start, end) = return_Start_and_End_sttNames()
-        val editor: SharedPreferences.Editor = sharedPreferences.edit()
-        editor.putString("Start", start)
-        editor.putString("End", end)
-        editor.apply()
 
         // 역 터치 관련
         photoView = binding.stationMap
@@ -234,6 +215,7 @@ class MainActivity : AppCompatActivity() {
     var sttName: String? = ""
     var startSttName: String? = ""
     var endSttName: String? = ""
+    var saveStation: Pair<String, String> = Pair("", "")
 
     // 출발 버튼 눌렀을 때 처리
     private fun handleStartClickEvent() {
@@ -252,9 +234,12 @@ class MainActivity : AppCompatActivity() {
                     binding.startBlankBackImg.visibility = View.GONE
                     binding.startSttInfo.visibility = View.GONE
                     binding.endSttInfo.visibility = View.GONE
+                    saveStation = Pair(startSttName.toString(), endSttName.toString())
                     startSttName = ""
                     endSttName = ""
                     val intent = Intent(this, RouteGuideActivity::class.java)
+                    intent.putExtra("start", saveStation.first)
+                    intent.putExtra("end", saveStation.second)
                     startActivity(intent)
                 }
             }
@@ -279,9 +264,12 @@ class MainActivity : AppCompatActivity() {
                     binding.startSttInfo.visibility = View.GONE
                     binding.endSttInfo.visibility = View.GONE
                     binding.endBlankBackImg.visibility = View.GONE
+                    saveStation = Pair(startSttName.toString(), endSttName.toString())
                     startSttName = ""
                     endSttName = ""
                     val intent = Intent(this, RouteGuideActivity::class.java)
+                    intent.putExtra("start", saveStation.first)
+                    intent.putExtra("end", saveStation.second)
                     startActivity(intent)
                 }
             }
@@ -302,30 +290,6 @@ class MainActivity : AppCompatActivity() {
         // 받아온 좌표를 사용하여 원하는 작업 수행
         // 여기서는 토스트 메시지를 표시하고 handleClickEvent 메소드 호출
         showToast("역 클릭 정보 - Name: $stationName, X: $stationX, Y: $stationY")
-
-
-        // "Start" 값이 공백인 경우에만 새로운 값으로 대체
-        val Start: String? = sharedPreferences.getString("Start", "")
-        val End: String? = sharedPreferences.getString("End", "")
-
-        if (Start.isNullOrBlank()) {
-            val editor: SharedPreferences.Editor = sharedPreferences.edit()
-            editor.putString("Start", stationName)
-            editor.apply()
-        }
-
-        // 값이 공백인지 아닌지 판별
-        if (Start.isNullOrBlank()||End.isNullOrBlank() == true) {
-            // 값이 공백이거나 null인 경우
-            println("값이 공백이거나 null입니다.")
-            // 변환된 좌표를 사용하여 handleClickEvent 메소드 호출
-            handleClickEvent(stationX, stationY)
-        } else {
-            println("값이 공백이 아니며 null도 아닙니다.")
-            // 변환된 좌표를 사용하여 handleClickEvent 메소드 호출
-            val intent = Intent(this, RouteGuideActivity::class.java)
-            startActivity(intent)
-        }
 
     }
 }

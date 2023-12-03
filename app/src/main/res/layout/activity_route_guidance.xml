@@ -15,14 +15,15 @@
 
         <!--소요 시간-->
         <TextView
+            android:id="@+id/time"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="10 분"
+            android:text="0 분"
             android:fontFamily="@font/pretendard_medium"
             android:textColor="#FFFFFF"
-            android:textSize="50dp"
+            android:textSize="40dp"
             android:layout_marginLeft="20dp"
-            android:layout_marginTop="17dp" />
+            android:layout_marginTop="7dp" />
 
         <!--상단바 알림 버튼-->
         <ImageButton
@@ -65,6 +66,7 @@
 
         <!--환승 횟수-->
         <TextView
+            android:id="@+id/transfer"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="환승 0번"
@@ -76,9 +78,10 @@
 
         <!--비용 안내-->
         <TextView
+            android:id="@+id/cost"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="1000원"
+            android:text="0원"
             android:fontFamily="@font/pretendard_medium"
             android:textColor="#FFFFFF"
             android:textSize="23dp"
@@ -130,7 +133,7 @@
 
         <!--최소 금액 버튼-->
         <ImageButton
-            android:id="@+id/min_feeBtn"
+            android:id="@+id/min_costBtn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/min_fee_btn"
@@ -138,7 +141,7 @@
             android:layout_marginTop="130dp"
             android:layout_marginLeft="285dp"/>
         <ImageButton
-            android:id="@+id/min_feeBtn_full"
+            android:id="@+id/min_costBtn_full"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/min_fee_full_btn"
