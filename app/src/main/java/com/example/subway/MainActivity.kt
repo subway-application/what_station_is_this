@@ -210,6 +210,7 @@ class MainActivity : AppCompatActivity() {
     var sttName: String? = ""
     var startSttName: String? = ""
     var endSttName: String? = ""
+    var saveStation: Pair<String, String> = Pair("", "")
     // 출발 버튼 눌렀을 때 처리
     private fun handleStartClickEvent() {
         val startBlankText: TextView = findViewById(R.id.startStationName)
@@ -227,9 +228,12 @@ class MainActivity : AppCompatActivity() {
                     binding.startBlankBackImg.visibility = View.GONE
                     binding.startSttInfo.visibility = View.GONE
                     binding.endSttInfo.visibility = View.GONE
+                    saveStation = Pair(startSttName.toString(), endSttName.toString())
                     startSttName = ""
                     endSttName = ""
                     val intent = Intent(this, RouteGuideActivity::class.java)
+                    intent.putExtra("start", saveStation.first)
+                    intent.putExtra("end", saveStation.second)
                     startActivity(intent)
                 }
             }
@@ -254,9 +258,12 @@ class MainActivity : AppCompatActivity() {
                     binding.startSttInfo.visibility = View.GONE
                     binding.endSttInfo.visibility = View.GONE
                     binding.endBlankBackImg.visibility = View.GONE
+                    saveStation = Pair(startSttName.toString(), endSttName.toString())
                     startSttName = ""
                     endSttName = ""
                     val intent = Intent(this, RouteGuideActivity::class.java)
+                    intent.putExtra("start", saveStation.first)
+                    intent.putExtra("end", saveStation.second)
                     startActivity(intent)
                 }
             }

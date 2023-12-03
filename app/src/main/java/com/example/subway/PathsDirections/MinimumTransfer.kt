@@ -188,13 +188,13 @@ fun minTransfers(context: Context?, startStationId: Int, endStationId: Int): Pat
         println("최소 환승: ${path.joinToString(" -> ")}")
         println("출발역: ${startStation}")
         if(numsMovePrint.isNotEmpty()) { // 이동은 하니까 무조건 출력
-            println("${numsMovePrint.removeFirst()}개역 이동") // 첫 번째 요소 출력 후 제거
+            println("${numsMovePrint}개역 이동") // 첫 번째 요소 출력 후 제거
         }
         if (transferStation != null) {
             for (ts in transferStation) {
                 println("환승역: ${ts}")
                 if(numsMovePrint.isNotEmpty()) {
-                    println("${numsMovePrint.removeFirst()}개역 이동")
+                    println("${numsMovePrint}개역 이동")
                 }
             }
         }
