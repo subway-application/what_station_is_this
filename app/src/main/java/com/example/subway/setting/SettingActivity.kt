@@ -3,6 +3,7 @@ package com.example.subway.setting
 import android.annotation.SuppressLint
 import android.app.AlertDialog
 import android.content.Context
+import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.InputType
@@ -10,23 +11,40 @@ import android.util.Log
 import android.view.View
 import android.widget.EditText
 import android.widget.RelativeLayout
+import android.widget.Switch
 import android.widget.TextView
 import android.widget.Toast
 import com.example.subway.R
 
 class SettingActivity : AppCompatActivity() {
     private var writeBtnVisibility = false
-    //setting에서 하는 일을 지정하는 클래스
-    private var isAdminAuthenticated = false
+    private lateinit var switch: Switch
+    private lateinit var sharedPreferences: SharedPreferences
     @SuppressLint("MissingInflatedId")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_setting)
+        val preferences = getSharedPreferences("my_preferences", Context.MODE_PRIVATE)
+        val editor = preferences.edit()
+
+        //관리자 인증
+        switch = findViewById<TextView>(R.id.adminBtn) as Switch
+        sharedPreferences = getPreferences(Context.MODE_PRIVATE)
+        switch.isChecked = sharedPreferences.getBoolean("switch_state", false)
 
         // "관리자 인증" 텍스트 클릭 시
-        findViewById<TextView>(R.id.adminAuthText).setOnClickListener {
-            showPasswordDialog()
+        switch.setOnCheckedChangeListener { _, isChecked ->
+            sharedPreferences.edit().putBoolean("switch_state", isChecked).apply()
+            // 스위치 상태가 변경될 때마다 SharedPreferences에 저장
+            // isChecked에는 스위치의 현재 상태가 전달됩니다.
+            if (isChecked) {
+                showPasswordDialog()
+            } else {
+                editor.putBoolean("writeBtnVisibility", false)
+                editor.commit()
+            }
         }
+
     }
 
     private fun showPasswordDialog() {
@@ -49,8 +67,6 @@ class SettingActivity : AppCompatActivity() {
             if (password == "1111") {
                 // 비밀번호가 일치하는 경우 원하는 작업 수행
                 showToast("관리자 인증 성공!")
-//                val preferences = getSharedPreferences("my_preferences", Context.MODE_PRIVATE)
-//                val editor = preferences.edit()
                 editor.putBoolean("writeBtnVisibility", true)
                 editor.commit()
             } else {
@@ -61,7 +77,9 @@ class SettingActivity : AppCompatActivity() {
             }
         }
 
-        builder.setNegativeButton("취소") { dialog, _ -> dialog.cancel() }
+        builder.setNegativeButton("취소") { dialog, _ -> dialog.cancel()
+            switch.isChecked = false
+        }
 
         builder.show()
     }

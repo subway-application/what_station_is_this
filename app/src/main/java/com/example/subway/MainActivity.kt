@@ -22,6 +22,8 @@ import android.widget.Toast
 import androidx.core.view.isVisible
 import com.example.subway.bookmark.BookmarkActivity
 import com.example.subway.databinding.ActivityMainBinding
+import com.example.subway.routeguide.RouteGuideActivity
+//import com.example.subway.routeguide.RouteGuideActivity
 import com.example.subway.setting.notice.NoticeActivity
 import com.example.subway.search.SearchActivity
 import com.example.subway.setting.ComplaintActivity
@@ -168,12 +170,7 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    data class Result(
-        val stationClicked: Boolean,
-        val stationName: String,
-        val stationX: Float,
-        val stationY: Float
-    )
+    data class Result(val stationClicked: Boolean, val stationName: String, val stationX: Float, val stationY: Float)
 
     //역 터치 관련
     private fun isClickedOnStation(x: Float, y: Float): Result {
@@ -199,6 +196,7 @@ class MainActivity : AppCompatActivity() {
             stationArray[1][count] = parts[3].toFloat()
             stationArray[2][count] = parts[6].toFloat()
             count++
+
         }
 
 

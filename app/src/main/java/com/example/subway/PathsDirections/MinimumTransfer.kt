@@ -105,32 +105,14 @@ fun main() {
 
         val startNode = nodes.getOrPut(start) { Node(start) }
         val endNode = nodes.getOrPut(end) { Node(end) }
-        
+
         startNode.lines.add(start / 100) // 각 앞자리에 해당하는 숫자로 노선 배당
         endNode.lines.add(end / 100)
 
         startNode.edges.add(Edge(endNode, time, distance, cost))
-        endNode.edges.add(Edge(startNode, time, distance, cost))
+        // endNode.edges.add(Edge(startNode, time, distance, cost))
     }
-
-    // 추가 노선 배당
-    val lineInfo = File("app/src/main/java/com/example/subway/PathsDirections/DataTransfer").readLines()
-
-    for (info in lineInfo) {
-        val parts = info.split(',')
-        val id = parts[0].toInt()
-        val line = parts[1].toInt()
-
-        if (nodes[id]?.lines?.contains(line) != true) {
-            nodes[id]?.lines?.add(line)
-        }
-    }
-
 
     // 여기에 테스트 코드 작성
-    val startNode = nodes[702] // 시작 노드 ID
-    val endNode = nodes[116]  // 종착 노드 ID
-    if (startNode != null && endNode != null) {
-        minTransfers (nodes, startNode, endNode)
-    }
+
 }
