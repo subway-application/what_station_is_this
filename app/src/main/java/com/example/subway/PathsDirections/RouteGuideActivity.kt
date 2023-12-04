@@ -119,11 +119,13 @@ class RouteGuideActivity : AppCompatActivity() {
             min_cost_btn_clicked.visibility = View.GONE
 
             // 환승 횟수, 출발역, 도착역, 환승역, 노선
-            addRouteGuide(data_min_transfer?.numTransfers,
+            addRouteGuide(
+                data_min_transfer?.numTransfers,
                 data_min_transfer?.startStation,
                 data_min_transfer?.endStation,
                 data_min_transfer?.transferStations,
-                data_min_transfer?.linesList)
+                data_min_transfer?.linesList
+            )
         }
 
 
@@ -161,11 +163,13 @@ class RouteGuideActivity : AppCompatActivity() {
             min_cost_btn_clicked.visibility = View.VISIBLE
 
             // 환승 횟수, 출발역, 도착역, 환승역, 노선
-            addRouteGuide(data_min_cost?.numTransfers,
+            addRouteGuide(
+                data_min_cost?.numTransfers,
                 data_min_cost?.startStation,
                 data_min_cost?.endStation,
                 data_min_cost?.transferStations,
-                data_min_cost?.linesList)
+                data_min_cost?.linesList
+            )
         }
 
         notificationHelper = NotificationHelper(this)
@@ -242,6 +246,33 @@ class RouteGuideActivity : AppCompatActivity() {
                 transferStationsName.add(station)
             }
         }
+
+        // 교집합을 확인할 Set<Int>를 초기화합니다.
+        val intersectionSet = mutableSetOf<Int>()
+        var changeLineNum = 0
+        val changeLineNumList = mutableListOf<Int>()
+        val changeLine = mutableListOf<Int>()
+
+        // linesList를 반복하면서 각 Set<Int>의 데이터를 뽑아내기
+        for (set in linesList!!) {
+            for (data in set) {
+                // 이미 intersectionSet에 들어있는 데이터인지 확인
+                if (data in intersectionSet) {
+                    // 교집합이 있음을 처리하는 코드를 작성
+//                    if (data !in changeLine) {
+                        changeLineNumList.add(changeLineNum)
+                        changeLine.add(data)
+//                    }
+                } else {
+                    // intersectionSet에 데이터를 추가
+                    intersectionSet.add(data)
+                }
+            }
+            changeLineNum++
+        }
+
+        println(changeLineNum)
+        println(changeLineNumList)
 
         for (i in 0..numberOfData!!) {
             val newstartTextView = TextView(this)
@@ -396,20 +427,7 @@ class RouteGuideActivity : AppCompatActivity() {
             val newStickImg = ImageView(this)
             val density = resources.displayMetrics.density
 
-//            var changeLineNum = 0
-//            var changeLine = 0
-//            for (j in 0..numberOfData) {
-//                if (linesList!![j] == linesList[j+1]){
-//
-//                }else{
-//                    changeLineNum++
-//                    if(changeLineNum == i){
-//                        changeLine = linesList!![j]
-//                    }
-//                }
-//            }
-
-            val drawableResources: List<Int> = when (i) {
+            val drawableResources: List<Int> = when (changeLine[i]-1) {
                 0 -> listOf(R.drawable.round_station_info_1, R.drawable.stick_station_info_1)
                 1 -> listOf(R.drawable.round_station_info_2, R.drawable.stick_station_info_2)
                 2 -> listOf(R.drawable.round_station_info_3, R.drawable.stick_station_info_3)
@@ -493,16 +511,15 @@ class RouteGuideActivity : AppCompatActivity() {
                 betweenStations1.setImageResource(R.drawable.between_stations)
                 scrollContent.addView(betweenStations1)
             }
+            // 이미지의 src 입력
+            newStartRoundImg.setImageResource(drawableResources[0])
+            newEndRoundImg.setImageResource(drawableResources[0])
+            newStickImg.setImageResource(drawableResources[1])
+            // 스크롤에 추가
+            scrollContent.addView(newStickImg)
+            scrollContent.addView(newStartRoundImg)
+            scrollContent.addView(newEndRoundImg)
             if (i == numberOfData) {
-                // 이미지의 src 입력
-                newStartRoundImg.setImageResource(drawableResources[0])
-                newEndRoundImg.setImageResource(drawableResources[0])
-                newStickImg.setImageResource(drawableResources[1])
-
-                // 스크롤에 추가
-                scrollContent.addView(newStickImg)
-                scrollContent.addView(newStartRoundImg)
-                scrollContent.addView(newEndRoundImg)
 
                 // 도착 텍스트 내용 및 크기 설정
                 newENDTextView.text = "도착"
