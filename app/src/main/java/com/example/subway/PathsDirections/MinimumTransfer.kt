@@ -227,87 +227,6 @@ fun minTransfers(context: Context?, startStationId: Int, endStationId: Int): Pat
 
 }
 
-fun printPath(prevNode: Map<Node, Node?>, startStation: Node, endStation: Node) {
-//    val path = findPath(prevNode, startStation, endStation) // 최소 경로 역추적해서 저장
-//
-//    // 환승 횟수와 환승역 찾기
-//    var transfers = 0 // 환승 횟수
-//    var transferStation = mutableListOf<String>() // 환승역
-//
-//    var numsMove = LinkedList<Int>() // 이동하는 역 개수를 저장하는 리스트
-//    var count = 1 // 이동하는 역 수를 세는 변수
-//
-//    var totalTime = path[0].edges.find { it.destination == path[1] }?.time ?: 0
-//    var totalCost = path[0].edges.find { it.destination == path[1] }?.cost ?: 0
-//
-//    var linesList = mutableListOf<Set<Int>>() // 노선 정보 저장하는 리스트
-//    linesList.add(path[0].lines.intersect(path[1].lines)) // 처음 역 노선
-//
-//    for (i in 1 until path.size) {
-//        var nextStation : Node // 현재 역의 다음 역
-//        var prevStation = path[i - 1] // 현재 역의 이전 역
-//
-//        if (i < path.size-1) {
-//            nextStation  = path[i + 1]
-//
-//            if (nextStation.lines.intersect(prevStation.lines).isEmpty()) {
-//                // 현재 역의 이전 역과 다음 역 노선의 교집합이 없으면 환승 횟수 증가
-//                transferStation.add(path[i].toString())
-//                transfers++
-//                numsMove.add(count)
-//                count = 0
-//            }
-//            // 현재 역과 이전 역 노선의 교집합 저장
-//            linesList.add(path[i].lines.intersect(prevStation.lines))
-//
-//            // 각 엣지의 시간과 비용을 더함
-//            totalTime += path[i].edges.find { it.destination == path[i + 1] }?.time ?: 0
-//            totalCost += path[i].edges.find { it.destination == path[i + 1] }?.cost ?: 0
-//        }
-//        count++
-//    }
-//    numsMove.add(count-1)
-//    linesList.add(path[path.size-1].lines.intersect(path[path.size-2].lines)) // 마지막 역 노선
-//
-//
-//    // linesList 출력
-//    println("linesList: $linesList")
-//
-//    // 경로 출력
-//    var numsMovePrint = ArrayList(numsMove)
-//    println("최소 환승: ${path.joinToString(" -> ")}")
-//    println("출발역: ${startStation}")
-//    if(numsMovePrint.isNotEmpty()) { // 이동은 하니까 무조건 출력
-//        println("${numsMovePrint.removeFirst()}개역 이동") // 첫 번째 요소 출력 후 제거
-//    }
-//    if (transferStation != null) {
-//        for (ts in transferStation) {
-//            println("환승역: ${ts}")
-//            if(numsMovePrint.isNotEmpty()) {
-//                println("${numsMovePrint.removeFirst()}개역 이동")
-//            }
-//        }
-//    }
-//    println("도착역: ${endStation}")
-//    println("총 환승 횟수: ${transfers}회") // 환승 횟수 출력
-//    println("총 금액: ${totalCost} 원") // 금액 출력
-//
-//    // 시간 출력
-//    val hours = totalTime / 3600
-//    val minutes = (totalTime % 3600) / 60
-//    val seconds = totalTime % 60
-//
-//    if (hours > 0) {
-//        println("총 시간: ${hours}시간 ${minutes}분 ${seconds}초")
-//    } else if (minutes > 0){
-//        println("총 시간: ${minutes}분 ${seconds}초")
-//    } else {
-//        println("총 시간: ${seconds}초")
-//    }
-//
-//
-
-}
 
 fun findPrevAndNextTsf(path: List<Node>, startStation: Node, endStation: Node, currentStation: Node): Pair<Node?, Node?> {
     // -------------------------------- 현재 역을 매개 변수로 받으면 이전 역과 다음 역을 리턴해 주는 함수 --------------------------------
@@ -329,48 +248,6 @@ fun findPrevAndNextTsf(path: List<Node>, startStation: Node, endStation: Node, c
     return Pair(prev, next)
 }
 
+fun main(){
 
-fun main() {
-//    val nodes = mutableMapOf<Int, Node>()
-//    val lines = File("app/src/main/java/com/example/subway/PathsDirections/data").readLines()
-//
-//    for (line in lines) {
-//        val parts = line.split(',')
-//        val start = parts[0].toInt()
-//        val end = parts[1].toInt()
-//        val time = parts[2].toInt()
-//        val distance = parts[3].toInt()
-//        val cost = parts[4].toInt()
-//
-//        val startNode = nodes.getOrPut(start) { Node(start) }
-//        val endNode = nodes.getOrPut(end) { Node(end) }
-//
-//        startNode.lines.add(start / 100) // 각 앞자리에 해당하는 숫자로 노선 배당
-//        endNode.lines.add(end / 100)
-//
-//        startNode.edges.add(Edge(endNode, time, distance, cost))
-//        endNode.edges.add(Edge(startNode, time, distance, cost))
-//    }
-//
-//    // 추가 노선 배당
-//    val lineInfo = File("app/src/main/java/com/example/subway/PathsDirections/datatransfer").readLines()
-//
-//    for (info in lineInfo) {
-//        val parts = info.split(',')
-//        val id = parts[0].toInt()
-//        val line = parts[1].toInt()
-//
-//        if (nodes[id]?.lines?.contains(line) != true) {
-//            nodes[id]?.lines?.add(line)
-//
-//        }
-//    }
-//
-//    // 여기에 테스트 코드 작성
-//    val startNode = nodes[406] // 시작 노드 ID
-//    val endNode = nodes[608]  // 종착 노드 ID
-//    if (startNode != null && endNode != null) {
-//        //minTransfers (nodes, startNode, endNode)
-//    }
-    //minTransfers(this, 406,608)
 }
