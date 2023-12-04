@@ -1,5 +1,6 @@
 package com.example.subway.PathsDirections
 
+//import ForegroundService
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.SharedPreferences
@@ -184,32 +185,9 @@ class RouteGuideActivity : AppCompatActivity() {
             )
             var stList: List<Node?> = listOf(p, path_min_transfer[i], n)
             prevAndCurtAndNext.add(stList)
-            // p가 null이면 n만
-            if (p == null) {
-                println(n)
-                // n이 null이면 p만
-            } else if (n == null) {
-                println(p)
-                // 둘 다 아니면 n,p출력
-            } else {
-                println("${p}, ${n}")
-            }
-            //시간 지나면 현재역 바뀌는 거 하려고 함
-            //Thread.sleep(path_min_transfer[i].edges[i].time.toLong()*1000)
-            // 시간 함수(초 단위)(path[i].edge.time)로 시간만큼 지연
-            // 출발역부터 하차 역의 전 역까지 걸리는 시간 += path[i].edge.time
-
-            // 환승 횟수, 출발역, 도착역, 환승역, 노선
-            addRouteGuide(
-                data_min_cost?.numTransfers,
-                data_min_cost?.startStation,
-                data_min_cost?.endStation,
-                data_min_cost?.transferStations,
-                data_min_cost?.linesList
-            )
         }
 
-        notificationHelper = NotificationHelper(this)
+        notificationHelper = NotificationHelper(this, "fix")
         findViewById<ImageButton>(R.id.bellBtn).setOnClickListener {
 
             showNotification(prevAndCurtAndNext, "fix")
