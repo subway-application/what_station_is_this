@@ -2,21 +2,21 @@ package com.example.subway
 
 import android.annotation.SuppressLint
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
+import com.example.subway.PathsDirections.RouteGuideActivity
 import com.example.subway.bookmark.BookmarkActivity
 import com.example.subway.databinding.ActivityMainBinding
-import com.example.subway.PathsDirections.RouteGuideActivity
-import com.example.subway.setting.notice.NoticeActivity
 import com.example.subway.search.SearchActivity
 import com.example.subway.setting.ComplaintActivity
 import com.example.subway.setting.SettingActivity
+import com.example.subway.setting.notice.NoticeActivity
 import com.github.chrisbanes.photoview.PhotoView
 import com.github.chrisbanes.photoview.PhotoViewAttacher
 import java.io.BufferedReader
@@ -142,8 +142,8 @@ class MainActivity : AppCompatActivity() {
         val result = isClickedOnStation(x, y)
         val isClicked = result.stationClicked
         val stationName = result.stationName
-        val stationX = result.stationX
-        val stationY = result.stationY
+//        val stationX = result.stationX
+//        val stationY = result.stationY
 
         // 예시: 특정 좌표 범위 내에 클릭되면 토스트 메시지를 표시
         if (isClicked) {
@@ -204,6 +204,7 @@ class MainActivity : AppCompatActivity() {
                 break
             }
         }
+
         return Result(stationName != 0, stationName.toString(), stationX, stationY)
     }
 

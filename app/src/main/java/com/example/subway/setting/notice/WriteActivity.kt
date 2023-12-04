@@ -9,8 +9,6 @@ import com.example.subway.R
 import java.sql.Timestamp
 val dataStructure = LinkedList<Base>()
 
-
-
 class WriteActivity : AppCompatActivity() {
     private lateinit var titleEditText: EditText
     private lateinit var contentEditText: EditText

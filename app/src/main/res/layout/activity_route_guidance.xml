@@ -5,6 +5,76 @@
     android:layout_height="match_parent">
 
     <FrameLayout
+        android:id="@+id/route_main"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+    </FrameLayout>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <!--최단 시간 버튼-->
+        <ImageButton
+            android:id="@+id/min_timeBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="25dp"
+            android:layout_marginTop="130dp"
+            android:background="#00ff0000"
+            android:src="@drawable/min_time_btn" />
+
+        <ImageButton
+            android:id="@+id/min_timeBtn_full"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="25dp"
+            android:layout_marginTop="130dp"
+            android:background="#00ff0000"
+            android:src="@drawable/min_time_full_btn"
+            android:visibility="gone" />
+
+        <!--최소 환승 버튼-->
+        <ImageButton
+            android:id="@+id/min_transferBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="155dp"
+            android:layout_marginTop="130dp"
+            android:background="#00ff0000"
+            android:src="@drawable/min_transfer_btn" />
+
+        <ImageButton
+            android:id="@+id/min_transferBtn_full"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="155dp"
+            android:layout_marginTop="130dp"
+            android:background="#00ff0000"
+            android:src="@drawable/min_transfer_full_btn"
+            android:visibility="gone" />
+
+        <!--최소 금액 버튼-->
+        <ImageButton
+            android:id="@+id/min_costBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/min_fee_btn"
+            android:background="#00ff0000"
+            android:layout_marginTop="130dp"
+            android:layout_marginLeft="285dp"/>
+        <ImageButton
+            android:id="@+id/min_costBtn_full"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/min_fee_full_btn"
+            android:background="#00ff0000"
+            android:layout_marginTop="130dp"
+            android:layout_marginLeft="285dp"
+            android:visibility="gone"/>
+    </FrameLayout>
+
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="110dp"
         android:orientation="horizontal"
@@ -35,15 +105,15 @@
             android:layout_marginLeft="330dp"
             android:layout_marginTop="20dp"
             android:clickable="true"/>
-<!--        <ImageButton-->
-<!--            android:id="@+id/bellBtn_full"-->
-<!--            android:layout_width="wrap_content"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:src="@drawable/bell_full"-->
-<!--            android:background="#00ff0000"-->
-<!--            android:layout_marginLeft="326dp"-->
-<!--            android:layout_marginTop="18dp"-->
-<!--            android:visibility="gone"/>-->
+                <ImageButton
+                    android:id="@+id/bellBtn_full"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/bell_full"
+                    android:background="#00ff0000"
+                    android:layout_marginLeft="326dp"
+                    android:layout_marginTop="18dp"
+                    android:visibility="gone"/>
 
         <!--즐겨찾기 버튼-->
         <ImageButton
@@ -73,7 +143,7 @@
             android:fontFamily="@font/pretendard_medium"
             android:textColor="#FFFFFF"
             android:textSize="23dp"
-            android:layout_marginLeft="210dp"
+            android:layout_marginLeft="190dp"
             android:layout_marginTop="65dp" />
 
         <!--비용 안내-->
@@ -85,155 +155,8 @@
             android:fontFamily="@font/pretendard_medium"
             android:textColor="#FFFFFF"
             android:textSize="23dp"
-            android:layout_marginLeft="310dp"
+            android:layout_marginLeft="290dp"
             android:layout_marginTop="65dp" />
-    </FrameLayout>
-
-    <FrameLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-        <!--최단 시간 버튼-->
-        <ImageButton
-            android:id="@+id/min_timeBtn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/min_time_btn"
-            android:background="#00ff0000"
-            android:layout_marginTop="130dp"
-            android:layout_marginLeft="25dp"/>
-        <ImageButton
-            android:id="@+id/min_timeBtn_full"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/min_time_full_btn"
-            android:background="#00ff0000"
-            android:layout_marginTop="130dp"
-            android:layout_marginLeft="25dp"
-            android:visibility="gone"/>
-
-        <!--최소 환승 버튼-->
-        <ImageButton
-            android:id="@+id/min_transferBtn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/min_transfer_btn"
-            android:background="#00ff0000"
-            android:layout_marginTop="130dp"
-            android:layout_marginLeft="155dp"/>
-        <ImageButton
-            android:id="@+id/min_transferBtn_full"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/min_transfer_full_btn"
-            android:background="#00ff0000"
-            android:layout_marginTop="130dp"
-            android:layout_marginLeft="155dp"
-            android:visibility="gone"/>
-
-        <!--최소 금액 버튼-->
-        <ImageButton
-            android:id="@+id/min_costBtn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/min_fee_btn"
-            android:background="#00ff0000"
-            android:layout_marginTop="130dp"
-            android:layout_marginLeft="285dp"/>
-        <ImageButton
-            android:id="@+id/min_costBtn_full"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/min_fee_full_btn"
-            android:background="#00ff0000"
-            android:layout_marginTop="130dp"
-            android:layout_marginLeft="285dp"
-            android:visibility="gone"/>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="출발"
-            android:textSize="23dp"
-            android:fontFamily="@font/pretendard_bold"
-            android:textColor="#111111"
-            android:layout_marginTop="185dp"
-            android:layout_marginLeft="56dp"/>
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="도착"
-            android:textSize="23dp"
-            android:fontFamily="@font/pretendard_bold"
-            android:textColor="#111111"
-            android:layout_marginTop="435dp"
-            android:layout_marginLeft="56dp"/>
-
-        <!--출발역-->
-        <TextView
-            android:id="@+id/start_station_name"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="903"
-            android:textSize="30dp"
-            android:fontFamily="@font/pretendard_bold"
-            android:textColor="#111111"
-            android:layout_marginTop="233dp"
-            android:layout_marginLeft="130dp"/>
-
-        <!--도착역-->
-        <TextView
-            android:id="@+id/end_station_name"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="902"
-            android:textSize="30dp"
-            android:fontFamily="@font/pretendard_bold"
-            android:textColor="#111111"
-            android:layout_marginTop="380dp"
-            android:layout_marginLeft="130dp"/>
-
-        <TextView
-            android:id="@+id/train_time"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="20:15"
-            android:textSize="18dp"
-            android:fontFamily="@font/pretendard_bold"
-            android:textColor="#111111"
-            android:layout_marginTop="285dp"
-            android:layout_marginLeft="140dp"/>
-        <TextView
-            android:id="@+id/train_train_num"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="2개 역 이동"
-            android:textSize="18dp"
-            android:fontFamily="@font/pretendard_bold"
-            android:textColor="#111111"
-            android:layout_marginTop="319dp"
-            android:layout_marginLeft="140dp"/>
-
-        <!--경로 안내 도형-->
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/sitck_station_info"
-            android:layout_marginTop="260dp"
-            android:layout_marginLeft="64dp"/>
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/round_station_info"
-            android:layout_marginTop="230dp"
-            android:layout_marginLeft="53dp"/>
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/round_station_info"
-            android:layout_marginTop="380dp"
-            android:layout_marginLeft="53dp"/>
-
     </FrameLayout>
 
 
