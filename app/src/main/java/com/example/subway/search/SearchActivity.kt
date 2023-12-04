@@ -1,6 +1,8 @@
 package com.example.subway.search
 
+import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
@@ -31,6 +33,7 @@ class SearchActivity : AppCompatActivity() {
         // RecyclerView 및 SearchView 초기화
         recyclerView = findViewById(R.id.recyclerView)
         searchView = findViewById(R.id.searchView)
+
 
         // 역 정보 로드
         loadStationData()
@@ -109,7 +112,18 @@ class SearchActivity : AppCompatActivity() {
         intent.putExtra("stationX", station.x)
         intent.putExtra("stationY", station.y)
 
+        // SharedPreferences에 값을 저장하는 코드
+        val sharedPreferences: SharedPreferences = getSharedPreferences("deperture", Context.MODE_PRIVATE)
+        val editor: SharedPreferences.Editor = sharedPreferences.edit()
+
+        // "Start"와 "End" 값을 저장합니다.
+        editor.putString("Start", station.name)
+        editor.putString("End", "")
+
+        editor.apply()
+
         // MainActivity로 이동
         startActivity(intent)
     }
+
 }
