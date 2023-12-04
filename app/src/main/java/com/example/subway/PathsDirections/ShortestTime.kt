@@ -207,5 +207,7 @@ fun findPrevAndNextTime(path: List<Node>, startStation: Node, endStation: Node, 
     return Pair(prev, next)
 }
 
+fun main(){
 
+}
 

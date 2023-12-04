@@ -252,3 +252,6 @@ fun findPrevAndNextTsf(path: List<Node>, startStation: Node, endStation: Node, c
     return Pair(prev, next)
 }
 
+fun main(){
+
+}
