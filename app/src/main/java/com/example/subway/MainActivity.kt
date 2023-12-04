@@ -10,9 +10,9 @@ import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.core.view.isVisible
-import com.example.subway.PathsDirections.RouteGuideActivity
 import com.example.subway.bookmark.BookmarkActivity
 import com.example.subway.databinding.ActivityMainBinding
+import com.example.subway.PathsDirections.RouteGuideActivity
 import com.example.subway.setting.notice.NoticeActivity
 import com.example.subway.search.SearchActivity
 import com.example.subway.setting.ComplaintActivity
@@ -45,6 +45,7 @@ class MainActivity : AppCompatActivity() {
         // 이미지 좌표 이동 관룐
         photoView = findViewById(R.id.stationMap)
         attacher = PhotoViewAttacher(photoView)
+
 
         // 역 터치 관련
         photoView = binding.stationMap
@@ -125,7 +126,6 @@ class MainActivity : AppCompatActivity() {
         executeCodeFromSearchActivity()
 
     }
-
 
     fun toggleAdditionalButtonsVisibility() {
         // 공지사항과 민원신고 버튼의 가시성을 토글
@@ -216,7 +216,6 @@ class MainActivity : AppCompatActivity() {
     var startSttName: String? = ""
     var endSttName: String? = ""
     var saveStation: Pair<String, String> = Pair("", "")
-
     // 출발 버튼 눌렀을 때 처리
     private fun handleStartClickEvent() {
         val startBlankText: TextView = findViewById(R.id.startStationName)
@@ -290,6 +289,9 @@ class MainActivity : AppCompatActivity() {
         // 받아온 좌표를 사용하여 원하는 작업 수행
         // 여기서는 토스트 메시지를 표시하고 handleClickEvent 메소드 호출
         showToast("역 클릭 정보 - Name: $stationName, X: $stationX, Y: $stationY")
+
+        // 변환된 좌표를 사용하여 handleClickEvent 메소드 호출
+        handleClickEvent(stationX, stationY)
 
     }
 }

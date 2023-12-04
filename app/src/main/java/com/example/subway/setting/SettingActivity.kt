@@ -72,11 +72,13 @@ class SettingActivity : AppCompatActivity() {
             if (password == "1111") {
                 // 비밀번호가 일치하는 경우 원하는 작업 수행
                 showToast("관리자 인증 성공!")
+                switch.isChecked = true
                 editor.putBoolean("writeBtnVisibility", true)
                 editor.commit()
             } else {
                 // 비밀번호가 일치하지 않는 경우 원하는 작업 수행
                 showToast("비밀번호가 일치하지 않습니다.")
+                switch.isChecked = false
                 editor.putBoolean("writeBtnVisibility", false)
                 editor.commit()
             }
@@ -84,6 +86,13 @@ class SettingActivity : AppCompatActivity() {
 
         builder.setNegativeButton("취소") { dialog, _ -> dialog.cancel()
             switch.isChecked = false
+        }
+
+        // 대화 상자 외부 터치 시 토글을 false로 설정
+        builder.setOnCancelListener {
+            if (switch.isChecked) {
+                switch.isChecked = false
+            }
         }
 
         builder.show()
