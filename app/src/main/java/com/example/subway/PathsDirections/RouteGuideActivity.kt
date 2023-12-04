@@ -247,4 +247,14 @@ class RouteGuideActivity: AppCompatActivity() {
         editor.putStringSet("routes", favoriteRoutesSet)
         editor.apply()
     }
+    private fun addRouteToFavorites(start: Int, end: Int) {
+        // 현재 경로를 "start-end" 형식으로 변환
+        val routeString = "$start-$end"
+
+        // favoriteRoutesSet에 현재 경로 추가
+        favoriteRoutesSet.add(routeString)
+
+        // 추가된 경로를 저장
+        saveFavorites()
+    }
 }
