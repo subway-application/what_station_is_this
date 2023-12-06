@@ -46,6 +46,9 @@ class RouteGuideActivity : AppCompatActivity() {
         val min_cost_btn_clicked = findViewById<ImageButton>(R.id.min_costBtn_full)
 
 
+        //알림에 전달할 변수
+        val prevAndCurtAndNext: MutableList<List<Node?>> = mutableListOf()
+
         //최단 시간 텍스트 설정
         val min_time_btn = findViewById<ImageButton>(R.id.min_timeBtn)
         min_time_btn.setOnClickListener {
@@ -87,6 +90,22 @@ class RouteGuideActivity : AppCompatActivity() {
                 data_min_time?.transferStations,
                 data_min_time?.linesList
             )
+
+            val path_min_time: List<Node>? = data_min_time?.minTransfersPath
+            var temp: MutableList<List<Node?>> = mutableListOf()
+            //경로를 for문으로 돌며 현재역을 하나씩 앞으로 옮겨감
+            for (i in 0 until path_min_time!!.size) {
+                val (p, n) = findPrevAndNextTime(
+                    path_min_time,
+                    data_min_time!!.startStation,
+                    data_min_time!!.endStation,
+                    path_min_time!![i]
+                )
+                var stList: List<Node?> = listOf(p, path_min_time[i], n)
+                temp.add(stList)
+            }
+            prevAndCurtAndNext.clear()
+            prevAndCurtAndNext.addAll(ArrayList(temp))
         }
 
         //최소 환승 텍스트 설정
@@ -130,6 +149,21 @@ class RouteGuideActivity : AppCompatActivity() {
                 data_min_transfer?.transferStations,
                 data_min_transfer?.linesList
             )
+
+            val path_min_transfer: List<Node>? = data_min_transfer?.minTransfersPath
+            var temp: MutableList<List<Node?>> = mutableListOf()
+            for (i in 0 until path_min_transfer!!.size) {
+                val (p, n) = findPrevAndNextTsf(
+                    path_min_transfer,
+                    data_min_transfer!!.startStation,
+                    data_min_transfer!!.endStation,
+                    path_min_transfer!![i]
+                )
+                var stList: List<Node?> = listOf(p, path_min_transfer[i], n)
+                temp.add(stList)
+            }
+            prevAndCurtAndNext.clear()
+            prevAndCurtAndNext.addAll(ArrayList(temp))
         }
 
 
@@ -166,26 +200,32 @@ class RouteGuideActivity : AppCompatActivity() {
             min_time_btn_clicked.visibility = View.GONE
             min_tsf_btn_clicked.visibility = View.GONE
             min_cost_btn_clicked.visibility = View.VISIBLE
-        }
 
-        //일단 환승 먼저 하려고 최소환승으로 함. 나머지도 나중에 추가해야됨.
-        //최소 환승 경로 받아옴
-        val path_min_transfer: List<Node>? = data_min_transfer?.minTransfersPath
-
-        val prevAndCurtAndNext: MutableList<List<Node?>> = mutableListOf()
-
-        //경로를 for문으로 돌며 현재역을 하나씩 앞으로 옮겨감
-        for (i in 0 until path_min_transfer!!.size) {
-            println("경로 받아와짐? ${path_min_transfer}")
-            val (p, n) = findPrevAndNextTsf(
-                path_min_transfer,
-                data_min_transfer!!.startStation,
-                data_min_transfer!!.endStation,
-                path_min_transfer!![i]
+            // 환승 횟수, 출발역, 도착역, 환승역, 노선
+            addRouteGuide(
+                data_min_cost?.numTransfers,
+                data_min_cost?.startStation,
+                data_min_cost?.endStation,
+                data_min_cost?.transferStations,
+                data_min_cost?.linesList
             )
-            var stList: List<Node?> = listOf(p, path_min_transfer[i], n)
-            prevAndCurtAndNext.add(stList)
+
+            val path_min_cost: List<Node>? = data_min_cost?.minTransfersPath
+            var temp: MutableList<List<Node?>> = mutableListOf()
+            for (i in 0 until path_min_cost!!.size) {
+                val (p, n) = findPrevAndNextAmt(
+                    path_min_cost,
+                    data_min_cost!!.startStation,
+                    data_min_cost!!.endStation,
+                    path_min_cost!![i]
+                )
+                var stList: List<Node?> = listOf(p, path_min_cost[i], n)
+                temp.add(stList)
+            }
+            prevAndCurtAndNext.clear()
+            prevAndCurtAndNext.addAll(ArrayList(temp))
         }
+
 
         notificationHelper = NotificationHelper(this, "fix")
         findViewById<ImageButton>(R.id.bellBtn).setOnClickListener {
@@ -279,8 +319,8 @@ class RouteGuideActivity : AppCompatActivity() {
                 if (data in intersectionSet) {
                     // 교집합이 있음을 처리하는 코드를 작성
 //                    if (data !in changeLine) {
-                        changeLineNumList.add(changeLineNum)
-                        changeLine.add(data)
+                    changeLineNumList.add(changeLineNum)
+                    changeLine.add(data)
 //                    }
                 } else {
                     // intersectionSet에 데이터를 추가
@@ -446,7 +486,7 @@ class RouteGuideActivity : AppCompatActivity() {
             val newStickImg = ImageView(this)
             val density = resources.displayMetrics.density
 
-            val drawableResources: List<Int> = when (changeLine[i]-1) {
+            val drawableResources: List<Int> = when (changeLine[i] - 1) {
                 0 -> listOf(R.drawable.round_station_info_1, R.drawable.stick_station_info_1)
                 1 -> listOf(R.drawable.round_station_info_2, R.drawable.stick_station_info_2)
                 2 -> listOf(R.drawable.round_station_info_3, R.drawable.stick_station_info_3)
@@ -574,19 +614,19 @@ class RouteGuideActivity : AppCompatActivity() {
 
         // Notification을 생성하고 표시하는 부분 수정
         for (stList in 0 until prevAndCurtAndNext.size) {
-            if (stList == prevAndCurtAndNext.size - 1) {
+            if (stList == prevAndCurtAndNext.size - 2) {
                 val nb1: NotificationCompat.Builder = notificationHelper.getChannelNotification(
                     "alarm",
                     prevAndCurtAndNext[stList]
                 )
                 val notification = nb1.build()
                 notificationManager.notify(1, notification)
-            } else {
-                val nb2: NotificationCompat.Builder =
-                    notificationHelper.getChannelNotification("fix", prevAndCurtAndNext[stList])
-                val notification = nb2.build()
-                notificationManager.notify(2, notification)
             }
+            val nb2: NotificationCompat.Builder =
+                notificationHelper.getChannelNotification("fix", prevAndCurtAndNext[stList])
+            val notification = nb2.build()
+            notificationManager.notify(2, notification)
+
 
             // 일정 시간 대기 (예: 3초)
             Thread.sleep(3000)
@@ -595,6 +635,7 @@ class RouteGuideActivity : AppCompatActivity() {
         // 추가된 경로를 저장
         saveFavorites()
     }
+
     fun loadFavorites() {
         val sharedPreferences: SharedPreferences =
             getSharedPreferences("FavoriteRoutes", Context.MODE_PRIVATE)
@@ -613,6 +654,7 @@ class RouteGuideActivity : AppCompatActivity() {
         editor.putStringSet("routes", favoriteRoutesSet)
         editor.apply()
     }
+
     private fun addRouteToFavorites(start: Int, end: Int) {
         // 현재 경로를 "start-end" 형식으로 변환
         val routeString = "$start-$end"

@@ -152,7 +152,7 @@ class MainActivity : AppCompatActivity() {
 
         // 예시: 특정 좌표 범위 내에 클릭되면 토스트 메시지를 표시
         if (isClicked) {
-            showToast("역을 클릭했습니다!\n좌표: x=$x, y=$y")
+            //showToast("역을 클릭했습니다!\n좌표: x=$x, y=$y")
 
             //하단 역 정보 표시
             if (binding.stationInfo.visibility == View.GONE) {
@@ -288,7 +288,7 @@ class MainActivity : AppCompatActivity() {
 
         // 받아온 좌표를 사용하여 원하는 작업 수행
         // 여기서는 토스트 메시지를 표시하고 handleClickEvent 메소드 호출
-        showToast("역 클릭 정보 - Name: $stationName, X: $stationX, Y: $stationY")
+        //showToast("역 클릭 정보 - Name: $stationName, X: $stationX, Y: $stationY")
 
         // 변환된 좌표를 사용하여 handleClickEvent 메소드 호출
         handleClickEvent(stationX, stationY)

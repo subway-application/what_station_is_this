@@ -168,7 +168,7 @@ fun dijkstraCost(context: Context?, startStationId: Int, endStationId: Int): Pat
 
         // data class PathInfo에 저장해서 반환
         return PathInfo(
-            minTransfersPath = path, // 최소 환승 경로
+            minTransfersPath = path, // 최소 금액 경로
             startStation = startStation, // 출발역
             numStationsMoved = numsMove, // 역 이동 개수
             transferStations = transferStation, // 환승역
